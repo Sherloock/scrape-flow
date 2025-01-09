@@ -1,0 +1,49 @@
+{
+	"settings": {
+		"git.ignoreLimitWarning": true,
+		"explorer.compactFolders": false,
+		"files.exclude": {
+			"node_modules": true,
+			"**/vendor": true,
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/dist": true,
+			"**/package-lock*": true,
+			// "**/.OLD": true,
+			// "**/.UNUSED": true,
+			// "**/.ARCHIVE": true,
+			"**/*.sh": true,
+			"**/bitrix42rest/**": true,
+			"**/vendor___old_modules/**": true,
+			"**/vendor___modified_modules/**": true
+		},
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/vendor": true,
+			"**/htdocs": true,
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/dist": true,
+			"**/package-lock*": true,
+			// "**/.OLD": true,
+			// "**/.UNUSED": true,
+			// "**/.ARCHIVE": true,
+			"**/*.sh": true,
+			"**/bitrix42rest/**": true,
+			"**/vendor___old_modules/**": true,
+			"**/vendor___modified_modules/**": true
+		},
+	},
+	"folders": [
+		{
+			"name": "root",
+			"path": "."
+		},
+	]
+}
