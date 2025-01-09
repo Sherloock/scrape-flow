@@ -38,6 +38,9 @@ export default function DesktopSidebar() {
       <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
         <Logo />
       </div>
+
+
+			<div className='flex flex-col p-2'>TODO CREDITS</div>
       <div className="flex flex-col p-2">
         {routes.map((route) => (
           <Link
