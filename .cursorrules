@@ -1,160 +1,30 @@
-Always add to the begining of your message "I understood the rules for project `iktato42`" before you start working on the task!"
+Always add to the begining of your message "I understood the rules for project SCRAPE-FLOW" before you start working on the task!
 
 Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
 
 ## Project Context
-This project is a **Iktato42 System**, consisting of two parts:
-1. **Client**: Responsible for displaying filed data and communication with the tax office.
-2. **Server**: Provides the required data for the client.
-
-The iktato42 system is a platform for managing packets and their contents, which can be invoice.
+This project is a **SCRAPE-FLOW**, consisting of two parts:
+The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 
 ## Code style and structure
 - Write concise, technical TypeScript and PHP code with accurate examples
 - Prefer iteration and modularization over code duplication
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
 
-- this workspace is contains multiple projects which are related to the project. Mostly utility projects. Below is the list of the projects, in the same order as they are in the workspace. if you are not sure about the project, ask the user.
-"folders": {
-	"iktato42": {
-		"path": ".",
-		"description": "Iktato42 system.",
-		"rules": {
-			"ignore": ["node_modules/", ".git/"],
-			"language": "angular8, typescript + php8, mysql8",
-			"task": "frontend"
-		}
-	},
-	"nav42": {
-		"path": "../nav42",
-		"description": "NAV42 system for Iktato42. (NAV stands for Nemzeti Adó- és Vámhivatal /Hungarian Tax and Customs Administration) it contains basic communication with the tax office and financial data.",
-		"rules": {
-			"ignore": [""],
-			"language": "php8, mysql8",
-			"task": "backend"
-		}
-	},
-	"share42": {
-		"path": "../share42",
-		"description": "Shared resources and libraries for the Share42 platform.",
-		"rules": {
-			"ignore": ["node_modules/"],
-			"language": "angular8, typescript + php8, mysql8",
-			"task": "shared-resources"
-		}
-	},
-	"engine42": {
-		"path": "../engine42",
-		"description": "Core engine files for Engine42. ",
-		"rules": {
-			"ignore": ["vendor/"],
-			"language": "php8, mysql8",
-			"task": "core-engine"
-		}
-	}
-}
-- Structure repository files as follows:
-```
-iktato42/         												# Root directory
-├── .vscode           													# VSCode settings and configurations
-├── client            													# Frontend application
-│   ├── node_modules/ 														# Dependencies for client
-│   └── projects/     														# Project source code
-│       ├── iktato42
-│       │   ├── src/
-│       │       └── app/       										# Core app modules
-│       │           ├── layout/ 										# Layout components
-│       │           ├── lib/    										# Shared libraries
-│       │           └── pages/ 										# Application pages
-│       ├── iktato42bx/														# Bitrix42 integration
-│       ├── iktato42lib/														# Shared libraries
-│       └── utility42/															# Utility bills and meters for CBA company
-└── server/          										# Backend application
-    ├── companies/    										# Company-related data or modules
-    ├── logs/         										# Log files of the project
-    ├── monitor42Logs/ 									# Log files which read by the project and handled
-    └── resources/    										# Server resources
-        └── src/
-            └── com/
-                └── web42/     					# Web-related modules
-                    ├── command2/  			# Commands module -> Like API calls
-                    └── providers/ 			# Service providers -> bussiness logic and DB access
-```
-- Structure for nav42 is the same as iktato42
-```
-nav42/         												# Root directory
-├── .vscode/           													# VSCode settings and configurations
-├── client/            													# Frontend application
-│   ├── node_modules/ 														# Dependencies for client
-│   └── projects/     														# Project source code
-│       ├── nav42
-│           ├── src/
-│               └── app/       										# Core app modules
-│                   ├── layout/ 										# Layout components
-│                   ├── lib/    										# Shared libraries
-│                   └── pages/ 										# Application pages
-└── server/          										# Backend application
-    ├── companies/    										# Company-related data or modules
-    ├── logs/         										# Log files of the project
-    ├── monitor42Logs/ 									# Log files which read by the project and handled
-    └── resources/    										# Server resources
-        └── src/
-            └── com/
-                └── web42/     					# Web-related modules
-                    ├── command2/  			# Commands module -> Like API calls
-                    └── providers/ 			# Service providers -> bussiness logic and DB access
-```
-
-- Structure repository SHARE42 files as follows
-```
-share42/                           # Root folder for the entire project
-│
-├── .vscode/                       # VS Code workspace configuration files
-│
-├── client/                        # Client-side application and resources
-│   ├── node_modules/              # Dependencies for the client-side project
-│   └── projects/                  # Sub-projects within the client application
-│       ├── lib42/                 # Shared libraries for client projects (CORE LIBRARIES!! Also used in the libs below!!!)
-│       ├── bitrix42/              # Client-side implementation for Bitrix42
-│       ├── report42/              # Client-side reporting functionality
-│       └── system42/              # Core system files for the client application (EMPTY PROJECT)
-│
-├── server/                        # Server-side services and components
-│   ├── auth42/                    # Authentication and authorization services
-│   ├── bitrix42/                  # Server-side implementation for Bitrix42
-│   ├── chart42/                   # Charting and data visualization logic
-│   ├── codedict42/                # Code dictionary for resolve code
-│   ├── comment42/                 # Comment and feedback-related server modules
-│   ├── file42/                    # File management and storage services
-│   ├── monitoring42/              # Monitoring and logging services
-│   ├── report42/                  # Server-side reporting functionality
-│   ├── system42/                  # Core system services for the server
-│   ├── tag42/                     # Tag management and organization services
-│   └── tools42/                   # Additional server tools and utilities
-```
-## Client build process
--> build lib42
-
--> build bitrix42 (use lib42)
--> build report42 (use lib42)
--> build system42 (use lib42)
-
--> build nav42 (use lib42, bitrix42, report42, system42)
-
--> build iktato42 (use lib42, bitrix42, report42, system42, nav42)
-
-
 ## Tech Stack
-- **Client**: Angular 8, TypeScript, RxJS, NgRx,
-- **Server**: PHP8, MySQL8
+- NextJs 14.2.5
+- TailwindCSS
+- TypeScript
+- Shadcn UI
 
 ## Syntax and Formatting
-- Use TypeScript and PHP syntax and formatting guidelines
-- Follow Angular 8 coding conventions
+- Use TypeScript, TailwindCSS, Shadcn UI syntax and formatting guidelines
+- Follow coding conventions
 - Use meaningful variable and function names
 - Add comments to explain "why" behind the code when necessary (not for obvious things, ONLY FOR COMPLEX LOGIC)
 - Keep functions small and focused (single responsibility)
 
 ## UI and Styling
-
-
+- Use Shadcn UI components and styling
+- Use TailwindCSS for styling
+- Use TailwindCSS classes for styling
