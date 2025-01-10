@@ -12,10 +12,13 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
 
 ## Tech Stack
+- React
+- TypeScript
 - NextJs 14.2.5
 - TailwindCSS
-- TypeScript
+- Radix
 - Shadcn UI
+- Clerk
 
 ## Syntax and Formatting
 - Use TypeScript, TailwindCSS, Shadcn UI syntax and formatting guidelines
