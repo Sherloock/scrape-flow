@@ -1,11 +1,12 @@
 "use client"
 
-import { CoinsIcon, HomeIcon, ShieldCheckIcon, WorkflowIcon } from 'lucide-react'
+import { CoinsIcon, HomeIcon, MenuIcon, ShieldCheckIcon, WorkflowIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './Logo'
-import { buttonVariants } from './ui/button'
+import { Button, buttonVariants } from './ui/button'
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
 const routes = [
 	{
 		label: "Home",
@@ -29,7 +30,6 @@ const routes = [
 	}
 ]
 export default function DesktopSidebar() {
-
 	const pathname = usePathname();
 	const activeRoute = routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
 
@@ -59,4 +59,34 @@ export default function DesktopSidebar() {
       </div>
     </div>
   );
+}
+
+export function MobileSidebar() {
+	const pathname = usePathname();
+	const activeRoute = routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
+	const [isOpen, setIsOpen] = useState(false);
+
+	return (
+		<div className="block border-separate bg-background md:hidden">
+			<nav className="container flex-between px-8">
+				<Sheet open={isOpen} onOpenChange={setIsOpen}>
+					<SheetTrigger>
+						<Button variant="ghost" size="icon">
+							<MenuIcon />
+						</Button>
+					</SheetTrigger>
+					<SheetContent className="w-[400px] sm:w-[540px] space-y-4">
+						<Logo />
+						<div className="flex flex-col gap-1">
+							{routes.map((route) => (
+								<Link key={route.href} href={route.href} className={buttonVariants({ variant: activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem" })} onClick={() => setIsOpen(prev => !prev)}>
+									{route.label}
+								</Link>
+							))}
+						</div>
+					</SheetContent>
+				</Sheet>
+			</nav>
+		</div>
+	)
 }
