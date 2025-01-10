@@ -92,3 +92,18 @@
     @apply !bg-accent;
   }
 }
+
+/* my custom classes */
+@layer components {
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  /* .flex-col-center {
+    @apply flex flex-col items-center justify-center;
+  }
+
+  .flex-row-center {
+    @apply flex flex-row items-center justify-center;
+  } */
+}
