@@ -71,9 +71,11 @@ export function MobileSidebar() {
 			<nav className="container flex-between px-8">
 				<Sheet open={isOpen} onOpenChange={setIsOpen}>
 					<SheetTrigger>
-						<Button variant="ghost" size="icon">
-							<MenuIcon />
-						</Button>
+						<>
+							<Button variant="ghost" size="icon">
+								<MenuIcon />
+							</Button>
+						</>
 					</SheetTrigger>
 					<SheetContent className="w-[400px] sm:w-[540px] space-y-4">
 						<Logo />
