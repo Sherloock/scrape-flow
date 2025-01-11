@@ -1,5 +1,4 @@
 import { SignedIn, UserButton } from '@clerk/nextjs';
-
 import React from 'react';
 import BreadcrumbHeader from '../../components/BreadcrumbHeader';
 import DesktopSidebar from '../../components/Sidebar';
