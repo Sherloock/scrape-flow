@@ -88,7 +88,7 @@ export function MobileSidebar() {
 								<MenuIcon />
 							</Button> */}
 
-						<div className='hover:bg-primary-dark flex cursor-pointer items-center justify-center rounded bg-primary p-2 text-white'>
+						<div className='hover:bg-primary-dark flex cursor-pointer items-center justify-center rounded p-2'>
 							<MenuIcon />
 						</div>
 					</SheetTrigger>
