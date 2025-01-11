@@ -24,6 +24,8 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - TailwindCSS
 - Radix
 - Shadcn UI
+- Lucide Icons
+- React Hook Form + Zod
 
 - Prisma + Prisma Studio
 - tanstack/react-query
@@ -37,8 +39,7 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - Add comments to explain "why" behind the code when necessary (not for obvious things, ONLY FOR COMPLEX LOGIC)
 - Keep functions small and focused (single responsibility)
 - Always use import @/ for all imports (e.g. import { Button } from '@/components/ui/button'), Don't use relative paths
-
-
+- Use @/components/ui/... for all import if possible so prefer SHADCN UI COMPONENTS instead of Radix UI components
 
 
 ## UI and Styling

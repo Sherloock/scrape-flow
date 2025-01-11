@@ -18,7 +18,7 @@
 			"**/*.sh": true,
 			"**/bitrix42rest/**": true,
 			"**/vendor___old_modules/**": true,
-			"**/vendor___modified_modules/**": true
+			"**/vendor___modified_modules/**": true,
 		},
 		"search.exclude": {
 			"**/node_modules": true,
@@ -37,13 +37,15 @@
 			"**/*.sh": true,
 			"**/bitrix42rest/**": true,
 			"**/vendor___old_modules/**": true,
-			"**/vendor___modified_modules/**": true
+			"**/vendor___modified_modules/**": true,
 		},
+		"WillLuke.nextjs.addTypesOnSave": true,
+		"WillLuke.nextjs.hasPrompted": true,
 	},
 	"folders": [
 		{
 			"name": "root",
-			"path": "."
+			"path": ".",
 		},
-	]
+	],
 }
