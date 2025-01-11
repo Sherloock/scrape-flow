@@ -1,6 +1,12 @@
+import { AlertCircle } from 'lucide-react';
 import React, { Suspense } from 'react';
+import { getWorkflowsForUser } from '../../../actions/workflows/getWorkflowsForUser';
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+} from '../../../components/ui/alert';
 import { Skeleton } from '../../../components/ui/skeleton';
-import { waitFor } from '../../../lib/helper/waitFor';
 
 function page() {
 	return (
@@ -31,8 +37,20 @@ function UserWorkFlowsSkeleton() {
 }
 
 async function UserWorkFlows() {
-	await waitFor(3000);
-	return <div>UserWorkFlows</div>;
+	const workflows = await getWorkflowsForUser();
+	if (!workflows) {
+		return (
+			<Alert variant='destructive'>
+				<AlertCircle className='h-4 w-4' />
+				<AlertTitle>No workflows found</AlertTitle>
+				<AlertDescription>
+					You have not created any workflows yet.
+				</AlertDescription>
+			</Alert>
+		);
+	}
+
+	return <div></div>;
 }
 
 export default page;
