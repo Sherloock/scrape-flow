@@ -53,6 +53,8 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 		[mutate]
 	);
 
+	const { isValid } = form.formState;
+
 	return (
 		<div>
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -67,10 +69,6 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 					/>
 
 					<div id='dialog-description' className='p-6'>
-						{/* <p>
-							This dialog allows you to create a new workflow by providing a
-							name and description.
-						</p> */}
 						<FormProvider {...form}>
 							<form
 								className='w-full space-y-8'
@@ -80,7 +78,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 								<FormField
 									control={form.control}
 									name='name'
-									render={({ field }) => (
+									render={({ field, fieldState }) => (
 										<FormItem>
 											<FormLabel className='flex items-center gap-1'>
 												Name
@@ -123,7 +121,11 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 								/>
 
 								{/* save button */}
-								<Button type='submit' className='w-full' disabled={isPending}>
+								<Button
+									type='submit'
+									className='w-full'
+									disabled={/*!isValid ||*/ isPending}
+								>
 									{!isPending && 'Proceed'}
 									{isPending && <Loader2 className='animate-spin' />}
 								</Button>
