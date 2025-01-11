@@ -1,9 +1,9 @@
+import BreadcrumbHeader from '@/components/BreadcrumbHeader';
+import DesktopSidebar from '@/components/Sidebar';
+import { ModeToggle } from '@/components/ThemeModeToggle';
+import { Separator } from '@/components/ui/separator';
 import { SignedIn, UserButton } from '@clerk/nextjs';
 import React from 'react';
-import BreadcrumbHeader from '../../components/BreadcrumbHeader';
-import DesktopSidebar from '../../components/Sidebar';
-import { ModeToggle } from '../../components/ThemeModeToggle';
-import { Separator } from '../../components/ui/separator';
 
 export default function layout({ children }: { children: React.ReactNode }) {
 	return (

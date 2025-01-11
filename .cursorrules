@@ -2,6 +2,11 @@ Always add to the begining of your message "I understood the rules for project S
 
 Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
 
+If i use any of the following commands, you must generate the code for the command:
+Commands = {
+ "fiximp" => "fix all the imports in the project"
+}
+
 ## Project Context
 This project is a **SCRAPE-FLOW**, consisting of two parts:
 The SCRAPE-FLOW system is a platform for managing web scraping tasks.
@@ -13,12 +18,17 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 
 ## Tech Stack
 - React
-- TypeScript
 - NextJs 14.2.5
+- TypeScript
+
 - TailwindCSS
 - Radix
 - Shadcn UI
-- Clerk
+
+- Prisma + Prisma Studio
+- tanstack/react-query
+- Clerk 5.3.2
+
 
 ## Syntax and Formatting
 - Use TypeScript, TailwindCSS, Shadcn UI syntax and formatting guidelines
@@ -26,6 +36,10 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - Use meaningful variable and function names
 - Add comments to explain "why" behind the code when necessary (not for obvious things, ONLY FOR COMPLEX LOGIC)
 - Keep functions small and focused (single responsibility)
+- Always use import @/ for all imports (e.g. import { Button } from '@/components/ui/button'), Don't use relative paths
+
+
+
 
 ## UI and Styling
 - Use Shadcn UI components and styling
