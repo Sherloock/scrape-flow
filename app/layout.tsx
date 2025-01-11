@@ -18,9 +18,6 @@ export default function RootLayout({
   return (
         <ClerkProvider
           afterSignOutUrl="/sign-in"
-					// afterSignIn="/"
-          // signInUrl="/sign-in"
-          // signUpUrl="/sign-up"
           appearance={{
             elements: {
               formButtonPrimary: 'bg-primary hover:bg-primary/90 text-sm !shadow-none',

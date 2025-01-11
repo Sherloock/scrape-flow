@@ -1,15 +1,20 @@
-"use client"
+'use client';
 
 import { usePathname } from 'next/navigation';
 import React from 'react';
 import { MobileSidebar } from './Sidebar';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from './ui/breadcrumb';
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+} from './ui/breadcrumb';
 
 function BreadcrumbHeader() {
-const pathName = usePathname();
-const paths = pathName === "/" ? [""] : pathName.split("/");
+	const pathName = usePathname();
+	const paths = pathName === '/' ? [''] : pathName.split('/');
 	return (
-		<div className='flex items-center flex-start '>
+		<div className='flex-start flex items-center'>
 			<MobileSidebar />
 
 			<Breadcrumb>
@@ -17,14 +22,16 @@ const paths = pathName === "/" ? [""] : pathName.split("/");
 					{paths.map((path, index) => (
 						<React.Fragment key={index}>
 							<BreadcrumbItem>
-								<BreadcrumbLink className="capitalize" href={`/${path}`}>{path === "" ? "Home" : path}</BreadcrumbLink>
+								<BreadcrumbLink className='capitalize' href={`/${path}`}>
+									{path === '' ? 'Home' : path}
+								</BreadcrumbLink>
 							</BreadcrumbItem>
 						</React.Fragment>
 					))}
 				</BreadcrumbList>
 			</Breadcrumb>
 		</div>
-	)
+	);
 }
 
-export default BreadcrumbHeader
+export default BreadcrumbHeader;

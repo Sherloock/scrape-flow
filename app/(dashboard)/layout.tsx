@@ -1,3 +1,4 @@
+import { SignedIn, UserButton } from '@clerk/nextjs'
 import { Separator } from '@radix-ui/react-separator'
 import React from 'react'
 import BreadcrumbHeader from '../../components/BreadcrumbHeader'
@@ -15,6 +16,9 @@ export default function layout({ children }: { children: React.ReactNode }) {
 					<BreadcrumbHeader />
 					<div className="flex items-center gap-1">
 						<ModeToggle />
+						<SignedIn>
+							<UserButton />
+						</SignedIn>
 					</div>
 				</header>
 				<Separator />

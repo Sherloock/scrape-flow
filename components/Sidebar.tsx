@@ -1,87 +1,112 @@
-"use client"
+'use client';
 
-import { CoinsIcon, HomeIcon, MenuIcon, ShieldCheckIcon, WorkflowIcon } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React, { useState } from 'react'
-import Logo from './Logo'
-import { Button, buttonVariants } from './ui/button'
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet'
+import {
+	CoinsIcon,
+	HomeIcon,
+	MenuIcon,
+	ShieldCheckIcon,
+	WorkflowIcon,
+} from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React, { useState } from 'react';
+import Logo from './Logo';
+import { Button, buttonVariants } from './ui/button';
+import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
 const routes = [
 	{
-		label: "Home",
-		href: "/",
-		icon: HomeIcon
+		label: 'Home',
+		href: '/',
+		icon: HomeIcon,
 	},
 	{
-		label: "Workflows",
-		href: "/workflows",
-		icon: WorkflowIcon
+		label: 'Workflows',
+		href: '/workflows',
+		icon: WorkflowIcon,
 	},
 	{
-		label: "Credentials",
-		href: "/credentials",
-		icon: ShieldCheckIcon
+		label: 'Credentials',
+		href: '/credentials',
+		icon: ShieldCheckIcon,
 	},
 	{
-		label: "Billing",
-		href: "/billing",
-		icon: CoinsIcon
-	}
-]
+		label: 'Billing',
+		href: '/billing',
+		icon: CoinsIcon,
+	},
+];
 export default function DesktopSidebar() {
 	const pathname = usePathname();
-	const activeRoute = routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
+	const activeRoute =
+		routes.find(
+			(route) => route.href.length > 0 && pathname.includes(route.href)
+		) || routes[0];
 
- return (
-    <div className="hidden relative md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 dark:bg-secondary/30 dark:text-foreground text-muted-foreground border-r-2 border-separate">
-      <div className="flex items-center justify-center gap-2 border-b-[1px] border-separate p-4">
-        <Logo />
-      </div>
-
+	return (
+		<div className='relative hidden h-screen w-full min-w-[280px] max-w-[280px] border-separate overflow-hidden border-r-2 bg-primary/5 text-muted-foreground dark:bg-secondary/30 dark:text-foreground md:block'>
+			<div className='flex border-separate items-center justify-center gap-2 border-b-[1px] p-4'>
+				<Logo />
+			</div>
 
 			<div className='flex flex-col p-2'>TODO CREDITS</div>
-      <div className="flex flex-col p-2">
-        {routes.map((route) => (
-          <Link
-            key={route.href}
-            href={route.href}
-            className={buttonVariants({
-              variant: activeRoute.href === route.href
-                ? "sidebarActiveItem"
-                : "sidebarItem",
-            })}
-          >
-            <route.icon size={20} />
-            {route.label}
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
+			<div className='flex flex-col p-2'>
+				{routes.map((route) => (
+					<Link
+						key={route.href}
+						href={route.href}
+						className={buttonVariants({
+							variant:
+								activeRoute.href === route.href
+									? 'sidebarActiveItem'
+									: 'sidebarItem',
+						})}
+					>
+						<route.icon size={20} />
+						{route.label}
+					</Link>
+				))}
+			</div>
+		</div>
+	);
 }
 
 export function MobileSidebar() {
 	const pathname = usePathname();
-	const activeRoute = routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) || routes[0];
+	const activeRoute =
+		routes.find(
+			(route) => route.href.length > 0 && pathname.includes(route.href)
+		) || routes[0];
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
-		<div className="block border-separate bg-background md:hidden">
-			<nav className="container flex-between px-8">
+		<div className='block border-separate bg-background md:hidden'>
+			<nav className='flex-between container px-8'>
 				<Sheet open={isOpen} onOpenChange={setIsOpen}>
 					<SheetTrigger>
-						<>
-							<Button variant="ghost" size="icon">
+						{/* TODO This Button Nest cause hidration error */}
+						{/* <Button variant="ghost" size="icon">
 								<MenuIcon />
-							</Button>
-						</>
+							</Button> */}
+
+						<div className='hover:bg-primary-dark flex cursor-pointer items-center justify-center rounded bg-primary p-2 text-white'>
+							<MenuIcon />
+						</div>
 					</SheetTrigger>
-					<SheetContent className="w-[400px] sm:w-[540px] space-y-4">
+					<SheetContent className='w-[400px] space-y-4 sm:w-[540px]'>
 						<Logo />
-						<div className="flex flex-col gap-1">
+						<div className='flex flex-col gap-1'>
 							{routes.map((route) => (
-								<Link key={route.href} href={route.href} className={buttonVariants({ variant: activeRoute.href === route.href ? "sidebarActiveItem" : "sidebarItem" })} onClick={() => setIsOpen(prev => !prev)}>
+								<Link
+									key={route.href}
+									href={route.href}
+									className={buttonVariants({
+										variant:
+											activeRoute.href === route.href
+												? 'sidebarActiveItem'
+												: 'sidebarItem',
+									})}
+									onClick={() => setIsOpen((prev) => !prev)}
+								>
 									{route.label}
 								</Link>
 							))}
@@ -90,5 +115,5 @@ export function MobileSidebar() {
 				</Sheet>
 			</nav>
 		</div>
-	)
+	);
 }
