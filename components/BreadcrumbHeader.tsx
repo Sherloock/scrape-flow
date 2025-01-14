@@ -1,14 +1,14 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-import React from "react";
-import { MobileSidebar } from "./Sidebar";
+import { MobileSidebar } from "@/components/Sidebar";
 import {
 	Breadcrumb,
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
-} from "./ui/breadcrumb";
+} from "@/components/ui/breadcrumb";
+import { usePathname } from "next/navigation";
+import React from "react";
 
 function BreadcrumbHeader() {
 	const pathName = usePathname();

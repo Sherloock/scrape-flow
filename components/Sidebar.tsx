@@ -1,5 +1,6 @@
 "use client";
 
+import Logo from "@/components/Logo";
 import {
 	CoinsIcon,
 	HomeIcon,
@@ -10,7 +11,6 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState } from "react";
-import Logo from "./Logo";
 import { Button, buttonVariants } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 const routes = [
