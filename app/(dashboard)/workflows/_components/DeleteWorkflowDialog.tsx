@@ -50,14 +50,14 @@ function DeleteWorkflowDialog({
 
 	return (
 		<AlertDialog open={open} onOpenChange={setOpen}>
-			<AlertDialogContent className=''>
-				<AlertDialogHeader className=''>
-					<AlertDialogTitle className='text-lg font-semibold text-destructive'>
+			<AlertDialogContent className="">
+				<AlertDialogHeader className="">
+					<AlertDialogTitle className="text-lg font-semibold text-destructive">
 						Are you absolutely sure?
 					</AlertDialogTitle>
-					<AlertDialogDescription className=''>
+					<AlertDialogDescription className="">
 						If you delete this workflow, you will not be able to recover it.
-						<div className='flex flex-col gap-2 py-4'>
+						<div className="flex flex-col gap-2 py-4">
 							<p>
 								If you are sure, enter <b>{workflowName}</b> to confirm:
 							</p>
@@ -65,7 +65,7 @@ function DeleteWorkflowDialog({
 								// placeholder={workflowName}
 								value={confirmText}
 								onChange={(e) => setConfirmText(e.target.value)}
-								className='w-full'
+								className="w-full"
 							/>
 						</div>
 					</AlertDialogDescription>
@@ -82,7 +82,7 @@ function DeleteWorkflowDialog({
 					</AlertDialogCancel>
 					<AlertDialogAction
 						disabled={confirmText !== workflowName || deleteMutation.isPending}
-						className='bg-destructive text-destructive-foreground hover:bg-destructive/90'
+						className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
 						onClick={(e) => {
 							// e.stopPropagation();
 							toast.loading("Deleting workflow...", {

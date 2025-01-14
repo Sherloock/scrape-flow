@@ -50,7 +50,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 			toast.loading("Creating workflow...", { id: "create-workflow" });
 			mutate(data);
 		},
-		[mutate]
+		[mutate],
 	);
 
 	const { isValid } = form.formState;
@@ -67,28 +67,28 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 				<DialogTrigger asChild>
 					<Button>{triggerText ?? "Create workflow"}</Button>
 				</DialogTrigger>
-				<DialogContent className='px-0' aria-describedby='dialog-description'>
+				<DialogContent className="px-0" aria-describedby="dialog-description">
 					<CustomDialogHeader
 						icon={Layers2Icon}
-						title='Create workflow'
-						subtitle='Start building your workflow'
+						title="Create workflow"
+						subtitle="Start building your workflow"
 					/>
 
-					<div id='dialog-description' className='p-6'>
+					<div id="dialog-description" className="p-6">
 						<FormProvider {...form}>
 							<form
-								className='w-full space-y-8'
+								className="w-full space-y-8"
 								onSubmit={form.handleSubmit(onSubmit)}
 							>
 								{/* Name */}
 								<FormField
 									control={form.control}
-									name='name'
+									name="name"
 									render={({ field, fieldState }) => (
 										<FormItem>
-											<FormLabel className='flex items-center gap-1'>
+											<FormLabel className="flex items-center gap-1">
 												Name
-												<p className='text-xs text-primary'>(required)</p>
+												<p className="text-xs text-primary">(required)</p>
 											</FormLabel>
 											<FormControl>
 												<Input {...field} />
@@ -104,17 +104,17 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 								{/* Description */}
 								<FormField
 									control={form.control}
-									name='description'
+									name="description"
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel className='flex items-center gap-1'>
+											<FormLabel className="flex items-center gap-1">
 												Description
-												<p className='text-xs text-muted-foreground'>
+												<p className="text-xs text-muted-foreground">
 													(optional)
 												</p>
 											</FormLabel>
 											<FormControl>
-												<Textarea className='resize-none' {...field} />
+												<Textarea className="resize-none" {...field} />
 											</FormControl>
 											<FormDescription>
 												Provide a brief description of the workflow.
@@ -128,12 +128,12 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 
 								{/* save button */}
 								<Button
-									type='submit'
-									className='w-full'
+									type="submit"
+									className="w-full"
 									disabled={/*!isValid ||*/ isPending}
 								>
 									{!isPending && "Proceed"}
-									{isPending && <Loader2 className='animate-spin' />}
+									{isPending && <Loader2 className="animate-spin" />}
 								</Button>
 							</form>
 						</FormProvider>
