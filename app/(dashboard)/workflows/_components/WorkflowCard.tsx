@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import TooltipWrapper from "@/components/TooltipWrapper";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,25 +10,24 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Workflow } from '@prisma/client';
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
+import { WorkflowStatus } from "@/types/workflow";
+import { Workflow } from "@prisma/client";
 import {
 	FileTextIcon,
 	MoreVerticalIcon,
 	PlayIcon,
 	ShuffleIcon,
 	TrashIcon,
-} from 'lucide-react';
-import Link from 'next/link';
-import React, { useState } from 'react';
-import TooltipWrapper from '../../../../components/TooltipWrapper';
-import { cn } from '../../../../lib/utils';
-import { WorkflowStatus } from '../../../../types/workflow';
-import DeleteWorkflowDialog from './DeleteWorkflowDialog';
+} from "lucide-react";
+import Link from "next/link";
+import React, { useState } from "react";
+import DeleteWorkflowDialog from "./DeleteWorkflowDialog";
 
 const statusColors = {
-	[WorkflowStatus.DRAFT]: 'bg-yellow-400 text-yellow-600',
-	[WorkflowStatus.PUBLISHED]: 'bg-primary text-primary-foreground',
+	[WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
+	[WorkflowStatus.PUBLISHED]: "bg-primary text-primary-foreground",
 };
 
 function WorkflowCard({ workflow }: { workflow: Workflow }) {
@@ -39,7 +39,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 				<div className='flex items-center justify-end space-x-3'>
 					<div
 						className={cn(
-							'flex-center size-10 rounded-full',
+							"flex-center size-10 rounded-full",
 							statusColors[workflow.status as WorkflowStatus]
 						)}
 					>
@@ -53,7 +53,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 					<div>
 						<h3 className='flex items-center text-base font-bold text-muted-foreground'>
 							<Link
-								href={`/workflows/editor/${workflow.id}`}
+								href={`/workflow/editor/${workflow.id}`}
 								className='flex items-center hover:underline'
 							>
 								{workflow.name}
@@ -70,10 +70,10 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 
 				<div className='flex items-center space-x-2'>
 					<Link
-						href={`/workflows/editor/${workflow.id}`}
+						href={`/workflow/editor/${workflow.id}`}
 						className={cn(
-							buttonVariants({ variant: 'outline', size: 'sm' }),
-							'flex items-center gap-2'
+							buttonVariants({ variant: "outline", size: "sm" }),
+							"flex items-center gap-2"
 						)}
 					>
 						<ShuffleIcon className='size-16' />
@@ -101,7 +101,7 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
 					<Button variant='outline' size='sm'>
-						<TooltipWrapper content={'More actions'} side='top'>
+						<TooltipWrapper content={"More actions"} side='top'>
 							<div className='flex-center h-full w-full'>
 								<MoreVerticalIcon className='size-18' />
 							</div>
@@ -114,7 +114,7 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 
 					{/* Edit */}
 					<DropdownMenuItem>
-						<Link href={`/workflows/editor/${workflow.id}`}>Edit</Link>
+						<Link href={`/workflow/editor/${workflow.id}`}>Edit</Link>
 					</DropdownMenuItem>
 
 					<DropdownMenuSeparator />
