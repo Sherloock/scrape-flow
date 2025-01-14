@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
 	CoinsIcon,
@@ -6,32 +6,32 @@ import {
 	MenuIcon,
 	ShieldCheckIcon,
 	WorkflowIcon,
-} from 'lucide-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useState } from 'react';
-import Logo from './Logo';
-import { Button, buttonVariants } from './ui/button';
-import { Sheet, SheetContent, SheetTrigger } from './ui/sheet';
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import React, { useState } from "react";
+import Logo from "./Logo";
+import { Button, buttonVariants } from "./ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 const routes = [
 	{
-		label: 'Home',
-		href: '/',
+		label: "Home",
+		href: "/",
 		icon: HomeIcon,
 	},
 	{
-		label: 'Workflows',
-		href: '/workflows',
+		label: "Workflows",
+		href: "/workflows",
 		icon: WorkflowIcon,
 	},
 	{
-		label: 'Credentials',
-		href: '/credentials',
+		label: "Credentials",
+		href: "/credentials",
 		icon: ShieldCheckIcon,
 	},
 	{
-		label: 'Billing',
-		href: '/billing',
+		label: "Billing",
+		href: "/billing",
 		icon: CoinsIcon,
 	},
 ];
@@ -57,8 +57,8 @@ export default function DesktopSidebar() {
 						className={buttonVariants({
 							variant:
 								activeRoute.href === route.href
-									? 'sidebarActiveItem'
-									: 'sidebarItem',
+									? "sidebarActiveItem"
+									: "sidebarItem",
 						})}
 					>
 						<route.icon size={20} />
@@ -102,8 +102,8 @@ export function MobileSidebar() {
 									className={buttonVariants({
 										variant:
 											activeRoute.href === route.href
-												? 'sidebarActiveItem'
-												: 'sidebarItem',
+												? "sidebarActiveItem"
+												: "sidebarItem",
 									})}
 									onClick={() => setIsOpen((prev) => !prev)}
 								>

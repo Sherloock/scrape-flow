@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
 import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-} from '@/components/ui/dialog';
-import { LucideIcon } from 'lucide-react';
-import React from 'react';
-import { cn } from '../lib/utils';
-import { Separator } from './ui/separator';
+} from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
+import React from "react";
 
 interface Props {
 	title?: string;
@@ -27,18 +27,18 @@ function CustomDialogHeader(props: Props) {
 						{props.icon && (
 							<props.icon
 								size={30}
-								className={cn('stroke-primary', props.iconClassName)}
+								className={cn("stroke-primary", props.iconClassName)}
 							/>
 						)}
 						{props.title && (
-							<p className={cn('text-xl text-primary', props.titleClassName)}>
+							<p className={cn("text-xl text-primary", props.titleClassName)}>
 								{props.title}
 							</p>
 						)}
 						{props.subtitle && (
 							<p
 								className={cn(
-									'text-sm text-muted-foreground',
+									"text-sm text-muted-foreground",
 									props.subtitleClassName
 								)}
 							>
