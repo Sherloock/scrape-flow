@@ -57,7 +57,13 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 
 	return (
 		<div>
-			<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<Dialog
+				open={isOpen}
+				onOpenChange={(open) => {
+					form.reset();
+					setIsOpen(open);
+				}}
+			>
 				<DialogTrigger asChild>
 					<Button>{triggerText ?? 'Create workflow'}</Button>
 				</DialogTrigger>
