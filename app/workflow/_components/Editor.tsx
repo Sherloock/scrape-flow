@@ -8,8 +8,8 @@ import FlowEditor from "./FlowEditor";
 function Editor({ workflow }: { workflow: Workflow }) {
 	return (
 		<ReactFlowProvider>
-			<div className='flex h-full w-full flex-col overflow-hidden'>
-				<section className='flex h-full overflow-auto'>
+			<div className="flex h-full w-full flex-col overflow-hidden">
+				<section className="flex h-full overflow-auto">
 					<FlowEditor workflow={workflow} />
 				</section>
 			</div>

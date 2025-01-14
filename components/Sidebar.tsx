@@ -38,9 +38,9 @@ const routes = [
 export default function DesktopSidebar() {
 	const pathname = usePathname();
 	const activeRoute =
-    routes.find(
-    	(route) => route.href.length > 0 && pathname.includes(route.href),
-    ) || routes[0];
+		routes.find(
+			(route) => route.href.length > 0 && pathname.includes(route.href),
+		) || routes[0];
 
 	return (
 		<div className="relative hidden h-screen w-full min-w-[280px] max-w-[280px] border-separate overflow-hidden border-r-2 bg-primary/5 text-muted-foreground dark:bg-secondary/30 dark:text-foreground md:block">
@@ -56,9 +56,9 @@ export default function DesktopSidebar() {
 						href={route.href}
 						className={buttonVariants({
 							variant:
-                activeRoute.href === route.href
-                	? "sidebarActiveItem"
-                	: "sidebarItem",
+								activeRoute.href === route.href
+									? "sidebarActiveItem"
+									: "sidebarItem",
 						})}
 					>
 						<route.icon size={20} />
@@ -73,9 +73,9 @@ export default function DesktopSidebar() {
 export function MobileSidebar() {
 	const pathname = usePathname();
 	const activeRoute =
-    routes.find(
-    	(route) => route.href.length > 0 && pathname.includes(route.href),
-    ) || routes[0];
+		routes.find(
+			(route) => route.href.length > 0 && pathname.includes(route.href),
+		) || routes[0];
 	const [isOpen, setIsOpen] = useState(false);
 
 	return (
@@ -101,9 +101,9 @@ export function MobileSidebar() {
 									href={route.href}
 									className={buttonVariants({
 										variant:
-                      activeRoute.href === route.href
-                      	? "sidebarActiveItem"
-                      	: "sidebarItem",
+											activeRoute.href === route.href
+												? "sidebarActiveItem"
+												: "sidebarItem",
 									})}
 									onClick={() => setIsOpen((prev) => !prev)}
 								>

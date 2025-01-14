@@ -34,33 +34,33 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 	const isDraft = workflow.status === WorkflowStatus.DRAFT;
 
 	return (
-		<Card className='border-separate overflow-hidden rounded-lg border shadow-sm hover:shadow-md hover:shadow-primary/20'>
-			<CardContent className='flex h-[100px] items-center justify-between p-4'>
-				<div className='flex items-center justify-end space-x-3'>
+		<Card className="border-separate overflow-hidden rounded-lg border shadow-sm hover:shadow-md hover:shadow-primary/20">
+			<CardContent className="flex h-[100px] items-center justify-between p-4">
+				<div className="flex items-center justify-end space-x-3">
 					<div
 						className={cn(
 							"flex-center size-10 rounded-full",
-							statusColors[workflow.status as WorkflowStatus]
+							statusColors[workflow.status as WorkflowStatus],
 						)}
 					>
 						{isDraft ? (
-							<FileTextIcon className='size-5' />
+							<FileTextIcon className="size-5" />
 						) : (
-							<PlayIcon className='size-5' />
+							<PlayIcon className="size-5" />
 						)}
 					</div>
 
 					<div>
-						<h3 className='flex items-center text-base font-bold text-muted-foreground'>
+						<h3 className="flex items-center text-base font-bold text-muted-foreground">
 							<Link
 								href={`/workflow/editor/${workflow.id}`}
-								className='flex items-center hover:underline'
+								className="flex items-center hover:underline"
 							>
 								{workflow.name}
 							</Link>
 
 							{isDraft && (
-								<span className='ml-2 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800'>
+								<span className="ml-2 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
 									Draft
 								</span>
 							)}
@@ -68,15 +68,15 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 					</div>
 				</div>
 
-				<div className='flex items-center space-x-2'>
+				<div className="flex items-center space-x-2">
 					<Link
 						href={`/workflow/editor/${workflow.id}`}
 						className={cn(
 							buttonVariants({ variant: "outline", size: "sm" }),
-							"flex items-center gap-2"
+							"flex items-center gap-2",
 						)}
 					>
-						<ShuffleIcon className='size-16' />
+						<ShuffleIcon className="size-16" />
 						Edit
 					</Link>
 					<WorkflowActions workflow={workflow} />
@@ -100,16 +100,16 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<Button variant='outline' size='sm'>
-						<TooltipWrapper content={"More actions"} side='top'>
-							<div className='flex-center h-full w-full'>
-								<MoreVerticalIcon className='size-18' />
+					<Button variant="outline" size="sm">
+						<TooltipWrapper content={"More actions"} side="top">
+							<div className="flex-center h-full w-full">
+								<MoreVerticalIcon className="size-18" />
 							</div>
 						</TooltipWrapper>
 					</Button>
 				</DropdownMenuTrigger>
 
-				<DropdownMenuContent align='end'>
+				<DropdownMenuContent align="end">
 					<DropdownMenuLabel>Actions</DropdownMenuLabel>
 
 					{/* Edit */}
@@ -121,10 +121,10 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 
 					{/* Delete */}
 					<DropdownMenuItem
-						className='flex items-center gap-2 text-destructive'
+						className="flex items-center gap-2 text-destructive"
 						onSelect={() => setShowDeleteDialog((prev) => !prev)}
 					>
-						<TrashIcon className='size-16' />
+						<TrashIcon className="size-16" />
 						Delete
 					</DropdownMenuItem>
 				</DropdownMenuContent>

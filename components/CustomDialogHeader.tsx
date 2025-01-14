@@ -23,7 +23,7 @@ function CustomDialogHeader(props: Props) {
 		<>
 			<DialogHeader>
 				<DialogTitle className={props.titleClassName}>
-					<div className='mb-2 flex flex-col items-center gap-2'>
+					<div className="mb-2 flex flex-col items-center gap-2">
 						{props.icon && (
 							<props.icon
 								size={30}
@@ -39,7 +39,7 @@ function CustomDialogHeader(props: Props) {
 							<p
 								className={cn(
 									"text-sm text-muted-foreground",
-									props.subtitleClassName
+									props.subtitleClassName,
 								)}
 							>
 								{props.subtitle}
@@ -49,7 +49,7 @@ function CustomDialogHeader(props: Props) {
 				</DialogTitle>
 			</DialogHeader>
 
-			<Separator className='my-4' />
+			<Separator className="my-4" />
 		</>
 	);
 }

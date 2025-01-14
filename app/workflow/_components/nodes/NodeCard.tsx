@@ -31,7 +31,7 @@ export default function NodeCard({
 			}}
 			className={cn(
 				"flex w-[420px] border-separate cursor-pointer flex-col gap-1 rounded-md border-2 bg-background text-sm",
-				isSelected && "border-primary"
+				isSelected && "border-primary",
 			)}
 		>
 			{children}

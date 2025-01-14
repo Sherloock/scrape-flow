@@ -1,16 +1,16 @@
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
 export function createFlowNode(
-  nodeType: TaskType,
-  position?: { x: number; y: number },
+	nodeType: TaskType,
+	position?: { x: number; y: number },
 ): AppNode {
-  return {
-    id: crypto.randomUUID(),
-    type: "FlowScrapeNode",
-    data: {
-      type: nodeType,
-      inputs: {},
-    },
-    position: position ?? { x: 0, y: 0 },
-  };
+	return {
+		id: crypto.randomUUID(),
+		type: "FlowScrapeNode",
+		data: {
+			type: nodeType,
+			inputs: {},
+		},
+		position: position ?? { x: 0, y: 0 },
+	};
 }
