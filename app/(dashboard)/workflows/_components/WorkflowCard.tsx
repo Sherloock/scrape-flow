@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteWorkflowDialog from "@/app/(dashboard)/workflows/_components/DeleteWorkflowDialog";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,7 +24,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
-import DeleteWorkflowDialog from "./DeleteWorkflowDialog";
 
 const statusColors = {
 	[WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
