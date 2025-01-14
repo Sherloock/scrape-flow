@@ -1,7 +1,9 @@
-      {
-        "extends": ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
-        "plugins": ["prettier"],
-        "rules": {
-          "prettier/prettier": "error"
-        }
-      }
+{
+	"extends": ["next", "next/core-web-vitals", "plugin:prettier/recommended"],
+	"plugins": ["prettier"],
+	"rules": {
+		"prettier/prettier": "error",
+		"no-tabs": "off", // Disables the rule that disallows tabs
+		"indent": ["error", "tab"] // Enforces tabs for indentation
+	}
+}
