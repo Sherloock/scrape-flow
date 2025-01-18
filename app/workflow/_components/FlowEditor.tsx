@@ -11,6 +11,7 @@ import {
 	Connection,
 	Controls,
 	Edge,
+	getOutgoers,
 	Node,
 	ReactFlow,
 	useEdgesState,
@@ -95,6 +96,47 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 		});
 	}, [setEdges, updateNodeData, nodes]);
 
+	const isValidConnection = useCallback((connection: Edge | Connection) => {
+		// No connection to the same node
+		if (connection.source === connection.target) return false;
+
+		// Same taskParam type
+		const sourceNode = nodes.find((n) => n.id === connection.source);
+		const targetNode = nodes.find((n) => n.id === connection.target);
+		if (!sourceNode || !targetNode) {
+			console.error("No source or target node");
+			return false;
+		}
+		const sourceTask = TaskRegistry[sourceNode.data.type];
+		const targetTask = TaskRegistry[targetNode.data.type];
+
+		const output = sourceTask.outputs.find((o) => o.name === connection.sourceHandle);
+		const input = targetTask.inputs.find((i) => i.name === connection.targetHandle);
+		// console.log({ output, input });
+		if (!output || !input) {
+			console.error("No output or input found");
+			return false;
+		}
+		if (output.type !== input.type) {
+			console.error("Output type does not match input type");
+			return false;
+		}
+
+		// loop detection
+		const hasCycle = (node: Node, visited = new Set()) => {
+			if (visited.has(node.id)) return false;
+
+			visited.add(node.id);
+
+			for (const outgoer of getOutgoers(node, nodes, edges)) {
+				if (outgoer.id === connection.source) return true;
+				if (hasCycle(outgoer, visited)) return true;
+			}
+		};
+
+		return !hasCycle(targetNode);
+	}, [nodes, edges]);
+
 	return (
 		<main className="h-full w-full">
 			<ReactFlow
@@ -116,6 +158,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 				onDrop={onDrop}
 				onDragOver={onDragOver}
 				onConnect={onConnect}
+				isValidConnection={isValidConnection}
 			>
 				<Controls position="top-left" fitViewOptions={fitViewOptions} />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
