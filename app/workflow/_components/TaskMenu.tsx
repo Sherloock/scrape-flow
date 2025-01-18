@@ -25,6 +25,7 @@ function TaskMenu() {
 					</AccordionTrigger>
 					<AccordionContent>
 						<TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
+						<TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
 					</AccordionContent>
 				</AccordionItem>
 			</Accordion>
