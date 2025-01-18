@@ -11,7 +11,7 @@ function Editor({ workflow }: { workflow: Workflow }) {
 		<ReactFlowProvider>
 			<div className="flex h-full w-full flex-col overflow-hidden">
 
-				<Topbar title={'Workflow Editor'} subtitle={workflow.name} />
+				<Topbar title={'Workflow Editor'} subtitle={workflow.name} workflowId={workflow.id} />
 				<section className="flex h-full overflow-auto">
 					<FlowEditor workflow={workflow} />
 				</section>
