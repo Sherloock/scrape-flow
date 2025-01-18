@@ -2,6 +2,7 @@ import NodeCard from "@/app/workflow/_components/nodes/NodeCard";
 import NodeHeader from "@/app/workflow/_components/nodes/NodeHeader";
 
 import { NodeInput, NodeInputs } from "@/app/workflow/_components/nodes/NodeInputs";
+import { NodeOutput, NodeOutputs } from "@/app/workflow/_components/nodes/NodeOutputs";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { AppNodeData } from "@/types/appNode";
 import { NodeProps } from "@xyflow/react";
@@ -19,6 +20,13 @@ const NodeComponent = memo((props: NodeProps) => {
 				))}
 
 			</NodeInputs>
+
+			<NodeOutputs  >
+				{task.outputs.map((output) => (
+					<NodeOutput key={output.name} output={output} nodeId={props.id} />
+				))}
+
+			</NodeOutputs>
 		</NodeCard>
 	);
 });

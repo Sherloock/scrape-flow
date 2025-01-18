@@ -1,12 +1,16 @@
+import DeletableEdge from "@/app/workflow/_components/edges/DeletableEdge";
 import { createFlowNode } from "@/lib/workflow/createFlowNode";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
 import { Workflow } from "@prisma/client";
 import {
+	addEdge,
 	Background,
 	BackgroundVariant,
+	Connection,
 	Controls,
+	Edge,
 	Node,
 	ReactFlow,
 	useEdgesState,
@@ -22,6 +26,10 @@ const NodeTypes = {
 	FlowScrapeNode: NodeComponent,
 };
 
+const EdgeTypes = {
+	default: DeletableEdge,
+};
+
 const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = {
 	// minZoom: 0.5,
@@ -35,7 +43,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 
 	// react flow
 	const [nodes, setNodes, onNodesChange] = useNodesState<AppNode>([]);
-	const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+	const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([]);
 	const { setViewport, screenToFlowPosition } = useReactFlow();
 
 	useEffect(() => {
@@ -72,6 +80,10 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 		setNodes((nds) => nds.concat(newNode));
 	}, []);
 
+	const onConnect = useCallback((connection: Connection) => {
+		setEdges((eds) => addEdge({ ...connection, animated: true }, eds));
+	}, [setEdges]);
+
 	return (
 		<main className="h-full w-full">
 			<ReactFlow
@@ -85,12 +97,14 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 				}}
 				onEdgesChange={onEdgesChange}
 				nodeTypes={NodeTypes}
+				edgeTypes={EdgeTypes}
 				snapGrid={snapGrid}
 				snapToGrid={true}
 				fitViewOptions={fitViewOptions}
 				fitView={!isRestoreViewport.current}
 				onDrop={onDrop}
 				onDragOver={onDragOver}
+				onConnect={onConnect}
 			>
 				<Controls position="top-left" fitViewOptions={fitViewOptions} />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
