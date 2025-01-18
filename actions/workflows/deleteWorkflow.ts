@@ -17,7 +17,6 @@ export async function deleteWorkflow(workflowId: string) {
 			userId,
 		},
 	});
-	console.log(result);
 
 	revalidatePath("/workflows");
 }
