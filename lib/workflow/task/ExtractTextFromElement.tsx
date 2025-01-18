@@ -1,9 +1,9 @@
 import { TaskParamType, TaskType } from "@/types/task";
 import { CodeIcon, LucideProps } from "lucide-react";
 
-export const PageToHtmlTask = {
-	type: TaskType.PAGE_TO_HTML,
-	label: "Get Page HTML",
+export const ExtractTextFromElementTask = {
+	type: TaskType.EXTRACT_TEXT_FROM_ELEMENT,
+	label: "Extract text from element",
 	icon: (props: LucideProps) => (
 		<CodeIcon className="stroke-rose-400" {...props} />
 	),
@@ -11,20 +11,21 @@ export const PageToHtmlTask = {
 	isEntryPoint: false,
 	inputs: [
 		{
-			name: "Web page",
-			type: TaskParamType.BROWSER_INSTANCE,
+			name: "Html",
+			type: TaskParamType.STRING,
 			required: true,
-
+			variant: "textarea"
+		},
+		{
+			name: "Selector",
+			type: TaskParamType.STRING,
+			required: true,
 		},
 	],
 	outputs: [
 		{
-			name: "Html",
+			name: "Extracted text",
 			type: TaskParamType.STRING,
-		},
-		{
-			name: "Web page",
-			type: TaskParamType.BROWSER_INSTANCE,
 		},
 	],
 };
