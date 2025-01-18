@@ -3,13 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
+import { checkAuth } from "@/actions/auth/authCheck";
 import { auth } from "@clerk/nextjs/server";
 
 export async function deleteWorkflow(workflowId: string) {
-	const { userId } = auth();
-	if (!userId) {
-		throw new Error("Unauthorized!");
-	}
+	const userId = checkAuth();
 
 	const result = await prisma.workflow.delete({
 		where: {

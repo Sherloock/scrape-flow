@@ -10,9 +10,10 @@ import React from 'react';
 interface Props {
 	title: string;
 	subtitle?: string;
+	workflowId: string;
 }
 
-function Topbar({ title, subtitle }: Props) {
+function Topbar({ title, subtitle, workflowId }: Props) {
 	const router = useRouter();
 	return (
 		<header className='flex justify-between w-full bg-background p-2 border-b-2 sticky h-[60px] top-0 z-10'>
@@ -31,7 +32,7 @@ function Topbar({ title, subtitle }: Props) {
 
 
 			<div className="flex gap-1 flex-1 justify-end ">
-				<SaveBtn></SaveBtn>
+				<SaveBtn workflowId={workflowId}></SaveBtn>
 			</div>
 		</header>
 	)
