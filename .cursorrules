@@ -30,6 +30,7 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - Prisma + Prisma Studio
 - tanstack/react-query
 - Clerk 5.3.2
+- @xyflow/react
 
 
 ## Syntax and Formatting
@@ -40,7 +41,10 @@ The SCRAPE-FLOW system is a platform for managing web scraping tasks.
 - Keep functions small and focused (single responsibility)
 - Always use import @/ for all imports (e.g. import { Button
 } from '@/components/ui/button'), Don't use relative paths
-Always add id to toast messages like toast.success('Workflow saved!',{ id: 'save-workflow'})
+Always add id to toast messages like toast.success('Workflow saved!',
+{ id: 'save-workflow'
+})
+- Use xyflow/react for all react flow components
 - Use @/components/ui/... for all import if possible so prefer SHADCN UI COMPONENTS instead of Radix UI components
 - Use @/actions/... for all actions
 - Use @/lib/... for all libraries
@@ -55,7 +59,13 @@ Always add id to toast messages like toast.success('Workflow saved!',{ id: 'save
 - Use Shadcn UI components and styling
 - Use TailwindCSS for styling
 - Use TailwindCSS classes for styling
-- On ICONS use Lucide Icons and SIZE them with size={20} or size={16} or size={12} DONT USE OTHER SIZES OR className='w-4 h-4'
+- On ICONS use Lucide Icons and SIZE them with size={
+	20
+} or size={
+	16
+} or size={
+	12
+} DONT USE OTHER SIZES OR className='w-4 h-4'
 When im in className and writing classes only recommand 1 class at a time and dont use multiple classes at a time and dont use multiple classes at a time
 
 always check version in this list when you answer specific to my version: "@clerk/nextjs": "^5.3.2",
