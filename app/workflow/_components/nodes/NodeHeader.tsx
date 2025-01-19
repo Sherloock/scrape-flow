@@ -22,10 +22,9 @@ function NodeHeader({ taskType, nodeId }: { taskType: TaskType, nodeId: string }
 				<p className="text-sm font-bold uppercase text-muted-foreground">{task.label}</p>
 				<div className="flex gap-1 items-center">
 					{task.isEntryPoint && <Badge className="gap-2">Entry Point</Badge>}
-					<Badge className="gap-2 flex items-center text-xs">
+					<Badge className="gap-1 flex items-center text-xs">
 						<CoinsIcon size={12} />
-						{/*  {task.cost} */}
-						TODO
+						{task.credits}
 
 					</Badge>
 					{!task.isEntryPoint && (
