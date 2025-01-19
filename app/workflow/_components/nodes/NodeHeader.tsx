@@ -29,12 +29,6 @@ function NodeHeader({ taskType }: { taskType: TaskType }) {
 								<TrashIcon size={12} />
 							</Button>
 							<Button variant={"ghost"} size={"icon"}>
-								<TrashIcon size={12} />
-							</Button>
-							<Button variant={"ghost"} size={"icon"}>
-								<TrashIcon size={12} />
-							</Button>
-							<Button variant={"ghost"} size={"icon"}>
 								<CopyIcon size={12} />
 							</Button>
 						</>
