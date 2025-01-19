@@ -1,5 +1,6 @@
 import NodeCard from "@/app/workflow/_components/nodes/NodeCard";
-import NodeHeader from "@/app/workflow/_components/nodes/NodeHeader";
+import NodeHeader from "@/app/workflow/_components/nodes/NodeHeaderasdsad";
+
 
 import { NodeInput, NodeInputs } from "@/app/workflow/_components/nodes/NodeInputs";
 import { NodeOutput, NodeOutputs } from "@/app/workflow/_components/nodes/NodeOutputs";
