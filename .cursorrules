@@ -45,6 +45,7 @@ Always add id to toast messages like toast.success('Workflow saved!',
 { id: 'save-workflow'
 })
 - Use xyflow/react for all react flow components
+- Use boolean casting like !!x instead of Boolean(x)
 - Use @/components/ui/... for all import if possible so prefer SHADCN UI COMPONENTS instead of Radix UI components
 - Use @/actions/... for all actions
 - Use @/lib/... for all libraries
