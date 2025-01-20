@@ -1,5 +1,6 @@
 "use client";
 
+import ExecuteBtn from '@/app/workflow/_components/topbar/ExecuteBtn';
 import SaveBtn from '@/app/workflow/_components/topbar/SaveBtn';
 import TooltipWrapper from '@/components/TooltipWrapper';
 import { Button } from '@/components/ui/button';
@@ -32,6 +33,7 @@ function Topbar({ title, subtitle, workflowId }: Props) {
 
 
 			<div className="flex gap-1 flex-1 justify-end ">
+				<ExecuteBtn workflowId={workflowId}></ExecuteBtn>
 				<SaveBtn workflowId={workflowId}></SaveBtn>
 			</div>
 		</header>
