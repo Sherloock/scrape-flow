@@ -40,7 +40,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 					<div
 						className={cn(
 							"flex-center size-10 rounded-full",
-							statusColors[workflow.status as WorkflowStatus],
+							statusColors[workflow.status as WorkflowStatus]
 						)}
 					>
 						{isDraft ? (
@@ -73,7 +73,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 						href={`/workflow/editor/${workflow.id}`}
 						className={cn(
 							buttonVariants({ variant: "outline", size: "sm" }),
-							"flex items-center gap-2",
+							"flex items-center gap-2"
 						)}
 					>
 						<ShuffleIcon className="size-16" />
@@ -124,7 +124,7 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 						className="flex items-center gap-2 text-destructive"
 						onSelect={() => setShowDeleteDialog((prev) => !prev)}
 					>
-						<TrashIcon className="size-16" />
+						<TrashIcon className="size-16 stroke-red-500 text-muted-foreground" />
 						Delete
 					</DropdownMenuItem>
 				</DropdownMenuContent>
