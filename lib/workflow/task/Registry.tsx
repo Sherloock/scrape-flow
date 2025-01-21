@@ -4,7 +4,6 @@ import { TaskType } from "@/types/task";
 import { WorkflowTask } from "@/types/workflow";
 import { LaunchBrowserTask } from "./LaunchBrowser";
 
-
 type Registry = {
 	[K in TaskType]: WorkflowTask & { type: K };
 };
