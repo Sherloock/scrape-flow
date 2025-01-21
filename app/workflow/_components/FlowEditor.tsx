@@ -98,7 +98,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 				},
 			});
 		},
-		[setEdges, updateNodeData, nodes],
+		[setEdges, updateNodeData, nodes]
 	);
 
 	const isValidConnection = useCallback(
@@ -117,10 +117,10 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 			const targetTask = TaskRegistry[targetNode.data.type];
 
 			const output = sourceTask.outputs.find(
-				(o) => o.name === connection.sourceHandle,
+				(o) => o.name === connection.sourceHandle
 			);
 			const input = targetTask.inputs.find(
-				(i) => i.name === connection.targetHandle,
+				(i) => i.name === connection.targetHandle
 			);
 			// console.log({ output, input });
 			if (!output || !input) {
@@ -146,7 +146,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 
 			return !hasCycle(targetNode);
 		},
-		[nodes, edges],
+		[nodes, edges]
 	);
 
 	return (
@@ -170,8 +170,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 				onDrop={onDrop}
 				onDragOver={onDragOver}
 				onConnect={onConnect}
-				isValidConnection={isValidConnection}
-			>
+				isValidConnection={isValidConnection}>
 				<Controls position="top-left" fitViewOptions={fitViewOptions} />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 			</ReactFlow>
