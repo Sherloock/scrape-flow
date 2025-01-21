@@ -12,10 +12,10 @@ type FlowToExecutionPlanType = {
 
 export function FlowToExecutionPlan(
 	nodes: AppNode[],
-	edges: Edge[],
+	edges: Edge[]
 ): FlowToExecutionPlanType {
 	const entryPoint = nodes.find(
-		(node) => TaskRegistry[node.data.type].isEntryPoint,
+		(node) => TaskRegistry[node.data.type].isEntryPoint
 	);
 
 	if (!entryPoint) {
@@ -28,10 +28,11 @@ export function FlowToExecutionPlan(
 			nodes: [entryPoint],
 		},
 	];
+	planned.add(entryPoint.id);
 
 	for (
 		let phase = 2;
-		phase < nodes.length || planned.size < nodes.length;
+		phase <= nodes.length && planned.size < nodes.length;
 		phase++
 	) {
 		const nextPhase: WorkflowExecutionPlanPhase = {
@@ -51,11 +52,8 @@ export function FlowToExecutionPlan(
 				const incomers = getIncomers(currentNode, nodes, edges);
 				if (incomers.every((incomer) => planned.has(incomer.id))) {
 					// If all incoming edges are planned and there is invalid input, this means what workflow is not valid
-					console.error(
-						`Workflow is not valid!`,
-						currentNode.data.type,
-						invalidInputs,
-					);
+					console.error(`Workflow is not valid!`);
+					console.log({ currentNode, invalidInputs });
 					throw new Error("Workflow is not valid! TODO: Handle this");
 				} else {
 					// If not all incoming edges are planned, we need to plan the incomers first
@@ -65,8 +63,12 @@ export function FlowToExecutionPlan(
 
 			// All inputs are valid
 			nextPhase.nodes.push(currentNode);
-			planned.add(currentNode.id);
 		}
+
+		for (const node of nextPhase.nodes) {
+			planned.add(node.id);
+		}
+		executionPlan.push(nextPhase);
 	}
 	return {
 		executionPlan,
@@ -76,8 +78,9 @@ export function FlowToExecutionPlan(
 function getInvalidInputs(
 	node: AppNode,
 	edges: Edge[],
-	planned: Set<string>,
+	planned: Set<string>
 ): string[] {
+	console.log({ node, edges, planned });
 	const invalidInputs: string[] = [];
 	const inputs = TaskRegistry[node.data.type].inputs;
 
@@ -90,11 +93,12 @@ function getInvalidInputs(
 
 		// Check if the input is provided by an incoming edge
 		const incomingEdges: Edge[] = edges.filter(
-			(edge) => edge.target === node.id,
+			(edge) => edge.target === node.id
 		);
 		const inputLinkedToOutput: Edge | undefined = incomingEdges.find(
-			(edge) => edge.targetHandle === input.name,
+			(edge) => edge.targetHandle === input.name
 		);
+		// console.log({ inputLinkedToOutput });
 
 		const requiredInputProvidedByVisitedOutput: boolean =
 			!!input.required &&

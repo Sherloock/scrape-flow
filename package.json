@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"nvm-use": "nvm use 20",
-		"dev": "next dev",
+		"dev": "npm run nvm-use && next dev",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",

@@ -7,7 +7,13 @@ import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
 import { useReactFlow } from "@xyflow/react";
-import { CoinsIcon, CopyIcon, GripVerticalIcon, TrashIcon } from "lucide-react";
+import {
+	CoinsIcon,
+	CopyIcon,
+	GripVerticalIcon,
+	Trash2Icon,
+	TrashIcon,
+} from "lucide-react";
 import React from "react";
 
 function NodeHeader({
@@ -41,7 +47,10 @@ function NodeHeader({
 								size={"icon"}
 								onClick={() => deleteElements({ nodes: [{ id: nodeId }] })}
 							>
-								<TrashIcon size={12} />
+								<Trash2Icon
+									size={12}
+									className="stroke-red-500 text-muted-foreground"
+								/>
 							</Button>
 							<Button
 								variant={"ghost"}
