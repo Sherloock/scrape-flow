@@ -30,12 +30,12 @@ function NodeParamField({
 				},
 			});
 		},
-		[nodeId, param.name, updateNodeData, node?.data.inputs],
+		[nodeId, param.name, updateNodeData, node?.data.inputs]
 	);
 
 	switch (param.type) {
-	case TaskParamType.STRING:
-		return (
+		case TaskParamType.STRING:
+			return (
 				<StringParam
 					param={param}
 					value={value}
@@ -44,8 +44,8 @@ function NodeParamField({
 				/>
 			);
 
-	case TaskParamType.BROWSER_INSTANCE:
-		return (
+		case TaskParamType.BROWSER_INSTANCE:
+			return (
 				<BrowserInstanceParam
 					param={param}
 					value={""}
@@ -53,11 +53,12 @@ function NodeParamField({
 				/>
 			);
 
-	default:
-		return (
+		default:
+			return (
 				<div className="w-full">
-			<p className="text-xs text-muted-foreground">Not implemented</p>
-		</div>
+					<p className="text-xs text-muted-foreground">Not implemented</p>
+				</div>
+			);
 	}
 }
 
