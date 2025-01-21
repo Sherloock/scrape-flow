@@ -2,7 +2,7 @@ import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
 export function createFlowNode(
 	nodeType: TaskType,
-	position?: { x: number; y: number }
+	position?: { x: number; y: number },
 ): AppNode {
 	return {
 		id: crypto.randomUUID(),

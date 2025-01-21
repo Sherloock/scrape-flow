@@ -22,15 +22,15 @@ function NodeHeader({
 	const { deleteElements, getNode, addNodes } = useReactFlow();
 
 	return (
-		<div className='flex items-center gap-2 p-2'>
+		<div className="flex items-center gap-2 p-2">
 			<task.icon size={16} />
-			<div className='flex w-full items-center justify-between'>
-				<p className='text-sm font-bold uppercase text-muted-foreground'>
+			<div className="flex w-full items-center justify-between">
+				<p className="text-sm font-bold uppercase text-muted-foreground">
 					{task.label}
 				</p>
-				<div className='flex items-center gap-1'>
-					{task.isEntryPoint && <Badge className='gap-2'>Entry Point</Badge>}
-					<Badge className='flex items-center gap-1 text-xs'>
+				<div className="flex items-center gap-1">
+					{task.isEntryPoint && <Badge className="gap-2">Entry Point</Badge>}
+					<Badge className="flex items-center gap-1 text-xs">
 						<CoinsIcon size={12} />
 						{task.credits}
 					</Badge>
@@ -60,9 +60,9 @@ function NodeHeader({
 						</>
 					)}
 					<Button
-						variant='ghost'
-						size='icon'
-						className='drag-handle cursor-grab'
+						variant="ghost"
+						size="icon"
+						className="drag-handle cursor-grab"
 					>
 						<GripVerticalIcon size={20} />
 					</Button>

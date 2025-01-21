@@ -12,10 +12,10 @@ type FlowToExecutionPlanType = {
 
 export function FlowToExecutionPlan(
 	nodes: AppNode[],
-	edges: Edge[]
+	edges: Edge[],
 ): FlowToExecutionPlanType {
 	const entryPoint = nodes.find(
-		(node) => TaskRegistry[node.data.type].isEntryPoint
+		(node) => TaskRegistry[node.data.type].isEntryPoint,
 	);
 
 	if (!entryPoint) {
@@ -54,7 +54,7 @@ export function FlowToExecutionPlan(
 					console.error(
 						`Workflow is not valid!`,
 						currentNode.data.type,
-						invalidInputs
+						invalidInputs,
 					);
 					throw new Error("Workflow is not valid! TODO: Handle this");
 				} else {
@@ -76,7 +76,7 @@ export function FlowToExecutionPlan(
 function getInvalidInputs(
 	node: AppNode,
 	edges: Edge[],
-	planned: Set<string>
+	planned: Set<string>,
 ): string[] {
 	const invalidInputs: string[] = [];
 	const inputs = TaskRegistry[node.data.type].inputs;
@@ -90,10 +90,10 @@ function getInvalidInputs(
 
 		// Check if the input is provided by an incoming edge
 		const incomingEdges: Edge[] = edges.filter(
-			(edge) => edge.target === node.id
+			(edge) => edge.target === node.id,
 		);
 		const inputLinkedToOutput: Edge | undefined = incomingEdges.find(
-			(edge) => edge.targetHandle === input.name
+			(edge) => edge.targetHandle === input.name,
 		);
 
 		const requiredInputProvidedByVisitedOutput: boolean =

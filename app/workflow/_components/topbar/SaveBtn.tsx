@@ -23,8 +23,8 @@ function SaveBtn({ workflowId }: { workflowId: string }) {
 	return (
 		<Button
 			disabled={saveMutation.isPending}
-			variant='outline'
-			className='flex items-center gap-1'
+			variant="outline"
+			className="flex items-center gap-1"
 			onClick={() => {
 				const workflowDefinition = JSON.stringify(toObject());
 				toast.loading("Saving workflow...", { id: "save-workflow" });
@@ -34,7 +34,7 @@ function SaveBtn({ workflowId }: { workflowId: string }) {
 				});
 			}}
 		>
-			<CheckIcon size={16} className='stroke-green-400' />
+			<CheckIcon size={16} className="stroke-green-400" />
 			<p>Save</p>
 		</Button>
 	);

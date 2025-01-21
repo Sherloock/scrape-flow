@@ -15,7 +15,6 @@ export const PageToHtmlTask = {
 			name: "Web page",
 			type: TaskParamType.BROWSER_INSTANCE,
 			required: true,
-
 		},
 	],
 	outputs: [
