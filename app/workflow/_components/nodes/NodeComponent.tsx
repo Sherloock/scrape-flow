@@ -14,7 +14,7 @@ import { AppNodeData } from "@/types/appNode";
 import { NodeProps } from "@xyflow/react";
 import { memo } from "react";
 
-const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "true";
+const DEV_MODE = process.env.NEXT_PUBLIC_DEV_MODE === "1";
 
 const NodeComponent = memo((props: NodeProps) => {
   const nodeData = props.data as AppNodeData;
