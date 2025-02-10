@@ -3,7 +3,7 @@
 import { RunWorkflow } from "@/actions/workflows/RunWorkflow";
 import useExecutionPlan from "@/components/hooks/useExecutionPlan";
 import { Button } from "@/components/ui/button";
-import { FlowToExecutionPlan } from "@/lib/workflow/executionPlan";
+import { FlowToExecutionPlan } from "@/lib/workflow/ExecutionPlan";
 import { AppNode } from "@/types/appNode";
 import { useMutation } from "@tanstack/react-query";
 import { Edge, useReactFlow } from "@xyflow/react";

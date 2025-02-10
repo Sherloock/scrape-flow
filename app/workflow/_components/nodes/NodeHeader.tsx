@@ -2,7 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { createFlowNode } from "@/lib/workflow/createFlowNode";
+import { createFlowNode } from "@/lib/workflow/CreateFlowNode";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
