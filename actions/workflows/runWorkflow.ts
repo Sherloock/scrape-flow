@@ -1,6 +1,7 @@
 "use server";
 
-import { checkAuth } from "@/actions/auth/authCheck";
+import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { ExecuteWorkflow } from "@/actions/workflows/ExecuteWorkflow";
 import { prisma } from "@/lib/prisma";
 import { FlowToExecutionPlan } from "@/lib/workflow/executionPlan";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
@@ -12,11 +13,11 @@ import {
 } from "@/types/workflow";
 import { redirect } from "next/navigation";
 
-export async function runWorkflow(form: {
+export async function RunWorkflow(form: {
 	workflowId: string;
 	flowDefinition: string;
 }) {
-	const userId = checkAuth();
+	const userId = CheckAuth();
 
 	const { workflowId, flowDefinition } = form;
 	if (!workflowId) {
@@ -80,5 +81,6 @@ export async function runWorkflow(form: {
 		throw new Error("Workflow execution not created");
 	}
 
+	ExecuteWorkflow(execution.id); // run this in the background
 	redirect(`/workflow/runs/${workflowId}/${execution.id}`);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { createWorkflow } from "@/actions/workflows/createWorkflow";
+import { CreateWorkflow } from "@/actions/workflows/CreateWorkflow";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -34,7 +34,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 	});
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: createWorkflow,
+		mutationFn: CreateWorkflow,
 		onSuccess: () => {
 			toast.success("Workflow created successfully!", {
 				id: "create-workflow",
@@ -50,7 +50,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 			toast.loading("Creating workflow...", { id: "create-workflow" });
 			mutate(data);
 		},
-		[mutate],
+		[mutate]
 	);
 
 	const { isValid } = form.formState;

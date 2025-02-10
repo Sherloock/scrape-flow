@@ -1,11 +1,10 @@
 "use server";
 
-import { checkAuth } from "@/actions/auth/authCheck";
+import { CheckAuth } from "@/actions/auth/CheckAuth";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
 
-export async function getWorkflow(workflowId: string) {
-	const userId = checkAuth();
+export async function GetWorkflow(workflowId: string) {
+	const userId = CheckAuth();
 
 	return prisma.workflow.findUnique({
 		where: {

@@ -1,4 +1,4 @@
-import { getWorkflowsForUser } from "@/actions/workflows/getWorkflowsForUser";
+import { GetWorkflowsForUser } from "@/actions/workflows/GetWorkflowsForUser";
 import CreateWorkflowDialog from "@/app/(dashboard)/workflows/_components/CreateWorkflowDialog";
 import WorkflowCard from "@/app/(dashboard)/workflows/_components/WorkflowCard";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -36,7 +36,7 @@ function UserWorkFlowsSkeleton() {
 }
 
 async function UserWorkFlows() {
-	const workflows = await getWorkflowsForUser();
+	const workflows = await GetWorkflowsForUser();
 
 	if (!workflows) {
 		return (
