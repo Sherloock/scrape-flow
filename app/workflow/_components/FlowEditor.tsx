@@ -1,5 +1,5 @@
 import DeletableEdge from "@/app/workflow/_components/edges/DeletableEdge";
-import { createFlowNode } from "@/lib/workflow/createFlowNode";
+import { createFlowNode } from "@/lib/workflow/CreateFlowNode";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
@@ -170,7 +170,8 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 				onDrop={onDrop}
 				onDragOver={onDragOver}
 				onConnect={onConnect}
-				isValidConnection={isValidConnection}>
+				isValidConnection={isValidConnection}
+			>
 				<Controls position="top-left" fitViewOptions={fitViewOptions} />
 				<Background variant={BackgroundVariant.Dots} gap={12} size={1} />
 			</ReactFlow>

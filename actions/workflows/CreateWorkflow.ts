@@ -2,7 +2,7 @@
 
 import { CheckAuth } from "@/actions/auth/CheckAuth";
 import { prisma } from "@/lib/prisma";
-import { createFlowNode } from "@/lib/workflow/createFlowNode";
+import { createFlowNode } from "@/lib/workflow/CreateFlowNode";
 import {
 	createWorkflowSchema,
 	createWorkflowSchemaType,
