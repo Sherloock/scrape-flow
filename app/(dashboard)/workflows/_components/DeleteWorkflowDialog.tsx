@@ -11,7 +11,7 @@ import {
 	AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 
-import { deleteWorkflow } from "@/actions/workflows/deleteWorkflow";
+import { DeleteWorkflow } from "@/actions/workflows/DeleteWorkflow";
 import { Input } from "@/components/ui/input";
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
@@ -33,7 +33,7 @@ function DeleteWorkflowDialog({
 	const [confirmText, setConfirmText] = useState("");
 
 	const deleteMutation = useMutation({
-		mutationFn: deleteWorkflow,
+		mutationFn: DeleteWorkflow,
 		onSuccess: () => {
 			toast.success("Workflow deleted successfully!", {
 				id: workflowId,

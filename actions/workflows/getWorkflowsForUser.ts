@@ -1,11 +1,10 @@
 "use server";
 
-import { checkAuth } from "@/actions/auth/authCheck";
+import { CheckAuth } from "@/actions/auth/CheckAuth";
 import { prisma } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs/server";
 
-export async function getWorkflowsForUser() {
-	const userId = checkAuth();
+export async function GetWorkflowsForUser() {
+	const userId = CheckAuth();
 
 	return prisma.workflow.findMany({
 		where: {

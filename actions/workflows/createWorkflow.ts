@@ -1,6 +1,6 @@
 "use server";
 
-import { checkAuth } from "@/actions/auth/authCheck";
+import { CheckAuth } from "@/actions/auth/CheckAuth";
 import { prisma } from "@/lib/prisma";
 import { createFlowNode } from "@/lib/workflow/createFlowNode";
 import {
@@ -10,12 +10,11 @@ import {
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
 import { WorkflowStatus } from "@/types/workflow";
-import { auth } from "@clerk/nextjs/server";
 import { Edge, Viewport } from "@xyflow/react";
 import { redirect } from "next/navigation";
 
-export async function createWorkflow(form: createWorkflowSchemaType) {
-	const userId = checkAuth();
+export async function CreateWorkflow(form: createWorkflowSchemaType) {
+	const userId = CheckAuth();
 
 	const { success, data } = createWorkflowSchema.safeParse(form);
 	if (!success) {
