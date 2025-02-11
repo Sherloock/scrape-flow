@@ -11,7 +11,7 @@ export async function PageToHtmlExecutor(
 
 		return true;
 	} catch (error) {
-		console.error(error);
+		env.log.error(error instanceof Error ? error.message : "Unknown error");
 		return false;
 	}
 }
