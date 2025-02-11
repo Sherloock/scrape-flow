@@ -2,20 +2,17 @@ import "server-only";
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import {
-	WorkflowExecutionStatus,
-	WorkflowStatus,
-	WorkflowTask,
-} from "@/types/workflow";
-import { ExecutionPhase, WorkflowExecution } from "@prisma/client";
-import { waitFor } from "@/lib/helper/waitFor";
+import { WorkflowExecutionStatus, WorkflowTask } from "@/types/workflow";
+import { ExecutionPhase } from "@prisma/client";
 import { AppNode } from "@/types/appNode";
 import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { ExecutorRegistry } from "@/lib/workflow/executor/Registry";
 import { Env, ExecutionEnv } from "@/types/executor";
 import { TaskParamType } from "@/types/task";
 import { Browser, Page } from "puppeteer";
-import { Edge, EdgeText } from "@xyflow/react";
+import { Edge } from "@xyflow/react";
+import { LogColletor } from "@/types/log";
+import { createLogCollector } from "@/lib/log";
 
 export async function ExecuteWorkflow(executionId: string) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -38,6 +35,7 @@ export async function ExecuteWorkflow(executionId: string) {
 	let creditsConsumed = 0;
 	let executionFailed = false;
 	for (const phase of execution.phases) {
+		// const logCollector: LogColletor = createLogCollector();
 		const { success, creditsCost } = await executeWorkflowPhase(
 			phase,
 			env,
@@ -126,6 +124,7 @@ async function executeWorkflowPhase(
 	env: Env,
 	edges: Edge[]
 ) {
+	const logCollector: LogColletor = createLogCollector();
 	const startedAt = new Date();
 	const node = JSON.parse(phase.node) as AppNode;
 	setupEnvForPhase(node, env, edges);
@@ -144,14 +143,19 @@ async function executeWorkflowPhase(
 	console.log(`executing phase ${phase.name} with ${creditsCost} credits`);
 
 	// TODO: decrement user credits
-	const success = await executePhase(phase, node, env);
+	const success = await executePhase(phase, node, env, logCollector);
 	const outputs = env.phases[node.id].outputs;
-	await finalizePhase(phase.id, success, outputs);
+	await finalizePhase(phase.id, success, outputs, logCollector);
 
 	return { success, creditsCost };
 }
 
-async function finalizePhase(phaseId: string, success: boolean, outputs: any) {
+async function finalizePhase(
+	phaseId: string,
+	success: boolean,
+	outputs: any,
+	logCollector: LogColletor
+) {
 	const finalStatus = success
 		? WorkflowExecutionStatus.COMPLETED
 		: WorkflowExecutionStatus.FAILED;
@@ -162,6 +166,15 @@ async function finalizePhase(phaseId: string, success: boolean, outputs: any) {
 			status: finalStatus,
 			completedAt: new Date(),
 			outputs: JSON.stringify(outputs),
+			logs: {
+				createMany: {
+					data: logCollector.getAll().map((log) => ({
+						message: log.message,
+						logLevel: log.level,
+						timestamp: log.timestamp,
+					})),
+				},
+			},
 		},
 	});
 }
@@ -169,14 +182,19 @@ async function finalizePhase(phaseId: string, success: boolean, outputs: any) {
 async function executePhase(
 	phase: ExecutionPhase,
 	node: AppNode,
-	env: Env
+	env: Env,
+	logCollector: LogColletor
 ): Promise<boolean> {
 	const runFn = ExecutorRegistry[node.data.type];
 	if (!runFn) {
 		return false;
 	}
 
-	const executionEnv: ExecutionEnv<any> = createExecutionEnv(node, env);
+	const executionEnv: ExecutionEnv<any> = createExecutionEnv(
+		node,
+		env,
+		logCollector
+	);
 
 	return await runFn(executionEnv);
 }
@@ -214,7 +232,8 @@ function setupEnvForPhase(node: AppNode, env: Env, edges: Edge[]) {
 
 function createExecutionEnv<T extends WorkflowTask>(
 	node: AppNode,
-	env: Env
+	env: Env,
+	logCollector: LogColletor
 ): ExecutionEnv<any> {
 	return {
 		getInput: (name: string) => env.phases[node.id]?.inputs[name],
@@ -229,6 +248,7 @@ function createExecutionEnv<T extends WorkflowTask>(
 		setPage: (page: Page) => {
 			env.page = page;
 		},
+		log: logCollector,
 	};
 }
 

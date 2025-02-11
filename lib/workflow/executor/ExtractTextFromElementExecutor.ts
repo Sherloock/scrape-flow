@@ -7,26 +7,26 @@ export async function ExtractTextFromElementExecutor(
 	try {
 		const selector = env.getInput("Selector");
 		if (!selector) {
-			console.error("Selector not defined");
+			env.log.error("Selector not defined");
 			return false;
 		}
 
 		const html = env.getInput("Html");
 		if (!html) {
-			console.error("HTML not defined");
+			env.log.error("HTML not defined");
 			return false;
 		}
 
 		const $ = cheerio.load(html);
 		const element = $(selector);
 		if (!element) {
-			console.error(`Element with selector ${selector} not found`);
+			env.log.error(`Element with selector ${selector} not found`);
 			return false;
 		}
 
 		const text = $.text(element);
 		if (!text) {
-			console.error(`Element with selector ${selector} has no text`);
+			env.log.error(`Element with selector ${selector} has no text`);
 			return false;
 		}
 
@@ -34,7 +34,7 @@ export async function ExtractTextFromElementExecutor(
 
 		return true;
 	} catch (error) {
-		console.error(error);
+		env.log.error(error instanceof Error ? error.message : "Unknown error");
 		return false;
 	}
 }
