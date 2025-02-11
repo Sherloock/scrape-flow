@@ -122,7 +122,6 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 			const input = targetTask.inputs.find(
 				(i) => i.name === connection.targetHandle
 			);
-			// console.log({ output, input });
 			if (!output || !input) {
 				console.error("No output or input found");
 				return false;

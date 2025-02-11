@@ -3,8 +3,11 @@ import "server-only";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { WorkflowExecutionStatus, WorkflowStatus } from "@/types/workflow";
-import { WorkflowExecution } from "@prisma/client";
+import { ExecutionPhase, WorkflowExecution } from "@prisma/client";
 import { waitFor } from "@/lib/helper/waitFor";
+import { AppNode } from "@/types/appNode";
+import { TaskRegistry } from "@/lib/workflow/task/Registry";
+import { ExecutorRegistry } from "@/lib/workflow/executor/Registry";
 
 export async function ExecuteWorkflow(executionId: string) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -27,9 +30,13 @@ export async function ExecuteWorkflow(executionId: string) {
 	let creditsConsumed = 0;
 	let executionFailed = false;
 	for (const phase of execution.phases) {
-		await waitFor(3000);
-		// TODO: execute phase
-		creditsConsumed += phase.creditsConsumed ?? 0;
+		const { success, creditsCost } = await executeWorkflowPhase(phase);
+		if (!success) {
+			executionFailed = true;
+			break;
+		}
+
+		creditsConsumed += creditsCost;
 	}
 
 	await finalizeWorkflowExecution(
@@ -100,4 +107,48 @@ async function finalizeWorkflowExecution(
 			// IGNORE ERROR
 			// this means that we have triggered other runs while the first one was running
 		});
+}
+
+async function executeWorkflowPhase(phase: ExecutionPhase) {
+	const startedAt = new Date();
+
+	const node = JSON.parse(phase.node) as AppNode;
+
+	// update phase status
+	await prisma.executionPhase.update({
+		where: { id: phase.id },
+		data: { status: WorkflowExecutionStatus.RUNNING, startedAt },
+	});
+
+	const creditsCost = TaskRegistry[node.data.type].credits;
+	console.log(`executing phase ${phase.name} with ${creditsCost} credits`);
+
+	// TODO: decrement user credits
+	const success = await executePhase(phase, node);
+	await finalizePhase(phase.id, success);
+
+	return { success, creditsCost };
+}
+
+async function finalizePhase(phaseId: string, success: boolean) {
+	const finalStatus = success
+		? WorkflowExecutionStatus.COMPLETED
+		: WorkflowExecutionStatus.FAILED;
+
+	await prisma.executionPhase.update({
+		where: { id: phaseId },
+		data: { status: finalStatus, completedAt: new Date() },
+	});
+}
+
+async function executePhase(
+	phase: ExecutionPhase,
+	node: AppNode
+): Promise<boolean> {
+	const runFn = ExecutorRegistry[node.data.type];
+	if (!runFn) {
+		return false;
+	}
+
+	return await runFn(phase, node);
 }
