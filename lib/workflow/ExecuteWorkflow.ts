@@ -15,6 +15,7 @@ import { ExecutorRegistry } from "@/lib/workflow/executor/Registry";
 import { Env, ExecutionEnv } from "@/types/executor";
 import { TaskParamType } from "@/types/task";
 import { Browser, Page } from "puppeteer";
+import { Edge, EdgeText } from "@xyflow/react";
 
 export async function ExecuteWorkflow(executionId: string) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -28,7 +29,7 @@ export async function ExecuteWorkflow(executionId: string) {
 	if (!execution) {
 		throw new Error("Execution not found");
 	}
-
+	const edges = JSON.parse(execution.definition).edges as Edge[];
 	const env: Env = { phases: {} };
 
 	await initWorkflowExecution(executionId, execution.workflowId);
@@ -37,7 +38,11 @@ export async function ExecuteWorkflow(executionId: string) {
 	let creditsConsumed = 0;
 	let executionFailed = false;
 	for (const phase of execution.phases) {
-		const { success, creditsCost } = await executeWorkflowPhase(phase, env);
+		const { success, creditsCost } = await executeWorkflowPhase(
+			phase,
+			env,
+			edges
+		);
 		if (!success) {
 			executionFailed = true;
 			break;
@@ -116,10 +121,14 @@ async function finalizeWorkflowExecution(
 		});
 }
 
-async function executeWorkflowPhase(phase: ExecutionPhase, env: Env) {
+async function executeWorkflowPhase(
+	phase: ExecutionPhase,
+	env: Env,
+	edges: Edge[]
+) {
 	const startedAt = new Date();
 	const node = JSON.parse(phase.node) as AppNode;
-	setupEnvironmentForPhase(node, env);
+	setupEnvForPhase(node, env, edges);
 
 	// update phase status
 	await prisma.executionPhase.update({
@@ -172,7 +181,7 @@ async function executePhase(
 	return await runFn(executionEnv);
 }
 
-function setupEnvironmentForPhase(node: AppNode, env: Env) {
+function setupEnvForPhase(node: AppNode, env: Env, edges: Edge[]) {
 	env.phases[node.id] = {
 		inputs: {},
 		outputs: {},
@@ -189,6 +198,17 @@ function setupEnvironmentForPhase(node: AppNode, env: Env) {
 			env.phases[node.id].inputs[input.name] = inputValue;
 			continue;
 		}
+		const connectedEdge = edges.find(
+			(edge) => edge.target === node.id && edge.targetHandle === input.name
+		);
+		if (!connectedEdge) {
+			console.error(`Missing edge for input ${input.name}`);
+			continue;
+		}
+
+		const outputValue =
+			env.phases[connectedEdge.source].outputs[connectedEdge.sourceHandle!];
+		env.phases[node.id].inputs[input.name] = outputValue;
 	}
 }
 

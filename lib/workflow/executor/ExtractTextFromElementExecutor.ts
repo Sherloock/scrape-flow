@@ -7,10 +7,13 @@ export async function ExtractTextFromElementExecutor(
 	try {
 		const selector = env.getInput("Selector");
 		if (!selector) {
+			console.error("Selector not defined");
 			return false;
 		}
+
 		const html = env.getInput("Html");
 		if (!html) {
+			console.error("HTML not defined");
 			return false;
 		}
 
