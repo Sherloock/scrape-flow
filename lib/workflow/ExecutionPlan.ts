@@ -74,8 +74,7 @@ export function FlowToExecutionPlan(
 				const incomers = getIncomers(currentNode, nodes, edges);
 				if (incomers.every((incomer) => planned.has(incomer.id))) {
 					// If all incoming edges are planned and there is invalid input, this means what workflow is not valid
-					console.error(`Workflow is not valid!`);
-					console.log({ currentNode, invalidInputs });
+					// console.error(`Workflow is not valid!`);
 					inputsWithErrors.push({
 						nodeId: currentNode.id,
 						inputs: invalidInputs,
@@ -113,7 +112,6 @@ function getInvalidInputs(
 	edges: Edge[],
 	planned: Set<string>
 ): string[] {
-	console.log({ node, edges, planned });
 	const invalidInputs: string[] = [];
 	const inputs = TaskRegistry[node.data.type].inputs;
 
@@ -131,7 +129,6 @@ function getInvalidInputs(
 		const inputLinkedToOutput: Edge | undefined = incomingEdges.find(
 			(edge) => edge.targetHandle === input.name
 		);
-		// console.log({ inputLinkedToOutput });
 
 		const requiredInputProvidedByVisitedOutput: boolean =
 			!!input.required &&
