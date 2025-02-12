@@ -3,6 +3,7 @@
 import { GetWorkflowExecutionWithPhases } from "@/actions/workflows/GetWorkflowExecutionWithPhases";
 import { GetWorkflowPhaseDetails } from "@/actions/workflows/GetWorkflowPhaseDetails";
 import PhaseStatusBadge from "@/app/workflow/runs/[workflowId]/[executionId]/_components/PhaseStatusBadge";
+import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -106,7 +107,15 @@ export default function ExecutionViewer({
 				<div className="px-2 py-4">
 					<ExecutionLabel
 						label="Status"
-						icon={CircleDashedIcon}
+						icon={
+							<PhaseStatusBadge
+								status={
+									query.data
+										? (query.data!.status as WorkflowExecutionStatus)
+										: WorkflowExecutionStatus.PENDING
+								}
+							/>
+						}
 						value={query.data?.status}
 					/>
 
@@ -134,8 +143,8 @@ export default function ExecutionViewer({
 
 					<ExecutionLabel
 						label="Credits consumed"
-						icon={CreditCardIcon}
-						value={creditsConsumed}
+						icon={CoinsIcon}
+						value={<ReactCountUpWrapper value={creditsConsumed} />}
 					/>
 
 					<Separator />
@@ -202,11 +211,12 @@ export default function ExecutionViewer({
 				{!isRunning && selectedPhase && phaseDetails.data && (
 					<div className="container flex flex-col gap-4 overflow-auto py-4">
 						<div className="flex items-center gap-2">
-							{/* TODO: Add credits consumed */}
+							{/* credits consumed */}
 							<Badge variant="outline" className="space-x-4">
 								<div className="flex items-center gap-1">
 									<CoinsIcon size={16} />
-									<span>Credits TODO: {phaseDetails.data.creditsConsumed}</span>
+									<span>Credits:</span>
+									<span>{phaseDetails.data.creditsConsumed}</span>
 								</div>
 							</Badge>
 
@@ -254,15 +264,23 @@ function ExecutionLabel({
 	label,
 	value,
 }: {
-	icon: LucideIcon;
+	icon: LucideIcon | React.ReactNode;
 	label: React.ReactNode;
 	value: React.ReactNode;
 }) {
-	const Icon = icon;
 	return (
 		<div className="flex items-center justify-between px-4 py-2">
 			<div className="flex items-center gap-2 text-muted-foreground">
-				<Icon size={20} className="stroke-muted-foreground/80" />
+				{React.isValidElement(icon) ? (
+					icon
+				) : (
+					<>
+						{icon &&
+							((Icon) => (
+								<Icon size={20} className="stroke-muted-foreground/80" />
+							))(icon as LucideIcon)}
+					</>
+				)}
 				<span>{label}</span>
 			</div>
 			<div className="flex items-center gap-2 font-semibold capitalize">
