@@ -13,6 +13,8 @@ import { Browser, Page } from "puppeteer";
 import { Edge } from "@xyflow/react";
 import { LogColletor } from "@/types/log";
 import { createLogCollector } from "@/lib/log";
+import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { waitFor } from "@/lib/helper/waitFor";
 
 export async function ExecuteWorkflow(executionId: string) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -32,28 +34,28 @@ export async function ExecuteWorkflow(executionId: string) {
 	await initWorkflowExecution(executionId, execution.workflowId);
 	await initPhaseStatuses(execution);
 
-	let creditsConsumed = 0;
+	let creditsConsumedOverall = 0;
 	let executionFailed = false;
 	for (const phase of execution.phases) {
 		// const logCollector: LogColletor = createLogCollector();
-		const { success, creditsCost } = await executeWorkflowPhase(
+		const { success, creditsConsumed } = await executeWorkflowPhase(
 			phase,
 			env,
-			edges
+			edges,
+			execution.userId
 		);
+		creditsConsumedOverall += creditsConsumed;
 		if (!success) {
 			executionFailed = true;
 			break;
 		}
-
-		creditsConsumed += creditsCost;
 	}
 
 	await finalizeWorkflowExecution(
 		executionId,
 		execution.workflowId,
 		executionFailed,
-		creditsConsumed
+		creditsConsumedOverall
 	);
 
 	await cleanupExecutionEnvironment(env);
@@ -91,7 +93,7 @@ async function finalizeWorkflowExecution(
 	executionId: string,
 	workflowId: string,
 	executionFailed: boolean,
-	creditsConsumed: number
+	creditsConsumedOverall: number
 ) {
 	const finalStatus = executionFailed
 		? WorkflowExecutionStatus.FAILED
@@ -102,7 +104,7 @@ async function finalizeWorkflowExecution(
 		data: {
 			status: finalStatus,
 			completedAt: new Date(),
-			creditsConsumed,
+			creditsConsumed: creditsConsumedOverall,
 		},
 	});
 
@@ -122,7 +124,8 @@ async function finalizeWorkflowExecution(
 async function executeWorkflowPhase(
 	phase: ExecutionPhase,
 	env: Env,
-	edges: Edge[]
+	edges: Edge[],
+	userId: string
 ) {
 	const logCollector: LogColletor = createLogCollector();
 	const startedAt = new Date();
@@ -139,22 +142,36 @@ async function executeWorkflowPhase(
 		},
 	});
 
-	const creditsCost = TaskRegistry[node.data.type].credits;
-	console.log(`executing phase ${phase.name} with ${creditsCost} credits`);
+	const creditsRequired = TaskRegistry[node.data.type].credits;
+	let success = await decrementUserCredits(
+		creditsRequired,
+		logCollector,
+		userId
+	);
 
-	// TODO: decrement user credits
-	const success = await executePhase(phase, node, env, logCollector);
+	let creditsConsumed = success ? creditsRequired : 0;
+	if (success) {
+		success = await executePhase(phase, node, env, logCollector);
+	}
+
 	const outputs = env.phases[node.id].outputs;
-	await finalizePhase(phase.id, success, outputs, logCollector);
+	await finalizePhase(
+		phase.id,
+		success,
+		outputs,
+		logCollector,
+		creditsConsumed
+	);
 
-	return { success, creditsCost };
+	return { success, creditsConsumed };
 }
 
 async function finalizePhase(
 	phaseId: string,
 	success: boolean,
 	outputs: any,
-	logCollector: LogColletor
+	logCollector: LogColletor,
+	creditsConsumed: number
 ) {
 	const finalStatus = success
 		? WorkflowExecutionStatus.COMPLETED
@@ -166,6 +183,7 @@ async function finalizePhase(
 			status: finalStatus,
 			completedAt: new Date(),
 			outputs: JSON.stringify(outputs),
+			creditsConsumed,
 			logs: {
 				createMany: {
 					data: logCollector.getAll().map((log) => ({
@@ -185,6 +203,9 @@ async function executePhase(
 	env: Env,
 	logCollector: LogColletor
 ): Promise<boolean> {
+	// TODO: REMOVE THIS SLOW DOWN THE EXECUTION FOR TESTING PURPOSES
+	await waitFor(3000);
+
 	const runFn = ExecutorRegistry[node.data.type];
 	if (!runFn) {
 		return false;
@@ -263,5 +284,22 @@ async function cleanupExecutionEnvironment(env: Env) {
 		await env.page.close().catch((error) => {
 			console.error("Failed to close page. Reason: ", error);
 		});
+	}
+}
+async function decrementUserCredits(
+	amount: number,
+	logCollector: LogColletor,
+	userId: string
+): Promise<boolean> {
+	try {
+		await prisma.userBalance.update({
+			where: { userId: userId, credits: { gte: amount } },
+			data: { credits: { decrement: amount } },
+		});
+
+		return true;
+	} catch (error) {
+		logCollector.error("Insufficient balance");
+		return false;
 	}
 }
