@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 import React, { useState } from "react";
 import { Button, buttonVariants } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import UserAvailableCreditsBadge from "@/components/UserAvailableCreditsBadge";
 const routes = [
 	{
 		label: "Home",
@@ -39,7 +40,7 @@ export default function DesktopSidebar() {
 	const pathname = usePathname();
 	const activeRoute =
 		routes.find(
-			(route) => route.href.length > 0 && pathname.includes(route.href),
+			(route) => route.href.length > 0 && pathname.includes(route.href)
 		) || routes[0];
 
 	return (
@@ -48,7 +49,9 @@ export default function DesktopSidebar() {
 				<Logo />
 			</div>
 
-			<div className="flex flex-col p-2">TODO CREDITS</div>
+			<div className="flex flex-col p-2">
+				<UserAvailableCreditsBadge />
+			</div>
 			<div className="flex flex-col p-2">
 				{routes.map((route) => (
 					<Link
@@ -74,7 +77,7 @@ export function MobileSidebar() {
 	const pathname = usePathname();
 	const activeRoute =
 		routes.find(
-			(route) => route.href.length > 0 && pathname.includes(route.href),
+			(route) => route.href.length > 0 && pathname.includes(route.href)
 		) || routes[0];
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -85,8 +88,8 @@ export function MobileSidebar() {
 					<SheetTrigger>
 						{/* TODO This Button Nest cause hidration error */}
 						{/* <Button variant="ghost" size="icon">
-								<MenuIcon />
-							</Button> */}
+							<MenuIcon />
+						</Button> */}
 
 						<div className="hover:bg-primary-dark flex cursor-pointer items-center justify-center rounded p-2">
 							<MenuIcon />
@@ -94,6 +97,7 @@ export function MobileSidebar() {
 					</SheetTrigger>
 					<SheetContent className="w-[400px] space-y-4 sm:w-[540px]">
 						<Logo />
+						<UserAvailableCreditsBadge />
 						<div className="flex flex-col gap-1">
 							{routes.map((route) => (
 								<Link
