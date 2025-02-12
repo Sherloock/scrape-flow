@@ -1,6 +1,7 @@
 "use client";
 
 import ExecuteBtn from "@/app/workflow/_components/topbar/ExecuteBtn";
+import NavTabs from "@/app/workflow/_components/topbar/NavTabs";
 import SaveBtn from "@/app/workflow/_components/topbar/SaveBtn";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,8 @@ function Topbar({ title, subtitle, workflowId, hideButtons = false }: Props) {
 					)}
 				</div>
 			</div>
+
+			<NavTabs workflowId={workflowId} />
 
 			<div className="flex flex-1 justify-end gap-1">
 				{!hideButtons && (
