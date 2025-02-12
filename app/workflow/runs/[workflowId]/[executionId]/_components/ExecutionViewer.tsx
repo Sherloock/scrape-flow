@@ -108,15 +108,23 @@ export default function ExecutionViewer({
 					<ExecutionLabel
 						label="Status"
 						icon={
-							<PhaseStatusBadge
-								status={
-									query.data
-										? (query.data!.status as WorkflowExecutionStatus)
-										: WorkflowExecutionStatus.PENDING
-								}
+							<CircleDashedIcon
+								size={20}
+								className="stroke-muted-foreground/80"
 							/>
 						}
-						value={query.data?.status}
+						value={
+							<div className="flex items-center gap-2 font-semibold capitalize">
+								<PhaseStatusBadge
+									status={
+										query.data
+											? (query.data!.status as WorkflowExecutionStatus)
+											: WorkflowExecutionStatus.PENDING
+									}
+								/>
+								<span>{query.data?.status}</span>
+							</div>
+						}
 					/>
 
 					<ExecutionLabel

@@ -15,8 +15,6 @@ export default async function page({
 		redirect("/sign-in");
 	}
 
-	// await waitFor(10000);
-
 	const workflow = await GetWorkflow(workflowId);
 
 	if (!workflow) {

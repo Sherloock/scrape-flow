@@ -204,7 +204,7 @@ async function executePhase(
 	logCollector: LogColletor
 ): Promise<boolean> {
 	// TODO: REMOVE THIS SLOW DOWN THE EXECUTION FOR TESTING PURPOSES
-	await waitFor(3000);
+	// await waitFor(3000);
 
 	const runFn = ExecutorRegistry[node.data.type];
 	if (!runFn) {
