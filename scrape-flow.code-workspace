@@ -47,5 +47,9 @@
 			"name": "root",
 			"path": ".",
 		},
+		// {
+		// 	"name": "temp",a
+		// 	"path": "F:/temp/",
+		// },
 	],
 }
