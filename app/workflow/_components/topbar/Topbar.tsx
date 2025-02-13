@@ -2,6 +2,7 @@
 
 import ExecuteBtn from "@/app/workflow/_components/topbar/ExecuteBtn";
 import NavTabs from "@/app/workflow/_components/topbar/NavTabs";
+import PublishBtn from "@/app/workflow/_components/topbar/PublishBtn";
 import SaveBtn from "@/app/workflow/_components/topbar/SaveBtn";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
@@ -14,10 +15,18 @@ interface Props {
 	subtitle?: string;
 	workflowId: string;
 	hideButtons?: boolean;
+	isPublished?: boolean;
 }
 
-function Topbar({ title, subtitle, workflowId, hideButtons = false }: Props) {
+function Topbar({
+	title,
+	subtitle,
+	workflowId,
+	hideButtons = false,
+	isPublished = false,
+}: Props) {
 	const router = useRouter();
+
 	return (
 		<header className="sticky top-0 z-10 flex h-[60px] w-full justify-between border-b-2 bg-background p-2">
 			<div className="flex flex-1 gap-2">
@@ -43,7 +52,12 @@ function Topbar({ title, subtitle, workflowId, hideButtons = false }: Props) {
 				{!hideButtons && (
 					<>
 						<ExecuteBtn workflowId={workflowId}></ExecuteBtn>
-						<SaveBtn workflowId={workflowId}></SaveBtn>
+						{!isPublished && (
+							<>
+								<SaveBtn workflowId={workflowId}></SaveBtn>
+								<PublishBtn workflowId={workflowId}></PublishBtn>
+							</>
+						)}
 					</>
 				)}
 			</div>
