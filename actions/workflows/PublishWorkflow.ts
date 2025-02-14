@@ -42,7 +42,7 @@ export async function PublishWorkflow({
 	const creditsCost = CalculateCreditsCost(flow.nodes);
 
 	await prisma.workflow.update({
-		where: { id },
+		where: { id, userId },
 		data: {
 			status: WorkflowStatus.PUBLISHED,
 			creditsCost,
