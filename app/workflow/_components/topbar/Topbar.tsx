@@ -4,6 +4,7 @@ import ExecuteBtn from "@/app/workflow/_components/topbar/ExecuteBtn";
 import NavTabs from "@/app/workflow/_components/topbar/NavTabs";
 import PublishBtn from "@/app/workflow/_components/topbar/PublishBtn";
 import SaveBtn from "@/app/workflow/_components/topbar/SaveBtn";
+import UnpublishBtn from "@/app/workflow/_components/topbar/UnpublishBtn";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon } from "lucide-react";
@@ -52,6 +53,13 @@ function Topbar({
 				{!hideButtons && (
 					<>
 						<ExecuteBtn workflowId={workflowId}></ExecuteBtn>
+
+						{isPublished && (
+							<>
+								<UnpublishBtn workflowId={workflowId}></UnpublishBtn>
+							</>
+						)}
+
 						{!isPublished && (
 							<>
 								<SaveBtn workflowId={workflowId}></SaveBtn>
