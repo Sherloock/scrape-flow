@@ -23,7 +23,10 @@ export async function GET(request: Request) {
 		triggerWorkflow(workflow.id);
 	}
 
-	return new Response("Workflows triggered", { status: 200 });
+	return Response.json(
+		{ message: "Workflows triggered", workflowsToRun: workflows.length },
+		{ status: 200 }
+	);
 }
 
 async function triggerWorkflow(workflowId: string) {
