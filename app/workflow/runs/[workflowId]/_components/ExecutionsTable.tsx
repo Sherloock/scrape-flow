@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 type InitialData = Awaited<ReturnType<typeof GetWorkflowExecutions>>;
 
-async function ExecutionsTable({
+export default function ExecutionsTable({
 	workflowId,
 	initialData,
 }: {
@@ -29,19 +29,16 @@ async function ExecutionsTable({
 	initialData: InitialData;
 }) {
 	const router = useRouter();
-	const query = useQuery({
+	const { data: executions } = useQuery({
 		queryKey: ["executions", workflowId],
 		initialData,
 		queryFn: () => GetWorkflowExecutions(workflowId),
-		// staleTime: 60000, // Mark data as fresh for 60 seconds
-		// refetchOnWindowFocus: false, // Prevent refetching when tab gains focus
-		// refetchInterval: 10000, // Refetch every 30 seconds (adjust as needed)
+		refetchInterval: 5000, // Refetch every 5 seconds
+		staleTime: 5000, // Consider data fresh for 5 seconds
+		refetchOnWindowFocus: true,
 	});
 
-	// TODO: SOLVE FLICKERING ISSUE
-
-	// Use the data directly since we're keeping previous data
-	const executions = query.data;
+	if (!executions) return null;
 
 	return (
 		<div className="overflow-auto rounded-lg border shadow-md">
@@ -135,5 +132,3 @@ async function ExecutionsTable({
 		</div>
 	);
 }
-
-export default ExecutionsTable;

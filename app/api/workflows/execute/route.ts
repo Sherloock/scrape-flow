@@ -9,6 +9,7 @@ import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import { timingSafeEqual } from "crypto";
 import { AppNode } from "@/types/appNode";
 import { ExecuteWorkflow } from "@/lib/workflow/ExecuteWorkflow";
+import cronExpressionParser from "cron-parser";
 
 function isValidSecretKey(requestKey: string): boolean {
 	const apiSecretKey = process.env.API_SECRET_KEY;
@@ -71,29 +72,37 @@ export async function GET(request: Request) {
 		return Response.json({ error: "Bad Request" }, { status: 400 });
 	}
 
-	const execution = await prisma.workflowExecution.create({
-		data: {
-			workflowId: workflowId,
-			userId: workflow.userId,
-			definition: workflow.definition,
-			status: WorkflowExecutionStatus.PENDING,
-			trigger: WorkflowExecutionTrigger.CRON,
-			phases: {
-				create: executionPlan.flatMap((phase: WorkflowExecutionPlanPhase) => {
-					return phase.nodes.map((node: AppNode) => {
-						return {
-							userId: workflow.userId,
-							status: ExecutionPhaseStatus.CREATED,
-							number: phase.phase,
-							node: JSON.stringify(node),
-							name: TaskRegistry[node.data.type].label,
-						};
-					});
-				}),
+	try {
+		const cron = cronExpressionParser.parse(workflow.cron!, {
+			tz: "UTC",
+		});
+		const nextRunDate = cron.next().toDate();
+		const execution = await prisma.workflowExecution.create({
+			data: {
+				workflowId: workflowId,
+				userId: workflow.userId,
+				definition: workflow.definition,
+				status: WorkflowExecutionStatus.PENDING,
+				trigger: WorkflowExecutionTrigger.CRON,
+				phases: {
+					create: executionPlan.flatMap((phase: WorkflowExecutionPlanPhase) => {
+						return phase.nodes.map((node: AppNode) => {
+							return {
+								userId: workflow.userId,
+								status: ExecutionPhaseStatus.CREATED,
+								number: phase.phase,
+								node: JSON.stringify(node),
+								name: TaskRegistry[node.data.type].label,
+							};
+						});
+					}),
+				},
 			},
-		},
-	});
+		});
 
-	await ExecuteWorkflow(execution.id);
-	return Response.json(null, { status: 200 });
+		await ExecuteWorkflow(execution.id, nextRunDate);
+		return Response.json(null, { status: 200 });
+	} catch (error) {
+		return Response.json({ error: "Bad Request" }, { status: 400 });
+	}
 }

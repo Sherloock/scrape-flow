@@ -3,6 +3,7 @@
 import DeleteWorkflowDialog from "@/app/(dashboard)/workflows/_components/DeleteWorkflowDialog";
 import RunBtn from "@/app/(dashboard)/workflows/_components/RunBtn";
 import SchedulerDialog from "@/app/(dashboard)/workflows/_components/SchedulerDialog";
+import ExecutionStatusIndicator from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -16,9 +17,12 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { WorkflowStatus } from "@/types/workflow";
+import { WorkflowExecutionStatus, WorkflowStatus } from "@/types/workflow";
 import { Workflow } from "@prisma/client";
+import { format, formatDistanceToNow } from "date-fns";
 import {
+	ChevronRightIcon,
+	ClockIcon,
 	CoinsIcon,
 	CornerDownRightIcon,
 	FileTextIcon,
@@ -30,6 +34,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { formatInTimeZone } from "date-fns-tz";
 
 const statusColors = {
 	[WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -98,6 +103,8 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 					<WorkflowActions workflow={workflow} />
 				</div>
 			</CardContent>
+
+			<LastRunDetails workflow={workflow} />
 		</Card>
 	);
 }
@@ -183,6 +190,59 @@ function ScheduleSection({
 					</Badge>
 				</div>
 			</TooltipWrapper>
+		</div>
+	);
+}
+
+function LastRunDetails({ workflow }: { workflow: Workflow }) {
+	const isDraft = workflow.status === WorkflowStatus.DRAFT;
+
+	if (isDraft) return null;
+
+	const { lastRunAt, lastRunStatus, nextRunAt } = workflow;
+	const formattedLastRunAt =
+		lastRunAt && formatDistanceToNow(lastRunAt, { addSuffix: true });
+
+	const nextScheduledRun = nextRunAt && format(nextRunAt, "yyyy-MM-dd HH:mm");
+	const nextScheduledRunUTC =
+		nextRunAt && formatInTimeZone(nextRunAt, "UTC", "HH:mm");
+
+	return (
+		<div className="flex items-center justify-between bg-primary/5 px-4 py-1">
+			<div className="flex items-center gap-2 text-sm">
+				{lastRunAt && (
+					<Link
+						className="group flex items-center gap-2 text-sm"
+						href={`/workflow/runs/${workflow.id}`}
+					>
+						<span>Last Run:</span>
+						<ExecutionStatusIndicator
+							status={lastRunStatus as WorkflowExecutionStatus}
+						/>
+						<span>{lastRunStatus}</span>
+						<span>{formattedLastRunAt}</span>
+						<ChevronRightIcon
+							size={14}
+							className="-translate-x-[2px] text-muted-foreground transition group-hover:translate-x-0"
+						/>
+					</Link>
+				)}
+
+				{!lastRunAt && (
+					<span className="text-muted-foreground">
+						No runs yet. Run the workflow to see the last run details.
+					</span>
+				)}
+			</div>
+
+			{nextRunAt && (
+				<div className="flex items-center gap-2 text-sm">
+					<ClockIcon size={12} className="text-muted-foreground" />
+					<span>Next Run:</span>
+					<span>{nextScheduledRun}</span>
+					<span className="text-xs">({nextScheduledRunUTC} UTC)</span>
+				</div>
+			)}
 		</div>
 	);
 }
