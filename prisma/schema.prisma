@@ -37,7 +37,7 @@ model WorkflowExecution {
   id          String    @id @default(cuid())
   workflowId  String
   userId      String
-  trigger     String
+  trigger     String // MANUAL | SCHEDULED
   status      String
   createdAt   DateTime  @default(now())
   startedAt   DateTime?

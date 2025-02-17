@@ -17,7 +17,7 @@ import { redirect } from "next/navigation";
 
 export async function RunWorkflow(form: {
 	workflowId: string;
-	flowDefinition: string;
+	flowDefinition?: string;
 }) {
 	const userId = CheckAuth();
 
@@ -38,6 +38,7 @@ export async function RunWorkflow(form: {
 	}
 
 	let executionPlan: WorkflowExecutionPlan;
+	let workflowDefinition = flowDefinition;
 
 	// if the workflow is published, use the execution plan from the workflow
 	if (workflow.status === WorkflowStatus.PUBLISHED) {
@@ -48,6 +49,7 @@ export async function RunWorkflow(form: {
 		}
 
 		executionPlan = JSON.parse(workflow.executionPlan);
+		workflowDefinition = workflow.definition;
 	} else {
 		// if the workflow is not published, create a new execution plan
 		if (!flowDefinition) {
@@ -75,7 +77,7 @@ export async function RunWorkflow(form: {
 			status: WorkflowExecutionStatus.PENDING,
 			startedAt: new Date(),
 			trigger: WorkflowExecutionTrigger.MANUAL,
-			definition: flowDefinition,
+			definition: workflowDefinition,
 			phases: {
 				create: executionPlan.flatMap((phase) => {
 					return phase.nodes.map((node) => {
