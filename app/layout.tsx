@@ -26,10 +26,10 @@ export default function RootLayout({
 				},
 			}}
 		>
-			<html lang="en">
-				<body className={inter.className}>
+			<html lang="en" suppressHydrationWarning>
+				<body className={inter.className} suppressHydrationWarning>
 					<AppProviders>{children}</AppProviders>
-					<Toaster richColors />
+					<Toaster richColors position="top-right" />
 				</body>
 			</html>
 		</ClerkProvider>

@@ -97,7 +97,7 @@ function SchedulerDialog(props: { workflowId: string; cron: string | null }) {
 					)}
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="px-0">
+			<DialogContent className="px-0" aria-describedby="schedule-description">
 				<CustomDialogHeader
 					title="Schedule Workflow execution"
 					icon={CalendarIcon}
