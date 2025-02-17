@@ -8,12 +8,14 @@ import { TaskRegistry } from "@/lib/workflow/task/Registry";
 import {
 	ExecutionPhaseStatus,
 	WorkflowExecutionPlan,
+	WorkflowExecutionPlanPhase,
 	WorkflowExecutionStatus,
 	WorkflowExecutionTrigger,
 	WorkflowStatus,
 } from "@/types/workflow";
 
 import { redirect } from "next/navigation";
+import { AppNode } from "@/types/appNode";
 
 export async function RunWorkflow(form: {
 	workflowId: string;
@@ -79,8 +81,8 @@ export async function RunWorkflow(form: {
 			trigger: WorkflowExecutionTrigger.MANUAL,
 			definition: workflowDefinition,
 			phases: {
-				create: executionPlan.flatMap((phase) => {
-					return phase.nodes.map((node) => {
+				create: executionPlan.flatMap((phase: WorkflowExecutionPlanPhase) => {
+					return phase.nodes.map((node: AppNode) => {
 						return {
 							userId,
 							status: ExecutionPhaseStatus.CREATED,

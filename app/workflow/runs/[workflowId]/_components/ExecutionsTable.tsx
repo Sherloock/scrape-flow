@@ -1,4 +1,5 @@
 "use client";
+
 import { GetWorkflowExecutions } from "@/actions/workflows/GetWorkflowExecutions";
 import ExecutionStatusIndicator from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
 import { Badge } from "@/components/ui/badge";
