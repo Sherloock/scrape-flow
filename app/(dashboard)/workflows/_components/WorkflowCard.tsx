@@ -2,7 +2,9 @@
 
 import DeleteWorkflowDialog from "@/app/(dashboard)/workflows/_components/DeleteWorkflowDialog";
 import RunBtn from "@/app/(dashboard)/workflows/_components/RunBtn";
+import SchedulerDialog from "@/app/(dashboard)/workflows/_components/SchedulerDialog";
 import TooltipWrapper from "@/components/TooltipWrapper";
+import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -17,8 +19,11 @@ import { cn } from "@/lib/utils";
 import { WorkflowStatus } from "@/types/workflow";
 import { Workflow } from "@prisma/client";
 import {
+	CoinsIcon,
+	CornerDownRightIcon,
 	FileTextIcon,
 	MoreVerticalIcon,
+	MoveRightIcon,
 	PlayIcon,
 	ShuffleIcon,
 	TrashIcon,
@@ -66,6 +71,12 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 								</span>
 							)}
 						</h3>
+						<ScheduleSection
+							isDraft={isDraft}
+							creditsCost={workflow.creditsCost}
+							workflowId={workflow.id}
+							cron={workflow.cron}
+						/>
 					</div>
 				</div>
 
@@ -135,6 +146,44 @@ function WorkflowActions({ workflow }: { workflow: Workflow }) {
 				</DropdownMenuContent>
 			</DropdownMenu>
 		</>
+	);
+}
+
+function ScheduleSection({
+	isDraft,
+	creditsCost,
+	workflowId,
+	cron,
+}: {
+	isDraft: boolean;
+	creditsCost: number;
+	workflowId: string;
+	cron: string | null;
+}) {
+	if (isDraft) return null;
+	return (
+		<div className="flex items-center gap-2">
+			<CornerDownRightIcon size={16} className="text-muted-foreground" />
+
+			<SchedulerDialog
+				workflowId={workflowId}
+				cron={cron}
+				key={`${workflowId}-${cron}`}
+			/>
+			<MoveRightIcon size={16} className="text-muted-foreground" />
+
+			<TooltipWrapper content={"Credit consuption for full run"} side="top">
+				<div className="flex items-center gap-3">
+					<Badge
+						variant={"outline"}
+						className="space-x-2 rounded-sm text-muted-foreground"
+					>
+						<CoinsIcon size={16} className="text-muted-foreground" />
+						<span className="text-sm">{creditsCost}</span>
+					</Badge>
+				</div>
+			</TooltipWrapper>
+		</div>
 	);
 }
 
