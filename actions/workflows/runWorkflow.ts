@@ -1,6 +1,6 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { ExecuteWorkflow } from "@/lib/workflow/ExecuteWorkflow";
 import { prisma } from "@/lib/prisma";
 import { FlowToExecutionPlan } from "@/lib/workflow/ExecutionPlan";
@@ -17,11 +17,11 @@ import {
 import { redirect } from "next/navigation";
 import { AppNode } from "@/types/appNode";
 
-export async function RunWorkflow(form: {
+export async function runWorkflow(form: {
 	workflowId: string;
 	flowDefinition?: string;
 }) {
-	const userId = CheckAuth();
+	const userId = checkAuth();
 
 	const { workflowId, flowDefinition } = form;
 	if (!workflowId) {

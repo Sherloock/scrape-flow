@@ -1,6 +1,6 @@
 "use client";
 
-import { GetAvailableCredits } from "@/actions/billing/GetAvailableCredits";
+import { getAvailableCredits } from "@/actions/billing/getAvailableCredits";
 import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -11,7 +11,7 @@ import React from "react";
 export default function UserAvailableCreditsBadge() {
 	const query = useQuery({
 		queryKey: ["user-available-credits"],
-		queryFn: () => GetAvailableCredits(),
+		queryFn: () => getAvailableCredits(),
 		refetchInterval: 1000 * 30, // 30 seconds
 	});
 

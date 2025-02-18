@@ -17,6 +17,8 @@ import { Textarea } from "@/components/ui/textarea";
 import {
 	CreateWorkflowSchema,
 	CreateWorkflowSchemaType,
+	DuplicateWorkflowSchema,
+	DuplicateWorkflowSchemaType,
 } from "@/schema/workflows";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -25,29 +27,31 @@ import React, { useCallback, useState } from "react";
 import { Form, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
+function DuplicateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 	const [isOpen, setIsOpen] = useState(false);
 
-	const form = useForm<CreateWorkflowSchemaType>({
-		resolver: zodResolver(CreateWorkflowSchema),
+	const form = useForm<DuplicateWorkflowSchemaType>({
+		resolver: zodResolver(DuplicateWorkflowSchema),
 		defaultValues: {},
 	});
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: createWorkflow,
+		mutationFn: DuplicateWorkflow,
 		onSuccess: () => {
-			toast.success("Workflow created successfully!", {
-				id: "create-workflow",
+			toast.success("Workflow duplicated successfully!", {
+				id: "duplicate-workflow",
 			});
 		},
 		onError: (error) => {
-			toast.error("Failed to create workflow!", { id: "create-workflow" });
+			toast.error("Failed to duplicate workflow!", {
+				id: "duplicate-workflow",
+			});
 		},
 	});
 
 	const onSubmit = useCallback(
-		(data: CreateWorkflowSchemaType) => {
-			toast.loading("Creating workflow...", { id: "create-workflow" });
+		(data: DuplicateWorkflowSchemaType) => {
+			toast.loading("Duplicating workflow...", { id: "duplicate-workflow" });
 			mutate(data);
 		},
 		[mutate]
@@ -65,13 +69,13 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 				}}
 			>
 				<DialogTrigger asChild>
-					<Button>{triggerText ?? "Create workflow"}</Button>
+					<Button>{triggerText ?? "Duplicate workflow"}</Button>
 				</DialogTrigger>
 				<DialogContent className="px-0" aria-describedby="dialog-description">
 					<CustomDialogHeader
 						icon={Layers2Icon}
-						title="Create workflow"
-						subtitle="Start building your workflow"
+						title="Duplicate workflow"
+						subtitle="Duplicate your workflow to create a new one"
 					/>
 
 					<div id="dialog-description" className="p-6">
@@ -144,4 +148,4 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 	);
 }
 
-export default CreateWorkflowDialog;
+export default DuplicateWorkflowDialog;

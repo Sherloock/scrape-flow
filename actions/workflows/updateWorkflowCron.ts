@@ -1,14 +1,14 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { prisma } from "@/lib/prisma";
 import cronExpressionParser from "cron-parser";
 import { revalidatePath } from "next/cache";
-export async function UpdateWorkflowCron(data: {
+export async function updateWorkflowCron(data: {
 	workflowId: string;
 	cron: string;
 }) {
-	const userId = CheckAuth();
+	const userId = checkAuth();
 
 	try {
 		const interval = cronExpressionParser.parse(data.cron, {

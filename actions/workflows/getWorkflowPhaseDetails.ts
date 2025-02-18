@@ -1,10 +1,10 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { prisma } from "@/lib/prisma";
 
-export async function GetWorkflowPhaseDetails(phaseId: string) {
-	const userId = CheckAuth();
+export async function getWorkflowPhaseDetails(phaseId: string) {
+	const userId = checkAuth();
 
 	const phase = await prisma.executionPhase.findUnique({
 		where: {

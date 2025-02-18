@@ -1,6 +1,6 @@
 "use client";
 
-import { GetWorkflowExecutions } from "@/actions/workflows/GetWorkflowExecutions";
+import { getWorkflowExecutions } from "@/actions/workflows/getWorkflowExecutions";
 import ExecutionStatusIndicator from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,7 +19,7 @@ import { CoinsIcon } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useRouter } from "next/navigation";
 
-type InitialData = Awaited<ReturnType<typeof GetWorkflowExecutions>>;
+type InitialData = Awaited<ReturnType<typeof getWorkflowExecutions>>;
 
 export default function ExecutionsTable({
 	workflowId,
@@ -32,7 +32,7 @@ export default function ExecutionsTable({
 	const { data: executions } = useQuery({
 		queryKey: ["executions", workflowId],
 		initialData,
-		queryFn: () => GetWorkflowExecutions(workflowId),
+		queryFn: () => getWorkflowExecutions(workflowId),
 		refetchInterval: 5000, // Refetch every 5 seconds
 		staleTime: 5000, // Consider data fresh for 5 seconds
 		refetchOnWindowFocus: true,

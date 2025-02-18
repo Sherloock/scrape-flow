@@ -1,6 +1,6 @@
 "use client";
 
-import { RunWorkflow } from "@/actions/workflows/RunWorkflow";
+import { runWorkflow } from "@/actions/workflows/runWorkflow";
 import useExecutionPlan from "@/components/hooks/useExecutionPlan";
 import { Button } from "@/components/ui/button";
 import { FlowToExecutionPlan } from "@/lib/workflow/ExecutionPlan";
@@ -16,7 +16,7 @@ export default function ExecuteBtn({ workflowId }: { workflowId: string }) {
 	const { toObject } = useReactFlow();
 
 	const mutation = useMutation({
-		mutationFn: RunWorkflow,
+		mutationFn: runWorkflow,
 		onSuccess: () => {
 			toast.success("Execution started", { id: "workflow-execution" });
 		},

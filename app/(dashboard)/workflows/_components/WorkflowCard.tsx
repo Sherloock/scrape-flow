@@ -3,7 +3,9 @@
 import DeleteWorkflowDialog from "@/app/(dashboard)/workflows/_components/DeleteWorkflowDialog";
 import RunBtn from "@/app/(dashboard)/workflows/_components/RunBtn";
 import SchedulerDialog from "@/app/(dashboard)/workflows/_components/SchedulerDialog";
-import ExecutionStatusIndicator from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
+import ExecutionStatusIndicator, {
+	ExecutionStatusLabel,
+} from "@/app/workflow/runs/[workflowId]/_components/ExecutionStatusIndicator";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -219,7 +221,9 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
 						<ExecutionStatusIndicator
 							status={lastRunStatus as WorkflowExecutionStatus}
 						/>
-						<span>{lastRunStatus}</span>
+						<ExecutionStatusLabel
+							status={lastRunStatus as WorkflowExecutionStatus}
+						/>
 						<span>{formattedLastRunAt}</span>
 						<ChevronRightIcon
 							size={14}

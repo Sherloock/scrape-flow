@@ -1,11 +1,11 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { prisma } from "@/lib/prisma";
 import { createFlowNode } from "@/lib/workflow/CreateFlowNode";
 import {
-	createWorkflowSchema,
-	createWorkflowSchemaType,
+	CreateWorkflowSchema,
+	CreateWorkflowSchemaType,
 } from "@/schema/workflows";
 import { AppNode } from "@/types/appNode";
 import { TaskType } from "@/types/task";
@@ -13,10 +13,10 @@ import { WorkflowStatus } from "@/types/workflow";
 import { Edge, Viewport } from "@xyflow/react";
 import { redirect } from "next/navigation";
 
-export async function CreateWorkflow(form: createWorkflowSchemaType) {
-	const userId = CheckAuth();
+export async function createWorkflow(form: CreateWorkflowSchemaType) {
+	const userId = checkAuth();
 
-	const { success, data } = createWorkflowSchema.safeParse(form);
+	const { success, data } = CreateWorkflowSchema.safeParse(form);
 	if (!success) {
 		throw new Error("Invalid form data!");
 	}

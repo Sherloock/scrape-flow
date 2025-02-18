@@ -1,11 +1,11 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { prisma } from "@/lib/prisma";
 import { WorkflowStatus } from "@/types/workflow";
 import { revalidatePath } from "next/cache";
 
-export async function UpdateWorkflow({
+export async function updateWorkflow({
 	id,
 	definition,
 }: {
@@ -13,7 +13,7 @@ export async function UpdateWorkflow({
 
 	definition: string;
 }) {
-	const userId = CheckAuth();
+	const userId = checkAuth();
 
 	const workflow = await prisma.workflow.findUnique({
 		where: { id, userId },

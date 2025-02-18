@@ -2,10 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 
-export async function DeleteWorkflow(workflowId: string) {
-	const userId = CheckAuth();
+export async function deleteWorkflow(workflowId: string) {
+	const userId = checkAuth();
 
 	const result = await prisma.workflow.delete({
 		where: {

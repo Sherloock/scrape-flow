@@ -1,4 +1,4 @@
-import { GetWorkflow } from "@/actions/workflows/GetWorkflow";
+import { getWorkflow } from "@/actions/workflows/getWorkflow";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -15,7 +15,7 @@ export default async function page({
 		redirect("/sign-in");
 	}
 
-	const workflow = await GetWorkflow(workflowId);
+	const workflow = await getWorkflow(workflowId);
 
 	if (!workflow) {
 		return <div>Workflow not found</div>;

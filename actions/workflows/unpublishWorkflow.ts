@@ -1,12 +1,12 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { CheckAuth } from "../auth/CheckAuth";
+import { checkAuth } from "../auth/checkAuth";
 import { WorkflowStatus } from "@/types/workflow";
 import { revalidatePath } from "next/cache";
 
-export async function UnpublishWorkflow({ id }: { id: string }) {
-	const userId = CheckAuth();
+export async function unpublishWorkflow({ id }: { id: string }) {
+	const userId = checkAuth();
 
 	const workflow = await prisma.workflow.findUnique({
 		where: {

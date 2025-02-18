@@ -1,8 +1,8 @@
 "use client";
 
-import { PublishWorkflow } from "@/actions/workflows/PublishWorkflow";
-import { RunWorkflow } from "@/actions/workflows/RunWorkflow";
-import { UnpublishWorkflow } from "@/actions/workflows/UnpublishWorkflow";
+import { publishWorkflow } from "@/actions/workflows/publishWorkflow";
+import { runWorkflow } from "@/actions/workflows/runWorkflow";
+import { unpublishWorkflow } from "@/actions/workflows/unpublishWorkflow";
 import useExecutionPlan from "@/components/hooks/useExecutionPlan";
 import { Button } from "@/components/ui/button";
 import { FlowToExecutionPlan } from "@/lib/workflow/ExecutionPlan";
@@ -15,7 +15,7 @@ import { toast } from "sonner";
 
 export default function UnpublishBtn({ workflowId }: { workflowId: string }) {
 	const mutation = useMutation({
-		mutationFn: UnpublishWorkflow,
+		mutationFn: unpublishWorkflow,
 		onSuccess: () => {
 			toast.success("Workflow unpublished", { id: workflowId });
 		},

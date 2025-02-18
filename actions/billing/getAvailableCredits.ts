@@ -1,10 +1,10 @@
 "use server";
 
-import { CheckAuth } from "@/actions/auth/CheckAuth";
+import { checkAuth } from "@/actions/auth/checkAuth";
 import { prisma } from "@/lib/prisma";
 
-export async function GetAvailableCredits() {
-	const userId = CheckAuth();
+export async function getAvailableCredits() {
+	const userId = checkAuth();
 
 	const balance = await prisma.userBalance.findUnique({
 		where: { userId },

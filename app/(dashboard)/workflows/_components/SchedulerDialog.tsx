@@ -14,13 +14,13 @@ import { CalendarIcon, ClockIcon, TriangleAlertIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { useMutation } from "@tanstack/react-query";
-import { UpdateWorkflowCron } from "@/actions/workflows/UpdateWorkflowCron";
+import { updateWorkflowCron } from "@/actions/workflows/updateWorkflowCron";
 import { toast } from "sonner";
 import cronstrue from "cronstrue";
 // import parser from "cron-parser";
 // TODO: THIS IS NOT WORKING IN CLIENT SIDE COMPONENT
 import { isValidCron } from "cron-validator";
-import { DeleteWorkflowSchedule } from "@/actions/workflows/DeleteWorkflowSchedule";
+import { deleteWorkflowSchedule } from "@/actions/workflows/deleteWorkflowSchedule";
 import { Separator } from "@/components/ui/separator";
 function SchedulerDialog(props: { workflowId: string; cron: string | null }) {
 	const [cron, setCron] = useState(props.cron || "");
@@ -28,7 +28,7 @@ function SchedulerDialog(props: { workflowId: string; cron: string | null }) {
 	const [humanReadableCron, setHumanReadableCron] = useState("");
 
 	const saveScheduleMutation = useMutation({
-		mutationFn: UpdateWorkflowCron,
+		mutationFn: updateWorkflowCron,
 		onSuccess: () => {
 			toast.success("Workflow scheduled updated successfully!", {
 				id: "schedule-workflow",
@@ -39,7 +39,7 @@ function SchedulerDialog(props: { workflowId: string; cron: string | null }) {
 		},
 	});
 	const deleteScheduleMutation = useMutation({
-		mutationFn: DeleteWorkflowSchedule,
+		mutationFn: deleteWorkflowSchedule,
 		onSuccess: () => {
 			toast.success("Workflow schedule removed successfully!", {
 				id: "delete-schedule-workflow",

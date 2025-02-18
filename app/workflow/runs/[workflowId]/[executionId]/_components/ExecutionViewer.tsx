@@ -1,7 +1,7 @@
 "use client";
 
-import { GetWorkflowExecutionWithPhases } from "@/actions/workflows/GetWorkflowExecutionWithPhases";
-import { GetWorkflowPhaseDetails } from "@/actions/workflows/GetWorkflowPhaseDetails";
+import { getWorkflowExecutionWithPhases } from "@/actions/workflows/getWorkflowExecutionWithPhases";
+import { getWorkflowPhaseDetails } from "@/actions/workflows/getWorkflowPhaseDetails";
 import PhaseStatusBadge from "@/app/workflow/runs/[workflowId]/[executionId]/_components/PhaseStatusBadge";
 import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 import { Badge } from "@/components/ui/badge";
@@ -44,7 +44,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
+type ExecutionData = Awaited<ReturnType<typeof getWorkflowExecutionWithPhases>>;
 
 export default function ExecutionViewer({
 	initialData,
@@ -55,7 +55,7 @@ export default function ExecutionViewer({
 
 	const query = useQuery({
 		queryKey: ["execution", initialData?.id],
-		queryFn: () => GetWorkflowExecutionWithPhases(initialData!.id),
+		queryFn: () => getWorkflowExecutionWithPhases(initialData!.id),
 		refetchInterval: (query) => {
 			return query.state.data?.status === WorkflowExecutionStatus.RUNNING
 				? 1000
@@ -91,7 +91,7 @@ export default function ExecutionViewer({
 	const phaseDetails = useQuery({
 		queryKey: ["phaseDetails", selectedPhase],
 		enabled: selectedPhase !== null,
-		queryFn: () => GetWorkflowPhaseDetails(selectedPhase!),
+		queryFn: () => getWorkflowPhaseDetails(selectedPhase!),
 	});
 
 	const duration = DatesToDurationString(
