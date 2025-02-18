@@ -1,5 +1,4 @@
 import { colorForHandle } from "@/app/workflow/_components/nodes/common";
-import NodeParamField from "@/app/workflow/_components/nodes/NodeParamField";
 import { cn } from "@/lib/utils";
 import { TaskParam } from "@/types/task";
 import { Handle, Position } from "@xyflow/react";

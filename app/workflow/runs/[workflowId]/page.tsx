@@ -42,9 +42,11 @@ async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
 						<InboxIcon size={40} className="stroke-primary" />
 					</div>
 					<div className="flex flex-col items-center gap-1">
-						<p className="font-bold">This workflow hasn't been executed yet</p>
+						<p className="font-bold">
+							{`This workflow hasn't been executed yet`}
+						</p>
 						<p className="text-sm text-muted-foreground">
-							You can execute your workflow from the editor page
+							{`You can execute your workflow from the editor page`}
 						</p>
 					</div>
 				</div>

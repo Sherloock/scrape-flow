@@ -5,10 +5,7 @@ import {
 	BaseEdge,
 	EdgeLabelRenderer,
 	EdgeProps,
-	getBezierPath,
 	getSmoothStepPath,
-	Handle,
-	Position,
 	useReactFlow,
 } from "@xyflow/react";
 import { Trash2Icon } from "lucide-react";

@@ -20,9 +20,9 @@ import {
 } from "@/schema/workflows";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Layers2Icon, Loader2, Loader2Icon } from "lucide-react";
+import { Layers2Icon, Loader2 } from "lucide-react";
 import React, { useCallback, useState } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {

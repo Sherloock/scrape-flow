@@ -1,4 +1,4 @@
-import { Env, ExecutionEnv } from "@/types/executor";
+import { ExecutionEnv } from "@/types/executor";
 import { ExtractTextFromElementTask } from "@/lib/workflow/task/ExtractTextFromElement";
 import * as cheerio from "cheerio";
 export async function ExtractTextFromElementExecutor(

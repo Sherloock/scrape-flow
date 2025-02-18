@@ -3,10 +3,8 @@
 import { runWorkflow } from "@/actions/workflows/runWorkflow";
 import useExecutionPlan from "@/components/hooks/useExecutionPlan";
 import { Button } from "@/components/ui/button";
-import { FlowToExecutionPlan } from "@/lib/workflow/ExecutionPlan";
-import { AppNode } from "@/types/appNode";
 import { useMutation } from "@tanstack/react-query";
-import { Edge, useReactFlow } from "@xyflow/react";
+import { useReactFlow } from "@xyflow/react";
 import { PlayIcon } from "lucide-react";
 import React from "react";
 import { toast } from "sonner";

@@ -4,7 +4,7 @@ import {
 	FlowToExecutionPlanValidationError,
 } from "@/lib/workflow/ExecutionPlan";
 import { AppNode } from "@/types/appNode";
-import { Edge, useReactFlow } from "@xyflow/react";
+import { useReactFlow } from "@xyflow/react";
 import { useCallback } from "react";
 import { toast } from "sonner";
 

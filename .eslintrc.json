@@ -1,42 +1,19 @@
 {
 	"extends": [
-		"next",
-		"next/core-web-vitals",
-		"plugin:prettier/recommended"
+		"next/core-web-vitals"
 	],
 	"plugins": [
-		"prettier"
+		"unused-imports"
 	],
 	"rules": {
-		"prettier/prettier": "off",
-		"no-tabs": "off", // Disables the rule that disallows tabs
-		"indent": [
-			"off",
-			"tab"
-		],
-		"no-console": "warn", // Warn on console.log usage
-		"no-unused-vars": [
+		"unused-imports/no-unused-imports": "error",
+		"unused-imports/no-unused-vars": [
 			"warn",
 			{
 				"vars": "all",
+				"varsIgnorePattern": "^_",
 				"args": "after-used",
-				"ignoreRestSiblings": true
-			}
-		], // Warn on unused variables but allow flexibility
-		"react/react-in-jsx-scope": "off", // Not needed for Next.js
-		"@next/next/no-img-element": "off", // Disable warning for <img> elements
-		"import/order": [
-			"off",
-			{
-				"groups": [
-					"builtin",
-					"external",
-					"internal",
-					"parent",
-					"sibling",
-					"index"
-				],
-				"newlines-between": "always"
+				"argsIgnorePattern": "^_"
 			}
 		]
 	}

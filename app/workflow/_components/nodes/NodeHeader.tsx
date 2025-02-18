@@ -12,7 +12,6 @@ import {
 	CopyIcon,
 	GripVerticalIcon,
 	Trash2Icon,
-	TrashIcon,
 } from "lucide-react";
 import React from "react";
 

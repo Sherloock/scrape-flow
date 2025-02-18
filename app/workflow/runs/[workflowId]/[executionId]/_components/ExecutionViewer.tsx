@@ -36,7 +36,6 @@ import {
 	CircleDashedIcon,
 	ClockIcon,
 	CoinsIcon,
-	CreditCardIcon,
 	Loader2Icon,
 	LucideIcon,
 	WorkflowIcon,
