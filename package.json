@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
+		"postinstall": "prisma generate",
 		"nvm-use": "nvm use 20",
 		"dev": "npm run nvm-use && next dev",
 		"build": "next build",
