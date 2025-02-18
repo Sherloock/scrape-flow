@@ -29,7 +29,7 @@ export default function RootLayout({
 			<html lang="en" suppressHydrationWarning>
 				<body className={inter.className} suppressHydrationWarning>
 					<AppProviders>{children}</AppProviders>
-					<Toaster richColors position="top-right" />
+					<Toaster richColors position="bottom-right" />
 				</body>
 			</html>
 		</ClerkProvider>

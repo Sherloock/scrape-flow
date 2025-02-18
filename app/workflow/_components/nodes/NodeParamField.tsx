@@ -1,6 +1,7 @@
 "use client";
 
 import BrowserInstanceParam from "@/app/workflow/_components/nodes/param/BrowserInstanceParam";
+import SelectParam from "@/app/workflow/_components/nodes/param/SelectParam";
 import StringParam from "@/app/workflow/_components/nodes/param/StringParam";
 import { AppNode } from "@/types/appNode";
 import { TaskParam, TaskParamType } from "@/types/task";
@@ -50,6 +51,16 @@ function NodeParamField({
 					param={param}
 					value={""}
 					updateNodeParamValue={updateNodeParamValue}
+				/>
+			);
+
+		case TaskParamType.SELECT:
+			return (
+				<SelectParam
+					param={param}
+					value={value}
+					updateNodeParamValue={updateNodeParamValue}
+					disabled={disabled}
 				/>
 			);
 
