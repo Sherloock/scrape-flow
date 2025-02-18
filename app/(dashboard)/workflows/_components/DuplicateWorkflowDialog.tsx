@@ -1,6 +1,6 @@
 "use client";
 
-import { createWorkflow } from "@/actions/workflows/createWorkflow";
+import { duplicateWorkflow } from "@/actions/workflows/duplicateWorkflow";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -14,33 +14,38 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import {
-	CreateWorkflowSchema,
-	CreateWorkflowSchemaType,
 	DuplicateWorkflowSchema,
 	DuplicateWorkflowSchemaType,
 } from "@/schema/workflows";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
-import { Layers2Icon, Loader2, Loader2Icon } from "lucide-react";
+import { CopyIcon, Layers2Icon, Loader2 } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { Form, FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-function DuplicateWorkflowDialog({ triggerText }: { triggerText?: string }) {
+function DuplicateWorkflowDialog({ workflowId }: { workflowId: string }) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	const form = useForm<DuplicateWorkflowSchemaType>({
 		resolver: zodResolver(DuplicateWorkflowSchema),
-		defaultValues: {},
+		defaultValues: {
+			workflowId,
+			name: "",
+			description: "",
+		},
 	});
 
 	const { mutate, isPending } = useMutation({
-		mutationFn: DuplicateWorkflow,
+		mutationFn: duplicateWorkflow,
 		onSuccess: () => {
 			toast.success("Workflow duplicated successfully!", {
 				id: "duplicate-workflow",
 			});
+
+			setIsOpen((prev) => !prev);
 		},
 		onError: (error) => {
 			toast.error("Failed to duplicate workflow!", {
@@ -69,7 +74,18 @@ function DuplicateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 				}}
 			>
 				<DialogTrigger asChild>
-					<Button>{triggerText ?? "Duplicate workflow"}</Button>
+					<Button
+						variant="ghost"
+						size="icon"
+						className={cn(
+							"ml-2 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+						)}
+					>
+						<CopyIcon
+							size={16}
+							className="cursor-pointer text-muted-foreground"
+						/>
+					</Button>
 				</DialogTrigger>
 				<DialogContent className="px-0" aria-describedby="dialog-description">
 					<CustomDialogHeader

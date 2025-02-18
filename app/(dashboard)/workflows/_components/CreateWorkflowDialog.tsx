@@ -30,7 +30,10 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 
 	const form = useForm<CreateWorkflowSchemaType>({
 		resolver: zodResolver(CreateWorkflowSchema),
-		defaultValues: {},
+		defaultValues: {
+			name: "",
+			description: "",
+		},
 	});
 
 	const { mutate, isPending } = useMutation({

@@ -37,6 +37,7 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { formatInTimeZone } from "date-fns-tz";
+import DuplicateWorkflowDialog from "@/app/(dashboard)/workflows/_components/DuplicateWorkflowDialog";
 
 const statusColors = {
 	[WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -47,7 +48,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 	const isDraft = workflow.status === WorkflowStatus.DRAFT;
 
 	return (
-		<Card className="border-separate overflow-hidden rounded-lg border shadow-sm hover:shadow-md hover:shadow-primary/20">
+		<Card className="group/card border-separate overflow-hidden rounded-lg border shadow-sm hover:shadow-md hover:shadow-primary/20">
 			<CardContent className="flex h-[100px] items-center justify-between p-4">
 				<div className="flex items-center justify-end space-x-3">
 					<div
@@ -65,18 +66,22 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
 
 					<div>
 						<h3 className="flex items-center text-base font-bold text-muted-foreground">
-							<Link
-								href={`/workflow/editor/${workflow.id}`}
-								className="flex items-center hover:underline"
-							>
-								{workflow.name}
-							</Link>
+							<TooltipWrapper content={workflow.description} side="top">
+								<Link
+									href={`/workflow/editor/${workflow.id}`}
+									className="flex items-center hover:underline"
+								>
+									{workflow.name}
+								</Link>
+							</TooltipWrapper>
 
 							{isDraft && (
 								<span className="ml-2 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-800">
 									Draft
 								</span>
 							)}
+
+							<DuplicateWorkflowDialog workflowId={workflow.id} />
 						</h3>
 						<ScheduleSection
 							isDraft={isDraft}
