@@ -307,7 +307,8 @@ function ParametersViewer({
 	paramsJson: string | null;
 }) {
 	const params = paramsJson ? JSON.parse(paramsJson) : undefined;
-
+	// console.log(params);
+	// TODO: improve this credentialsID is showing intead of name for example
 	return (
 		<Card>
 			<CardHeader className="rounded-lg rounded-b-none border-b bg-gray-50 dark:bg-background">

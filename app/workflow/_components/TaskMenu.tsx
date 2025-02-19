@@ -48,7 +48,7 @@ function TaskMenu() {
 						<AccordionTrigger className="font-bold">
 							User Interaction
 						</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="flex flex-col gap-1">
 							<TaskMenuBtn taskType={TaskType.FILL_INPUT} />
 							<TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
 						</AccordionContent>
@@ -58,9 +58,10 @@ function TaskMenu() {
 						<AccordionTrigger className="font-bold">
 							Data Extraction
 						</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="flex flex-col gap-1">
 							<TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
 							<TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
+							<TaskMenuBtn taskType={TaskType.EXTRACT_DATA_WITH_AI} />
 						</AccordionContent>
 					</AccordionItem>
 
@@ -68,7 +69,7 @@ function TaskMenu() {
 						<AccordionTrigger className="font-bold">
 							Timing controls
 						</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="flex flex-col gap-1">
 							<TaskMenuBtn taskType={TaskType.WAIT_FOR_ELEMENT} />
 							{/* todo: add delay task */}
 						</AccordionContent>
@@ -78,7 +79,7 @@ function TaskMenu() {
 						<AccordionTrigger className="font-bold">
 							Results delivery
 						</AccordionTrigger>
-						<AccordionContent>
+						<AccordionContent className="flex flex-col gap-1">
 							<TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
 						</AccordionContent>
 					</AccordionItem>

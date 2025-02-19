@@ -1,7 +1,6 @@
 "use client";
 
 import { createCredential } from "@/actions/credentials/createCredential";
-import { createWorkflow } from "@/actions/workflows/createWorkflow";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
@@ -22,7 +21,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useMutation } from "@tanstack/react-query";
-import { Layers2Icon, Loader2, ShieldEllipsis } from "lucide-react";
+import { Loader2, ShieldEllipsis } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -45,6 +44,7 @@ function CreateCredentialDialog({ triggerText }: { triggerText?: string }) {
 				id: "create-credential",
 			});
 			setIsOpen(false);
+			form.reset();
 		},
 		onError: (error) => {
 			toast.error(error.message, { id: "create-credential" });
@@ -66,7 +66,6 @@ function CreateCredentialDialog({ triggerText }: { triggerText?: string }) {
 			<Dialog
 				open={isOpen}
 				onOpenChange={(open) => {
-					form.reset();
 					setIsOpen(open);
 				}}
 			>
@@ -96,11 +95,10 @@ function CreateCredentialDialog({ triggerText }: { triggerText?: string }) {
 												<Input {...field} />
 											</FormControl>
 											<FormDescription>
-												Enter a unique and descriptive name for the credential{" "}
+												Enter a unique and descriptive name for the credential
 												<br />
 												This will be used to identify the credential in the
-												future <br />
-												Example: "OPENAI_API_KEY",
+												future
 											</FormDescription>
 											<FormMessage />
 										</FormItem>

@@ -2,9 +2,8 @@ import React, { Suspense } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getUserCredentials } from "@/actions/credentials/getUserCredentials";
-import { Card, CardTitle, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { getCredentials } from "@/actions/credentials/getCredentials";
+import { Card } from "@/components/ui/card";
 import CreateCredentialDialog from "@/app/(dashboard)/credentials/_components/CreateCredentialDialog";
 import { formatDistanceToNow } from "date-fns";
 import DeleteCredentialDialog from "@/app/(dashboard)/credentials/_components/DeleteCredentialDialog";
@@ -39,7 +38,7 @@ export default function CredentialsPage() {
 }
 
 async function UserCredentials() {
-	const credentials = await getUserCredentials();
+	const credentials = await getCredentials();
 
 	if (!credentials) {
 		return <div className="text-muted-foreground">Something went wrong</div>;
