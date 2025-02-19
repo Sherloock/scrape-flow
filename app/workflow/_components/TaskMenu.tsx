@@ -42,7 +42,7 @@ function TaskMenu() {
 				<Accordion
 					type="multiple"
 					className="w-full"
-					defaultValue={["interaction", "extraction", "timing"]}
+					defaultValue={["interaction", "extraction", "timing", "results"]}
 				>
 					<AccordionItem value="interaction">
 						<AccordionTrigger className="font-bold">
@@ -71,6 +71,15 @@ function TaskMenu() {
 						<AccordionContent>
 							<TaskMenuBtn taskType={TaskType.WAIT_FOR_ELEMENT} />
 							{/* todo: add delay task */}
+						</AccordionContent>
+					</AccordionItem>
+
+					<AccordionItem value="results">
+						<AccordionTrigger className="font-bold">
+							Results delivery
+						</AccordionTrigger>
+						<AccordionContent>
+							<TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
 						</AccordionContent>
 					</AccordionItem>
 				</Accordion>

@@ -35,11 +35,11 @@ const snapGrid: [number, number] = [50, 50];
 const fitViewOptions = {
 	// minZoom: 0.5,
 	// maxZoom: 2,
-	padding: 1,
+	// padding: 1,
 };
 function FlowEditor({ workflow }: { workflow: Workflow }) {
 	// @settings
-	const isRestoreViewport = useRef(false);
+	const isRestoreViewport = useRef(true);
 	// @end of settings
 
 	// react flow
@@ -70,18 +70,21 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 		event.dataTransfer.dropEffect = "move";
 	}, []);
 
-	const onDrop = useCallback((event: React.DragEvent) => {
-		event.preventDefault();
-		const taskType = event.dataTransfer.getData("application/reactflow");
-		if (!taskType) return;
+	const onDrop = useCallback(
+		(event: React.DragEvent) => {
+			event.preventDefault();
+			const taskType = event.dataTransfer.getData("application/reactflow");
+			if (!taskType) return;
 
-		const position = screenToFlowPosition({
-			x: event.clientX,
-			y: event.clientY,
-		});
-		const newNode = createFlowNode(taskType as TaskType, position);
-		setNodes((nds) => nds.concat(newNode));
-	}, []);
+			const position = screenToFlowPosition({
+				x: event.clientX,
+				y: event.clientY,
+			});
+			const newNode = createFlowNode(taskType as TaskType, position);
+			setNodes((nds) => nds.concat(newNode));
+		},
+		[screenToFlowPosition, setNodes]
+	);
 
 	const onConnect = useCallback(
 		(connection: Connection) => {

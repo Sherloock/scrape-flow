@@ -47,7 +47,7 @@ function DuplicateWorkflowDialog({ workflowId }: { workflowId: string }) {
 
 			setIsOpen((prev) => !prev);
 		},
-		onError: (error) => {
+		onError: (_error) => {
 			toast.error("Failed to duplicate workflow!", {
 				id: "duplicate-workflow",
 			});
@@ -61,8 +61,6 @@ function DuplicateWorkflowDialog({ workflowId }: { workflowId: string }) {
 		},
 		[mutate]
 	);
-
-	const { isValid } = form.formState;
 
 	return (
 		<div>
@@ -104,7 +102,7 @@ function DuplicateWorkflowDialog({ workflowId }: { workflowId: string }) {
 								<FormField
 									control={form.control}
 									name="name"
-									render={({ field, fieldState }) => (
+									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="flex items-center gap-1">
 												Name
@@ -147,11 +145,7 @@ function DuplicateWorkflowDialog({ workflowId }: { workflowId: string }) {
 								/>
 
 								{/* save button */}
-								<Button
-									type="submit"
-									className="w-full"
-									disabled={/*!isValid ||*/ isPending}
-								>
+								<Button type="submit" className="w-full" disabled={isPending}>
 									{!isPending && "Proceed"}
 									{isPending && <Loader2 className="animate-spin" />}
 								</Button>

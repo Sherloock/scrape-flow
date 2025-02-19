@@ -118,7 +118,7 @@ async function finalizeWorkflowExecution(
 				lastRunStatus: finalStatus,
 			},
 		})
-		.catch((error) => {
+		.catch((_error) => {
 			// IGNORE ERROR
 			// this means that we have triggered other runs while the first one was running
 		});

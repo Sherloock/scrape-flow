@@ -43,7 +43,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 				id: "create-workflow",
 			});
 		},
-		onError: (error) => {
+		onError: (_error) => {
 			toast.error("Failed to create workflow!", { id: "create-workflow" });
 		},
 	});
@@ -56,7 +56,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 		[mutate]
 	);
 
-	const { isValid } = form.formState;
+	// const { isValid } = form.formState;
 
 	return (
 		<div>
@@ -87,7 +87,7 @@ function CreateWorkflowDialog({ triggerText }: { triggerText?: string }) {
 								<FormField
 									control={form.control}
 									name="name"
-									render={({ field, fieldState }) => (
+									render={({ field }) => (
 										<FormItem>
 											<FormLabel className="flex items-center gap-1">
 												Name

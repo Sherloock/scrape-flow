@@ -10,7 +10,6 @@ export async function updateWorkflow({
 	definition,
 }: {
 	id: string;
-
 	definition: string;
 }) {
 	const userId = checkAuth();
