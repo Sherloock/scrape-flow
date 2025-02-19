@@ -13,6 +13,7 @@ export function createExecutor<T extends WorkflowTask>(task: T): IExecutor<T> {
 			throw new Error("Execute method not implemented");
 		},
 		validateRequiredInputs: (env: ExecutionEnv<T>): boolean => {
+			// do not validate browser instance input because it is set by the LaunchBrowserExecutor and it will be available in the next phase, also it would be resource consuming to validate it here
 			const requiredInputs = task.inputs.filter(
 				(input) =>
 					input.required && input.type !== TaskParamType.BROWSER_INSTANCE

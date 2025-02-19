@@ -6,6 +6,7 @@ import {
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
+	BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -26,6 +27,10 @@ function BreadcrumbHeader() {
 									{path === "" ? "Home" : path}
 								</BreadcrumbLink>
 							</BreadcrumbItem>
+
+							{index !== paths.length - 1 && (
+								<BreadcrumbSeparator className="mx-0" />
+							)}
 						</React.Fragment>
 					))}
 				</BreadcrumbList>
