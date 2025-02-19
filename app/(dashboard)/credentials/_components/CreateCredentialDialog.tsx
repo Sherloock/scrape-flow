@@ -44,9 +44,10 @@ function CreateCredentialDialog({ triggerText }: { triggerText?: string }) {
 			toast.success("Credential created successfully", {
 				id: "create-credential",
 			});
+			setIsOpen(false);
 		},
-		onError: (_error) => {
-			toast.error("Failed to create credential!", { id: "create-credential" });
+		onError: (error) => {
+			toast.error(error.message, { id: "create-credential" });
 		},
 	});
 

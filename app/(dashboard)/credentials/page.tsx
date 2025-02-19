@@ -1,11 +1,13 @@
 import React, { Suspense } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ShieldIcon, ShieldOffIcon } from "lucide-react";
+import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getUserCredentials } from "@/actions/credentials/getUserCredentials";
-import { Card } from "@/components/ui/card";
+import { Card, CardTitle, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import CreateCredentialDialog from "@/app/(dashboard)/credentials/_components/CreateCredentialDialog";
+import { formatDistanceToNow } from "date-fns";
+import DeleteCredentialDialog from "@/app/(dashboard)/credentials/_components/DeleteCredentialDialog";
 export default function CredentialsPage() {
 	return (
 		<div className="flex h-full flex-1 flex-col">
@@ -20,7 +22,7 @@ export default function CredentialsPage() {
 
 			<div className="h-full space-y-6 py-6">
 				<Alert>
-					<ShieldIcon size={16} />
+					<ShieldIcon className="stroke-primary" size={16} />
 					<AlertTitle className="text-primary">Encryption</AlertTitle>
 					<AlertDescription>
 						All information is securely encrypted, ensuring your data is
@@ -63,5 +65,29 @@ async function UserCredentials() {
 		);
 	}
 
-	return <div>UserCredentials</div>;
+	return (
+		<div className="flex flex-wrap gap-2">
+			{credentials.map((credential) => {
+				const createdAt = formatDistanceToNow(new Date(credential.createdAt), {
+					addSuffix: true,
+				});
+				return (
+					<Card key={credential.id} className="flex w-full justify-between p-4">
+						<div className="flex items-center gap-2">
+							<div className="flex size-8 items-center justify-center rounded-full bg-primary/10">
+								<LockKeyholeIcon size={18} className="stroke-primary" />
+							</div>
+
+							<div>
+								<p className="font-bold">{credential.name}</p>
+								<p className="text-sm text-muted-foreground">{createdAt}</p>
+							</div>
+						</div>
+
+						<DeleteCredentialDialog name={credential.name} />
+					</Card>
+				);
+			})}
+		</div>
+	);
 }
