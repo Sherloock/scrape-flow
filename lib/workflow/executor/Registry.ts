@@ -1,3 +1,5 @@
+// LaunchBrowserExecutor is the default executor for puppeteer browser instance
+// LaunchBrowserExecutorBrightData is the executor for puppeteer browser instance using bright data
 import { LaunchBrowserExecutor } from "./LaunchBrowserExecutor";
 import { PageToHtmlExecutor } from "./PageToHtmlExecutor";
 import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor";
