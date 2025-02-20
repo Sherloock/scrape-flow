@@ -27,15 +27,17 @@ function StringParam({
 				{param.name}
 				{param.required && <span className="px-2 text-red-400">*</span>}
 			</Label>
-			<Component
-				id={id}
-				disabled={disabled}
-				className="text-xs"
-				placeholder="Enter value"
-				value={internalValue}
-				onChange={(e: any) => setInternalValue(e.target.value)}
-				onBlur={(e: any) => updateNodeParamValue(e.target.value)}
-			/>
+			{!disabled && (
+				<Component
+					id={id}
+					disabled={disabled}
+					className="text-xs"
+					placeholder="Enter value"
+					value={internalValue}
+					onChange={(e: any) => setInternalValue(e.target.value)}
+					onBlur={(e: any) => updateNodeParamValue(e.target.value)}
+				/>
+			)}
 
 			{param.helperText && (
 				<p className="px-2 text-xs text-muted-foreground">{param.helperText}</p>

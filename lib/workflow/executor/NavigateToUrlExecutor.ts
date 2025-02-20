@@ -14,7 +14,7 @@ const executor: IExecutor<typeof NavigateToUrlTask> = {
 
 			const url = env.getInput("URL");
 			await env.getPage()!.goto(url);
-			env.log.info(`Visited ${url}`);
+			// env.log.info(`Visited ${url}`);
 			return true;
 		} catch (error) {
 			env.log.error(error instanceof Error ? error.message : "Unknown error");

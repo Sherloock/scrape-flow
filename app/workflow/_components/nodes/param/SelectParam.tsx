@@ -29,9 +29,8 @@ export default function SelectParam({
 		<div className="flex w-full flex-col gap-1">
 			<Label className="flex text-xs" htmlFor={id}>
 				{param.name}
+				{param.required && <p className="px-2 text-red-400">*</p>}
 			</Label>
-
-			{param.required && <p className="px-2 text-red-400">*</p>}
 
 			<Select
 				onValueChange={(value) => updateNodeParamValue(value)}

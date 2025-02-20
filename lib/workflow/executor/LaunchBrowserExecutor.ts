@@ -18,12 +18,12 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				headless: false,
 			});
 
-			env.log.info(`Launching browser for ${websiteUrl}`);
+			// env.log.info(`Launching browser for ${websiteUrl}`);
 			env.setBrowser(browser);
 			const page = await browser.newPage();
 			await page.goto(websiteUrl);
 			env.setPage(page);
-			env.log.info(`Navigated to ${websiteUrl}`);
+			// env.log.info(`Navigated to ${websiteUrl}`);
 
 			return true;
 		} catch (error) {
