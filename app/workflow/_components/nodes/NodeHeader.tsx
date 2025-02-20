@@ -27,7 +27,7 @@ function NodeHeader({
 	const { deleteElements, getNode, addNodes } = useReactFlow();
 
 	return (
-		<div className="flex items-center gap-2 p-2">
+		<div className="flex items-center gap-2 px-2 py-0">
 			<task.icon size={16} />
 			<div className="flex w-full items-center justify-between">
 				<p className="text-sm font-bold uppercase text-muted-foreground">

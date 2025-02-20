@@ -9,7 +9,7 @@ export function NodeOutputs({ children }: { children: React.ReactNode }) {
 }
 export function NodeOutput({ output }: { output: TaskParam }) {
 	return (
-		<div className="relative flex justify-end bg-secondary p-3">
+		<div className="relative flex justify-end bg-secondary px-2 py-1">
 			<p className="text-xs text-muted-foreground">{output.name}</p>
 			{!output.hideHandle && (
 				<Handle
