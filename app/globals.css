@@ -93,12 +93,19 @@
 }
 
 /* my custom classes */
-@layer components {
-	.flex-center {
-		@apply flex items-center justify-center;
-	}
 
-	.flex-between {
-		@apply flex items-center justify-between;
-	}
+.flex-center {
+	@apply flex items-center justify-center;
+}
+
+.flex-between {
+	@apply flex items-center justify-between;
+}
+
+.task-menu-accordion-content {
+	@apply flex flex-col gap-1 pb-1;
+}
+
+.task-menu-accordion-trigger {
+	@apply py-2 font-bold;
 }

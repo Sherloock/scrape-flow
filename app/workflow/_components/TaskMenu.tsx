@@ -31,9 +31,9 @@ function TaskMenu() {
 				onClick={() => setIsCollapsed(!isCollapsed)}
 			>
 				{isCollapsed ? (
-					<PanelLeftOpen size={20} />
+					<PanelLeftOpen size={16} />
 				) : (
-					<PanelLeftClose size={20} />
+					<PanelLeftClose size={16} />
 				)}
 			</Button>
 
@@ -51,11 +51,11 @@ function TaskMenu() {
 						"results",
 					]}
 				>
-					<AccordionItem value="interaction">
-						<AccordionTrigger className="font-bold">
+					<AccordionItem value="interaction" className="border-none">
+						<AccordionTrigger className="task-menu-accordion-trigger">
 							User Interaction
 						</AccordionTrigger>
-						<AccordionContent className="flex flex-col gap-1">
+						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.NAVIGATE_TO_URL} />
 							<TaskMenuBtn taskType={TaskType.FILL_INPUT} />
 							<TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
@@ -64,10 +64,10 @@ function TaskMenu() {
 					</AccordionItem>
 
 					<AccordionItem value="extraction">
-						<AccordionTrigger className="font-bold">
+						<AccordionTrigger className="task-menu-accordion-trigger">
 							Data Extraction
 						</AccordionTrigger>
-						<AccordionContent className="flex flex-col gap-1">
+						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
 							<TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
 							<TaskMenuBtn taskType={TaskType.EXTRACT_DATA_WITH_AI} />
@@ -75,30 +75,30 @@ function TaskMenu() {
 					</AccordionItem>
 
 					<AccordionItem value="storage">
-						<AccordionTrigger className="font-bold">
+						<AccordionTrigger className="task-menu-accordion-trigger">
 							Data Storage
 						</AccordionTrigger>
-						<AccordionContent className="flex flex-col gap-1">
+						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.READ_PROPERTY_FROM_JSON} />
 							<TaskMenuBtn taskType={TaskType.ADD_PROPERTY_TO_JSON} />
 						</AccordionContent>
 					</AccordionItem>
 
 					<AccordionItem value="timing">
-						<AccordionTrigger className="font-bold">
+						<AccordionTrigger className="task-menu-accordion-trigger">
 							Timing controls
 						</AccordionTrigger>
-						<AccordionContent className="flex flex-col gap-1">
+						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.WAIT_FOR_ELEMENT} />
 							{/* todo: add delay task */}
 						</AccordionContent>
 					</AccordionItem>
 
 					<AccordionItem value="results">
-						<AccordionTrigger className="font-bold">
+						<AccordionTrigger className="task-menu-accordion-trigger">
 							Results delivery
 						</AccordionTrigger>
-						<AccordionContent className="flex flex-col gap-1">
+						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.DELIVER_VIA_WEBHOOK} />
 						</AccordionContent>
 					</AccordionItem>
