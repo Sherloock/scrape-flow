@@ -15,7 +15,7 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 
 			const websiteUrl = env.getInput("Website URL");
 			const browser = await puppeteer.launch({
-				headless: true,
+				headless: false,
 			});
 
 			env.log.info(`Launching browser for ${websiteUrl}`);

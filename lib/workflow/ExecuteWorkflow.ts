@@ -13,6 +13,7 @@ import { Browser, Page } from "puppeteer";
 import { Edge } from "@xyflow/react";
 import { LogColletor } from "@/types/log";
 import { createLogCollector } from "@/lib/log";
+import { waitFor } from "@/lib/helper/waitFor";
 
 export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
 	const execution = await prisma.workflowExecution.findUnique({
