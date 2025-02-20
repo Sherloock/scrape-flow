@@ -10,3 +10,7 @@
 - deliver via file (.json, .csv, .xlsx)
 - deliver via mail
 - fill Credentials
+
+[TO SCRAPE]
+
+http://ufcstats.com/statistics/events/completed

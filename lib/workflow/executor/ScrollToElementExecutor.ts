@@ -24,8 +24,6 @@ const executor: IExecutor<typeof ScrollToElementTask> = {
 				window.scrollTo({ top, behavior: "instant" });
 			}, element);
 			env.log.info(`Scrolled to element "${element}"`);
-
-			await waitFor(10000);
 			return true;
 		} catch (error) {
 			env.log.error(error instanceof Error ? error.message : "Unknown error");
