@@ -11,10 +11,8 @@ import {
 } from "@/components/ui/card";
 import {
 	ChartContainer,
-	ChartContent,
 	ChartLegend,
 	ChartLegendContent,
-	ChartTitle,
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";

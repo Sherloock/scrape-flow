@@ -9,6 +9,8 @@ import { Month } from "@/types/analitics";
 import { CirclePlayIcon, CreditCardIcon, WaypointsIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import ExecutionStatusChart from "@/app/(dashboard)/(home)/_components/ExecutionStatusChart";
+import { getCreditsUsageStats as getCreditUsageStats } from "@/actions/analitics/getCreditsUsageStats";
+import CreditUsageChart from "@/app/(dashboard)/(home)/_components/CreditUsageChart";
 
 async function HomePage({
 	searchParams,
@@ -39,6 +41,10 @@ async function HomePage({
 
 				<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
 					<StatsExecutionStatus selectedMonth={yearMonth} />
+				</Suspense>
+
+				<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+					<CreditUsageMonth selectedMonth={yearMonth} />
 				</Suspense>
 			</div>
 		</div>
@@ -92,4 +98,21 @@ async function StatsExecutionStatus({
 	return <ExecutionStatusChart data={data} />;
 }
 
+async function CreditUsageMonth({ selectedMonth }: { selectedMonth: Month }) {
+	const data = await getCreditUsageStats(selectedMonth);
+	return (
+		<CreditUsageChart
+			data={data}
+			title="Daily credits spent"
+			description="Daily credit consumed in selected period"
+		/>
+	);
+}
 export default HomePage;
+{
+	/* <CreditUsageChart
+	data={data}
+	title="Daily credits spent"
+	description="Daily credit consumed in selected period"
+/>; */
+}
