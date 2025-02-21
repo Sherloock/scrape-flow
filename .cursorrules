@@ -50,7 +50,7 @@ Always add id to toast messages like toast.success('Workflow saved!',{ id: 'save
 - Use @/utils/... for all utils
 - Use @/schema/... for all zod schemas
 - Use @/prisma for all prisma queries
-- Use "const userId = checkAuth();" for all server actions dont use auth() import {checkAuth} from "@/actions/auth/authCheck";
+- Use "const userId = checkAuth();" for all server actions (ROOT_FOLDER/actions/*) imported from  import {checkAuth} from "@/actions/auth/authCheck";
 
 
 ## UI and Styling

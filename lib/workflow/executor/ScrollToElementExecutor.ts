@@ -1,7 +1,6 @@
 import { ExecutionEnv } from "@/types/executor";
 import { createExecutor, IExecutor } from "./IExecutor";
 import { ScrollToElementTask } from "@/lib/workflow/task/ScrollToElement";
-import { waitFor } from "@/lib/helper/waitFor";
 
 const executor: IExecutor<typeof ScrollToElementTask> = {
 	...createExecutor(ScrollToElementTask),

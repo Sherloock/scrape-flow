@@ -120,7 +120,7 @@ ${content}
 	}
 }
 
-async function OPENAI_extractData(
+async function _OPENAI_extractData(
 	env: ExecutionEnv<typeof ExtractDataWithAiTask>,
 	content: string,
 	prompt: string,

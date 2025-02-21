@@ -28,8 +28,8 @@ const executor: IExecutor<typeof AddPropertyToJsonTask> = {
 	},
 };
 
-function getProperty(obj: any, path: string) {
-	return path.split(".").reduce((acc, part) => acc && acc[part], obj);
-}
+// function getProperty(obj: any, path: string) {
+// 	return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+// }
 
 export const AddPropertyToJsonExecutor = executor.execute.bind(executor);

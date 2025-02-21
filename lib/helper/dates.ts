@@ -1,4 +1,5 @@
-import { intervalToDuration } from "date-fns";
+import { Month } from "@/types/analitics";
+import { endOfMonth, intervalToDuration, startOfMonth } from "date-fns";
 
 export function DatesToDurationString(
 	startDate: Date | null | undefined,
@@ -27,4 +28,14 @@ export function DatesToDurationString(
 	parts.push(`${duration.seconds || 0}s`);
 
 	return parts.join(" ");
+}
+
+export function monthToDateRange(month: Month): {
+	startDate: Date;
+	endDate: Date;
+} {
+	const startDate = startOfMonth(new Date(month.year, month.month));
+	const endDate = endOfMonth(new Date(month.year, month.month));
+
+	return { startDate, endDate };
 }
