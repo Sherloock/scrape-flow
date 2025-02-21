@@ -1,6 +1,8 @@
 import { ExecutionEnv } from "@/types/executor";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import { createExecutor, IExecutor } from "./IExecutor";
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
 const executor: IExecutor<typeof LaunchBrowserTask> = {
 	...createExecutor(LaunchBrowserTask),
@@ -12,17 +14,14 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				return false;
 			}
 
-			// Dynamic imports for server-side compatibility
-			const puppeteer = (await import("puppeteer-extra")).default;
-			const StealthPlugin = (await import("puppeteer-extra-plugin-stealth"))
-				.default;
+			env.log.info("Launching browser with extra stealth");
 
-			// Add stealth plugin
+			// Add stealth plugin and additional evasions
 			puppeteer.use(StealthPlugin());
 
 			const websiteUrl = env.getInput("Website URL");
 			const browser = await puppeteer.launch({
-				headless: true,
+				headless: false,
 				args: [
 					"--no-sandbox",
 					"--disable-setuid-sandbox",
@@ -36,6 +35,8 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 					"--disable-notifications",
 					"--disable-extensions",
 					"--force-device-scale-factor=1",
+					"--disable-blink-features=AutomationControlled", // Additional stealth
+					"--disable-dev-shm-usage", // Memory optimization
 				],
 				// @ts-ignore
 				ignoreHTTPSErrors: true,
@@ -51,23 +52,39 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				deviceScaleFactor: 1,
 			});
 
-			// Set user agent
+			// Enhanced user agent rotation
+			const userAgents = [
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/121.0.0.0 Safari/537.36",
+			];
 			await page.setUserAgent(
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36"
+				userAgents[Math.floor(Math.random() * userAgents.length)]
 			);
 
-			// Set extra headers to appear more browser-like
-			await page.setExtraHTTPHeaders({
-				"Accept-Language": "en-US,en;q=0.9",
-				"Accept-Encoding": "gzip, deflate, br",
-				Accept:
-					"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-				"Upgrade-Insecure-Requests": "1",
-				Connection: "keep-alive",
-			});
-
-			// Modify WebGL vendor and renderer
+			// Enhanced browser fingerprint evasion
 			await page.evaluateOnNewDocument(() => {
+				// Override permissions
+				const originalQuery = window.navigator.permissions.query;
+				window.navigator.permissions.query = (parameters: any): Promise<any> =>
+					parameters.name === "notifications"
+						? Promise.resolve({ state: Notification.permission })
+						: originalQuery(parameters);
+
+				// Fake plugins
+				Object.defineProperty(navigator, "plugins", {
+					get: () => [
+						{
+							0: { type: "application/x-google-chrome-pdf" },
+							description: "Portable Document Format",
+							filename: "internal-pdf-viewer",
+							length: 1,
+							name: "Chrome PDF Plugin",
+						},
+					],
+				});
+
+				// Modify WebGL vendor and renderer
 				const getParameter = WebGLRenderingContext.prototype.getParameter;
 				WebGLRenderingContext.prototype.getParameter = function (parameter) {
 					if (parameter === 37445) {
@@ -78,10 +95,8 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 					}
 					return getParameter.apply(this, [parameter]);
 				};
-			});
 
-			// Add language and webdriver attributes
-			await page.evaluateOnNewDocument(() => {
+				// Add language and webdriver attributes
 				Object.defineProperty(navigator, "languages", {
 					get: () => ["en-US", "en"],
 				});
@@ -89,6 +104,11 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 					get: () => false,
 				});
 			});
+
+			// Random delay before navigation (1-3 seconds)
+			await new Promise((resolve) =>
+				setTimeout(resolve, 1000 + Math.random() * 2000)
+			);
 
 			await page.goto(websiteUrl, {
 				waitUntil: "networkidle0",

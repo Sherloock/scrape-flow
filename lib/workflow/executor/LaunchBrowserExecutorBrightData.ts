@@ -14,6 +14,8 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				return false;
 			}
 
+			env.log.info("Launching browser with bright data");
+
 			const websiteUrl = env.getInput("Website URL");
 			const browser = await puppeteer.connect({
 				browserWSEndpoint: BROWSER_WS,
