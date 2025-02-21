@@ -1,11 +1,14 @@
 import { getStatsCardsData } from "@/actions/analitics/getStatsCardsData";
 import { getUserActiveMonths } from "@/actions/analitics/getUserActiveMonths";
 import MonthSelector from "@/app/(dashboard)/(home)/_components/MonthSelector";
+import StatsCard from "@/app/(dashboard)/(home)/_components/StatsCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { waitFor } from "@/lib/helper/waitFor";
 import { Month } from "@/types/analitics";
+import { CirclePlayIcon, CreditCardIcon, WaypointsIcon } from "lucide-react";
 import React, { Suspense } from "react";
 
-function HomePage({
+async function HomePage({
 	searchParams,
 }: {
 	searchParams: { year?: string; month?: string };
@@ -27,7 +30,11 @@ function HomePage({
 				</Suspense>
 			</div>
 
-			<StatsCard selectedMonth={yearMonth} />
+			<div className="flex h-full flex-1 flex-col gap-4 py-6">
+				<Suspense fallback={<StatsCardSkeleton />}>
+					<StatsCards selectedMonth={yearMonth} />
+				</Suspense>
+			</div>
 		</div>
 	);
 }
@@ -37,8 +44,37 @@ async function MonthSelectorWrapper({ month }: { month: Month }) {
 	return <MonthSelector months={months} selectedMonth={month} />;
 }
 
-async function StatsCard({ selectedMonth }: { selectedMonth: Month }) {
+async function StatsCards({ selectedMonth }: { selectedMonth: Month }) {
 	const stats = await getStatsCardsData(selectedMonth);
-	return <pre>{JSON.stringify(stats, null, 2)}</pre>;
+	return (
+		<div className="grid min-h-[120px] grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-8">
+			<StatsCard
+				title="Workflow Executions"
+				value={stats.workflowExecutions}
+				icon={CirclePlayIcon}
+			/>
+			<StatsCard
+				title="Phases Executions"
+				value={stats.phasesExecutions}
+				icon={WaypointsIcon}
+			/>
+			<StatsCard
+				title="Credits Consumed"
+				value={stats.creditsConsumed}
+				icon={CreditCardIcon}
+			/>
+		</div>
+	);
 }
+
+function StatsCardSkeleton() {
+	return (
+		<div className="grid min-h-[120px] grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-8">
+			{Array.from({ length: 3 }).map((_, index) => (
+				<Skeleton key={index} className="min-h-[120px] w-full" />
+			))}
+		</div>
+	);
+}
+
 export default HomePage;

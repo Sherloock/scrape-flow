@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+"use client";
+
+import React from "react";
 import CountUp from "react-countup";
 function ReactCountUpWrapper({ value }: { value: number }) {
-	const [mounted, setMounted] = useState(false);
+	// const [mounted, setMounted] = useState(false);
 
-	useEffect(() => {
-		setMounted(true);
-	}, []);
+	// useEffect(() => {
+	// 	setMounted(true);
+	// }, []);
 
-	if (!mounted) return "-";
+	// if (!mounted) return "-";
 
 	return <CountUp end={value} duration={0.5} decimals={0} />;
 }
