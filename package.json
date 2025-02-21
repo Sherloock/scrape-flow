@@ -5,7 +5,7 @@
 	"scripts": {
 		"postinstall": "prisma generate",
 		"nvm-use": "nvm use 20",
-		"dev": "npm run nvm-use && next dev",
+		"dev": "npm run nvm-use && next dev  ",
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
@@ -13,7 +13,8 @@
 		"lint2": "eslint . --ext .js,.jsx,.ts,.tsx",
 		"remove-unused": "npx eslint . --fix --quiet --rule \"unused-imports/no-unused-imports:error\"",
 		"prisma:migrate": "npx prisma migrate dev",
-		"prisma:studio": "npx prisma studio"
+		"prisma:studio": "npx prisma studio",
+		"cleanup": "node tools/cleanup.js"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^5.3.2",
@@ -61,7 +62,7 @@
 		"embla-carousel-react": "^8.5.2",
 		"input-otp": "^1.4.2",
 		"lucide-react": "^0.469.0",
-		"next": "14.2.5",
+		"next": "^14.2.24",
 		"next-themes": "^0.4.4",
 		"nextjs-toploader": "^3.7.15",
 		"openai": "^4.85.3",
