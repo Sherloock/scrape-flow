@@ -10,6 +10,7 @@ import { timingSafeEqual } from "crypto";
 import { AppNode } from "@/types/appNode";
 import { ExecuteWorkflow } from "@/lib/workflow/ExecuteWorkflow";
 import cronExpressionParser from "cron-parser";
+import { DateFormat } from "@/lib/helper/dates";
 
 function isValidSecretKey(requestKey: string): boolean {
 	const apiSecretKey = process.env.API_SECRET_KEY;
@@ -74,7 +75,7 @@ export async function GET(request: Request) {
 
 	try {
 		const cron = cronExpressionParser.parse(workflow.cron!, {
-			tz: "UTC",
+			tz: DateFormat.TIMEZONE,
 		});
 		const nextRunDate = cron.next().toDate();
 		const execution = await prisma.workflowExecution.create({

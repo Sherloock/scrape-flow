@@ -1,4 +1,5 @@
 import { getStatsCardsData } from "@/actions/analitics/getStatsCardsData";
+import { getWorkflowExecutionStats } from "@/actions/analitics/getWorkflowExecutionStats";
 import { getUserActiveMonths } from "@/actions/analitics/getUserActiveMonths";
 import MonthSelector from "@/app/(dashboard)/(home)/_components/MonthSelector";
 import StatsCard from "@/app/(dashboard)/(home)/_components/StatsCard";
@@ -7,6 +8,7 @@ import { waitFor } from "@/lib/helper/waitFor";
 import { Month } from "@/types/analitics";
 import { CirclePlayIcon, CreditCardIcon, WaypointsIcon } from "lucide-react";
 import React, { Suspense } from "react";
+import ExecutionStatusChart from "@/app/(dashboard)/(home)/_components/ExecutionStatusChart";
 
 async function HomePage({
 	searchParams,
@@ -33,6 +35,10 @@ async function HomePage({
 			<div className="flex h-full flex-1 flex-col gap-4 py-6">
 				<Suspense fallback={<StatsCardSkeleton />}>
 					<StatsCards selectedMonth={yearMonth} />
+				</Suspense>
+
+				<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+					<StatsExecutionStatus selectedMonth={yearMonth} />
 				</Suspense>
 			</div>
 		</div>
@@ -75,6 +81,15 @@ function StatsCardSkeleton() {
 			))}
 		</div>
 	);
+}
+
+async function StatsExecutionStatus({
+	selectedMonth,
+}: {
+	selectedMonth: Month;
+}) {
+	const data = await getWorkflowExecutionStats(selectedMonth);
+	return <ExecutionStatusChart data={data} />;
 }
 
 export default HomePage;

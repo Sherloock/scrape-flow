@@ -38,6 +38,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { formatInTimeZone } from "date-fns-tz";
 import DuplicateWorkflowDialog from "@/app/(dashboard)/workflows/_components/DuplicateWorkflowDialog";
+import { DateFormat } from "@/lib/helper/dates";
 
 const statusColors = {
 	[WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -210,9 +211,11 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
 	const formattedLastRunAt =
 		lastRunAt && formatDistanceToNow(lastRunAt, { addSuffix: true });
 
-	const nextScheduledRun = nextRunAt && format(nextRunAt, "yyyy-MM-dd HH:mm");
+	const nextScheduledRun =
+		nextRunAt && format(nextRunAt, DateFormat.DATE_TIME.DEFAULT);
 	const nextScheduledRunUTC =
-		nextRunAt && formatInTimeZone(nextRunAt, "UTC", "HH:mm");
+		nextRunAt &&
+		formatInTimeZone(nextRunAt, DateFormat.TIMEZONE, DateFormat.TIME.DEFAULT);
 
 	return (
 		<div className="flex items-center justify-between bg-primary/5 px-4 py-1">

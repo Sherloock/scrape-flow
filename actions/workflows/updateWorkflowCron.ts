@@ -1,6 +1,7 @@
 "use server";
 
 import { checkAuth } from "@/actions/auth/checkAuth";
+import { DateFormat } from "@/lib/helper/dates";
 import { prisma } from "@/lib/prisma";
 import cronExpressionParser from "cron-parser";
 import { revalidatePath } from "next/cache";
@@ -12,7 +13,7 @@ export async function updateWorkflowCron(data: {
 
 	try {
 		const interval = cronExpressionParser.parse(data.cron, {
-			tz: "UTC",
+			tz: DateFormat.TIMEZONE,
 		});
 
 		const workflow = await prisma.workflow.update({

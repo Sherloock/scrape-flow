@@ -1,6 +1,33 @@
 import { Month } from "@/types/analitics";
 import { endOfMonth, intervalToDuration, startOfMonth } from "date-fns";
 
+export const DateFormat = {
+	TIMEZONE: "UTC",
+	DATE: "yyyy-MM-dd",
+	DATE_TIME: {
+		DEFAULT: "yyyy-MM-dd HH:mm",
+		WITH_SECONDS: "yyyy-MM-dd HH:mm:ss",
+		WITH_MILLISECONDS: "yyyy-MM-dd HH:mm:ss.SSS",
+	},
+	TIME: {
+		DEFAULT: "HH:mm",
+		WITH_SECONDS: "HH:mm:ss",
+		WITH_MILLISECONDS: "HH:mm:ss.SSS",
+	},
+} as const;
+
+export type DateFormatType = typeof DateFormat;
+
+export const DATE_FORMATS = [
+	DateFormat.DATE,
+	DateFormat.DATE_TIME.DEFAULT,
+	DateFormat.DATE_TIME.WITH_SECONDS,
+	DateFormat.DATE_TIME.WITH_MILLISECONDS,
+	DateFormat.TIME.DEFAULT,
+	DateFormat.TIME.WITH_SECONDS,
+	DateFormat.TIME.WITH_MILLISECONDS,
+] as const;
+
 export function DatesToDurationString(
 	startDate: Date | null | undefined,
 	endDate: Date | null | undefined
