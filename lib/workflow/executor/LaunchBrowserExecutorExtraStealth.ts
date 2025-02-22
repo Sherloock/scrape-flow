@@ -3,6 +3,8 @@ import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import { createExecutor, IExecutor } from "./IExecutor";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
+const BD_PROXY_URL =
+	"***REMOVED***";
 
 const executor: IExecutor<typeof LaunchBrowserTask> = {
 	...createExecutor(LaunchBrowserTask),
@@ -14,112 +16,67 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				return false;
 			}
 
-			env.log.info("Launching browser with extra stealth");
-
-			// Add stealth plugin and additional evasions
+			env.log.info("Launching browser with enhanced stealth");
 			puppeteer.use(StealthPlugin());
 
-			const websiteUrl = env.getInput("Website URL");
 			const browser = await puppeteer.launch({
-				headless: false,
+				headless:
+					process.env.DEV_TEST_EXECUTION_HEADLESS === "1" ? false : true,
+				defaultViewport: null,
 				args: [
 					"--no-sandbox",
 					"--disable-setuid-sandbox",
-					"--disable-infobars",
-					"--window-position=0,0",
-					"--ignore-certifcate-errors",
-					"--ignore-certifcate-errors-spki-list",
-					"--disable-accelerated-2d-canvas",
-					"--disable-gpu",
-					"--hide-scrollbars",
-					"--disable-notifications",
-					"--disable-extensions",
-					"--force-device-scale-factor=1",
-					"--disable-blink-features=AutomationControlled", // Additional stealth
-					"--disable-dev-shm-usage", // Memory optimization
+					"--start-maximized",
+					"--disable-blink-features=AutomationControlled",
+					"--disable-features=IsolateOrigins,site-per-process",
+					"--disable-web-security",
 				],
-				// @ts-ignore
-				ignoreHTTPSErrors: true,
 			});
 
 			env.setBrowser(browser);
 			const page = await browser.newPage();
 
-			// Set common viewport
-			await page.setViewport({
-				width: 1920,
-				height: 1080,
-				deviceScaleFactor: 1,
-			});
+			// Configure basic stealth settings
+			await Promise.all([
+				page.setUserAgent(
+					"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36"
+				),
+				page.setViewport({
+					width: 1920,
+					height: 1080,
+					deviceScaleFactor: 1,
+					hasTouch: false,
+					isLandscape: true,
+					isMobile: false,
+				}),
+				page.setExtraHTTPHeaders({
+					"Accept-Language": "en-US,en;q=0.9",
+					Accept:
+						"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+				}),
+			]);
 
-			// Enhanced user agent rotation
-			const userAgents = [
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-				"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/121.0.0.0 Safari/537.36",
-			];
-			await page.setUserAgent(
-				userAgents[Math.floor(Math.random() * userAgents.length)]
-			);
-
-			// Enhanced browser fingerprint evasion
+			// Basic anti-detection script
 			await page.evaluateOnNewDocument(() => {
-				// Override permissions
-				const originalQuery = window.navigator.permissions.query;
-				window.navigator.permissions.query = (parameters: any): Promise<any> =>
-					parameters.name === "notifications"
-						? Promise.resolve({ state: Notification.permission })
-						: originalQuery(parameters);
-
-				// Fake plugins
+				Object.defineProperty(navigator, "webdriver", { get: () => undefined });
 				Object.defineProperty(navigator, "plugins", {
-					get: () => [
-						{
-							0: { type: "application/x-google-chrome-pdf" },
-							description: "Portable Document Format",
-							filename: "internal-pdf-viewer",
-							length: 1,
-							name: "Chrome PDF Plugin",
-						},
-					],
-				});
-
-				// Modify WebGL vendor and renderer
-				const getParameter = WebGLRenderingContext.prototype.getParameter;
-				WebGLRenderingContext.prototype.getParameter = function (parameter) {
-					if (parameter === 37445) {
-						return "Intel Inc.";
-					}
-					if (parameter === 37446) {
-						return "Intel Iris OpenGL Engine";
-					}
-					return getParameter.apply(this, [parameter]);
-				};
-
-				// Add language and webdriver attributes
-				Object.defineProperty(navigator, "languages", {
-					get: () => ["en-US", "en"],
-				});
-				Object.defineProperty(navigator, "webdriver", {
-					get: () => false,
+					get: () => [1, 2, 3, 4, 5],
 				});
 			});
 
-			// Random delay before navigation (1-3 seconds)
-			await new Promise((resolve) =>
-				setTimeout(resolve, 1000 + Math.random() * 2000)
-			);
+			// Navigate to website
+			const websiteUrl = env.getInput("Website URL");
+			await page.goto(websiteUrl, { waitUntil: "networkidle2" });
 
-			await page.goto(websiteUrl, {
-				waitUntil: "networkidle0",
-				timeout: 30000,
-			});
+			// Add small random delay
+			await new Promise((r) => setTimeout(r, 1000 + Math.random() * 2000));
 
 			env.setPage(page);
-
 			return true;
 		} catch (error) {
 			env.log.error(error instanceof Error ? error.message : "Unknown error");
+			const browser = env.getBrowser();
+			if (browser) await browser.close().catch(() => {});
 			return false;
 		}
 	},

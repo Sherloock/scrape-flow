@@ -278,12 +278,14 @@ function createExecutionEnv<_T extends WorkflowTask>(
 }
 
 async function cleanupExecutionEnvironment(env: Env) {
+	if (process.env.DEV_TEST_EXECUTION_NOCLEANUP === "1") {
+		return;
+	}
 	if (env.browser) {
 		await env.browser.close().catch((error) => {
 			console.error("Failed to close browser. Reason: ", error);
 		});
 	}
-
 	if (env.page) {
 		await env.page.close().catch((error) => {
 			console.error("Failed to close page. Reason: ", error);
