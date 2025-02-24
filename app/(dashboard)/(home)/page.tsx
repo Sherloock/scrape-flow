@@ -4,13 +4,12 @@ import { getUserActiveMonths } from "@/actions/analitics/getUserActiveMonths";
 import MonthSelector from "@/app/(dashboard)/(home)/_components/MonthSelector";
 import StatsCard from "@/app/(dashboard)/(home)/_components/StatsCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { waitFor } from "@/lib/helper/waitFor";
 import { Month } from "@/types/analitics";
 import { CirclePlayIcon, CreditCardIcon, WaypointsIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import ExecutionStatusChart from "@/app/(dashboard)/(home)/_components/ExecutionStatusChart";
 import { getCreditsUsageStats as getCreditUsageStats } from "@/actions/analitics/getCreditsUsageStats";
-import CreditUsageChart from "@/app/(dashboard)/(home)/_components/CreditUsageChart";
+import CreditUsageChart from "@/app/(dashboard)/billing/_components/CreditUsageChart";
 
 async function HomePage({
 	searchParams,
@@ -108,11 +107,5 @@ async function CreditUsageMonth({ selectedMonth }: { selectedMonth: Month }) {
 		/>
 	);
 }
+
 export default HomePage;
-{
-	/* <CreditUsageChart
-	data={data}
-	title="Daily credits spent"
-	description="Daily credit consumed in selected period"
-/>; */
-}
