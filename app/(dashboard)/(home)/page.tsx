@@ -58,7 +58,7 @@ async function MonthSelectorWrapper({ month }: { month: Month }) {
 async function StatsCards({ selectedMonth }: { selectedMonth: Month }) {
 	const stats = await getStatsCardsData(selectedMonth);
 	return (
-		<div className="grid min-h-[120px] grid-cols-1 gap-3 lg:grid-cols-3 lg:gap-8">
+		<div className="grid min-h-[360px] grid-cols-1 gap-3 lg:min-h-[120px] lg:grid-cols-3 lg:gap-8">
 			<StatsCard
 				title="Workflow Executions"
 				value={stats.workflowExecutions}

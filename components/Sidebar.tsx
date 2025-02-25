@@ -95,7 +95,7 @@ export function MobileSidebar() {
 							<MenuIcon />
 						</div>
 					</SheetTrigger>
-					<SheetContent className="w-[400px] space-y-4 sm:w-[540px]">
+					<SheetContent className="space-y-4] w-[100%]">
 						<Logo />
 						<UserAvailableCreditsBadge />
 						<div className="flex flex-col gap-1">

@@ -9,7 +9,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
 	return (
 		<div className="flex h-screen">
 			<DesktopSidebar />
-			<div className="flex min-h-screen flex-1 flex-col justify-center">
+			<div className="flex min-h-screen flex-1 flex-col">
 				<div className="flex items-center justify-center">
 					<header className="container flex h-[50px] items-center justify-between px-6 py-4">
 						<BreadcrumbHeader />
@@ -22,9 +22,8 @@ export default function layout({ children }: { children: React.ReactNode }) {
 					</header>
 				</div>
 				<Separator />
-
-				<div className="flex flex-1 justify-center overflow-auto">
-					<div className="container flex flex-1 px-6 py-4 text-accent-foreground">
+				<div className="flex-1 overflow-auto">
+					<div className="container mx-auto h-full w-full px-6 py-4 text-accent-foreground">
 						{children}
 					</div>
 				</div>

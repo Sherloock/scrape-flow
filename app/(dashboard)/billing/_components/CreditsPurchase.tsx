@@ -39,7 +39,11 @@ function CreditsPurchase() {
 					{CreditsPackages.map((pack) => (
 						<div
 							key={pack.id}
-							className="relative my-2 flex flex-col space-y-2 rounded-lg bg-secondary/50 p-4 hover:bg-secondary"
+							className={`relative my-2 flex flex-col space-y-2 rounded-lg p-4 transition-all duration-200 ${
+								selectedPackage === pack.id
+									? "border border-primary/20 bg-gradient-to-r from-primary/10 to-secondary/80"
+									: "bg-secondary/50 hover:bg-secondary"
+							}`}
 							onClick={() => setSelectedPackage(pack.id)}
 						>
 							{pack.savings && (
@@ -48,7 +52,11 @@ function CreditsPurchase() {
 								</div>
 							)}
 							<div className="flex items-center space-x-3">
-								<RadioGroupItem value={pack.id} id={`${pack.id}`} />
+								<RadioGroupItem
+									value={pack.id}
+									id={`${pack.id}`}
+									className="h-5 w-5 data-[state=checked]:border-primary data-[state=checked]:text-primary"
+								/>
 								<div className="flex w-full flex-col space-y-1">
 									<div className="flex items-center justify-between">
 										<Label
