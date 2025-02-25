@@ -12,6 +12,7 @@ import { ReadPropertyFromJsonTask } from "@/lib/workflow/task/ReadPropertyFromJs
 import { AddPropertyToJsonTask } from "@/lib/workflow/task/AddPropertyToJson";
 import { NavigateToUrlTask } from "@/lib/workflow/task/NavigateToUrl";
 import { ScrollToElementTask } from "@/lib/workflow/task/ScrollToElement";
+import { FillCredentialTask } from "@/lib/workflow/task/FillCredential";
 
 type Registry = {
 	[K in TaskType]: WorkflowTask & { type: K };
@@ -21,6 +22,7 @@ export const TaskRegistry: Registry = {
 	PAGE_TO_HTML: PageToHtmlTask,
 	EXTRACT_TEXT_FROM_ELEMENT: ExtractTextFromElementTask,
 	FILL_INPUT: FillInputTask,
+	FILL_CREDENTIAL: FillCredentialTask,
 	CLICK_ELEMENT: ClickElementTask,
 	WAIT_FOR_ELEMENT: WaitForElementTask,
 	DELIVER_VIA_WEBHOOK: DeliverViaWebhookTask,

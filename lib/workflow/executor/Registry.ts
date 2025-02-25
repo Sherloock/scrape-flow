@@ -15,6 +15,7 @@ import { ReadPropertyFromJsonExecutor } from "@/lib/workflow/executor/ReadProper
 import { AddPropertyToJsonExecutor } from "@/lib/workflow/executor/AddPropertyToJsonExecutor";
 import { NavigateToUrlExecutor } from "@/lib/workflow/executor/NavigateToUrlExecutor";
 import { ScrollToElementExecutor } from "@/lib/workflow/executor/ScrollToElementExecutor";
+import { FillCredentialExecutor } from "@/lib/workflow/executor/FillCredentialExecutor";
 
 type ExecutorFn<T extends WorkflowTask> = (
 	env: ExecutionEnv<T>
@@ -29,6 +30,7 @@ export const ExecutorRegistry: RegistryType = {
 	[TaskType.PAGE_TO_HTML]: PageToHtmlExecutor,
 	[TaskType.EXTRACT_TEXT_FROM_ELEMENT]: ExtractTextFromElementExecutor,
 	[TaskType.FILL_INPUT]: FillInputExecutor,
+	[TaskType.FILL_CREDENTIAL]: FillCredentialExecutor,
 	[TaskType.CLICK_ELEMENT]: ClickElementExecutor,
 	[TaskType.WAIT_FOR_ELEMENT]: WaitForElementExecutor,
 	[TaskType.DELIVER_VIA_WEBHOOK]: DeliverViaWebhookExecutor,

@@ -16,7 +16,7 @@ export const ExtractDataWithAiTask = {
 			required: true,
 		},
 		{
-			name: "Credentials",
+			name: "Credential",
 			type: TaskParamType.CREDENTIAL,
 			required: true,
 		},

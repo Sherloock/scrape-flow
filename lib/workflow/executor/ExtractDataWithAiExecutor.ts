@@ -35,7 +35,7 @@ const executor: IExecutor<typeof ExtractDataWithAiTask> = {
 
 			const content = env.getInput("Content");
 			const prompt = env.getInput("Prompt");
-			const credentialId = env.getInput("Credentials");
+			const credentialId = env.getInput("Credential");
 			const decryptedCredential = await getDecryptedCredential(credentialId);
 
 			const result = await GOOGLE_GEMINI_extractData(

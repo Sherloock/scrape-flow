@@ -58,6 +58,7 @@ function TaskMenu() {
 						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.NAVIGATE_TO_URL} />
 							<TaskMenuBtn taskType={TaskType.FILL_INPUT} />
+							<TaskMenuBtn taskType={TaskType.FILL_CREDENTIAL} />
 							<TaskMenuBtn taskType={TaskType.CLICK_ELEMENT} />
 							<TaskMenuBtn taskType={TaskType.SCROLL_TO_ELEMENT} />
 						</AccordionContent>

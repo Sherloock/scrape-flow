@@ -92,6 +92,7 @@ export default function ExecutionViewer({
 		enabled: selectedPhase !== null,
 		queryFn: () => getWorkflowPhaseDetails(selectedPhase!),
 	});
+	// console.log(phaseDetails.data);
 
 	const duration = DatesToDurationString(
 		query.data?.startedAt,
