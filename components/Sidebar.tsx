@@ -17,22 +17,22 @@ import UserAvailableCreditsBadge from "@/components/UserAvailableCreditsBadge";
 const routes = [
 	{
 		label: "Home",
-		href: "/",
+		href: "",
 		icon: HomeIcon,
 	},
 	{
 		label: "Workflows",
-		href: "/workflows",
+		href: "workflows",
 		icon: WorkflowIcon,
 	},
 	{
 		label: "Credentials",
-		href: "/credentials",
+		href: "credentials",
 		icon: ShieldCheckIcon,
 	},
 	{
 		label: "Billing",
-		href: "/billing",
+		href: "billing",
 		icon: CoinsIcon,
 	},
 ];
@@ -56,7 +56,7 @@ export default function DesktopSidebar() {
 				{routes.map((route) => (
 					<Link
 						key={route.href}
-						href={route.href}
+						href={`/${route.href}`}
 						className={buttonVariants({
 							variant:
 								activeRoute.href === route.href
@@ -102,7 +102,7 @@ export function MobileSidebar() {
 							{routes.map((route) => (
 								<Link
 									key={route.href}
-									href={route.href}
+									href={`/${route.href}`}
 									className={buttonVariants({
 										variant:
 											activeRoute.href === route.href
