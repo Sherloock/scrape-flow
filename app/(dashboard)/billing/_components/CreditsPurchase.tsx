@@ -11,7 +11,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CreditsPackages, PackageId } from "@/types/billing";
-import { CoinsIcon, CreditCard, Loader2 } from "lucide-react";
+import { CoinsIcon, CreditCard, Loader2, InfoIcon } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -20,7 +20,7 @@ import { purchaseCredits } from "@/actions/billing/purchaseCredits";
 
 function CreditsPurchase() {
 	const [selectedPackage, setSelectedPackage] = useState<PackageId>(
-		PackageId.MEDIUM
+		PackageId.P5000
 	);
 	const [animatingCard, setAnimatingCard] = useState<PackageId | null>(null);
 
@@ -78,27 +78,44 @@ function CreditsPurchase() {
 									{pack.savings}
 								</div>
 							)}
-							<div className="flex items-center space-x-3">
+							<div className="flex items-center gap-2 space-x-3">
 								<RadioGroupItem
 									value={pack.id}
 									id={`${pack.id}`}
 									className="h-5 w-5 data-[state=checked]:border-primary data-[state=checked]:text-primary"
 								/>
+
 								<div className="flex w-full flex-col space-y-1">
 									<div className="flex items-center justify-between">
+										{/* Name */}
 										<Label
 											htmlFor={`${pack.id}`}
 											className="text-lg font-semibold"
 										>
 											{pack.name}
 										</Label>
+										{/* Price */}
 										<span className="font-bold text-primary">
 											${(pack.priceCents / 100).toFixed(2)}
 										</span>
 									</div>
+
+									{/* Comment */}
+									{pack.comment && (
+										<div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+											<span className="">{pack.comment}</span>
+										</div>
+									)}
+
+									{/* Credits per credit */}
 									<div className="flex items-center justify-between text-sm text-muted-foreground">
-										<span>{pack.label}</span>
-										<span>${pack.pricePerCredit.toFixed(5)} per credit</span>
+										<span className="font-semibold text-primary">
+											{pack.label}
+										</span>
+										<span>
+											${(pack.priceCents / 100 / pack.credits).toFixed(6)} per
+											credit
+										</span>
 									</div>
 								</div>
 							</div>
