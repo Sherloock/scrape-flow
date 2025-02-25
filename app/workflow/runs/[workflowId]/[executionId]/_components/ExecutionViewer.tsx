@@ -39,9 +39,21 @@ import {
 	Loader2Icon,
 	LucideIcon,
 	WorkflowIcon,
+	CopyIcon,
+	CheckIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { TaskParamType } from "@/types/task";
+import CredentialParam, {
+	CredentialSelect,
+} from "@/app/workflow/_components/nodes/param/CredentialParam";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type ExecutionData = Awaited<ReturnType<typeof getWorkflowExecutionWithPhases>>;
 
@@ -307,8 +319,7 @@ function ParametersViewer({
 	paramsJson: string | null;
 }) {
 	const params = paramsJson ? JSON.parse(paramsJson) : undefined;
-	// console.log(params);
-	// TODO: improve this credentialsID is showing intead of name for example
+
 	return (
 		<Card className="rounded-none border-b">
 			<CardHeader className="rounded-none border-b bg-gray-50 dark:bg-background">
@@ -329,19 +340,88 @@ function ParametersViewer({
 					{params &&
 						Object.entries(params).map(([key, value]) => (
 							<div key={key} className="flex items-center gap-4">
-								<p className="w-32 text-sm text-muted-foreground">{key}</p>
-								<Input
-									className="flex-1"
-									readOnly
-									value={
-										typeof value === "string" ? value : JSON.stringify(value)
-									}
-								/>
+								<p className="w-32 min-w-32 flex-shrink-0 text-sm text-muted-foreground">
+									{key}
+								</p>
+								{key === "Credential" ? (
+									<CredentialSelect
+										param={{
+											name: key,
+											type: TaskParamType.CREDENTIAL,
+										}}
+										value={value as string}
+										updateNodeParamValue={() => {}}
+										disabled={true}
+									/>
+								) : (
+									<div className="flex flex-1 items-center">
+										<Input
+											className="flex-1"
+											readOnly
+											value={
+												typeof value === "string"
+													? value
+													: JSON.stringify(value)
+											}
+										/>
+										<CopyToClipboardButton
+											value={
+												typeof value === "string"
+													? value
+													: JSON.stringify(value)
+											}
+											label={key}
+										/>
+									</div>
+								)}
 							</div>
 						))}
 				</div>
 			</CardContent>
 		</Card>
+	);
+}
+
+function CopyToClipboardButton({
+	value,
+	label,
+}: {
+	value: string;
+	label: string;
+}) {
+	const [copied, setCopied] = useState(false);
+
+	const handleCopy = () => {
+		navigator.clipboard
+			.writeText(value)
+			.then(() => {
+				setCopied(true);
+				toast.success(`Copied ${label} to clipboard`, { id: `copy-${label}` });
+				setTimeout(() => setCopied(false), 2000);
+			})
+			.catch(() => {
+				toast.error(`Failed to copy ${label}`, { id: `copy-error-${label}` });
+			});
+	};
+
+	return (
+		<TooltipProvider>
+			<Tooltip>
+				<TooltipTrigger asChild>
+					<Button
+						variant="ghost"
+						size="icon"
+						className="ml-2 h-8 w-8"
+						onClick={handleCopy}
+					>
+						{copied ? <CheckIcon size={16} /> : <CopyIcon size={16} />}
+					</Button>
+				</TooltipTrigger>
+				<TooltipContent>
+					<p>{copied ? "Copied!" : "Copy to clipboard"}</p>
+				</TooltipContent>
+			</Tooltip>
+		</TooltipProvider>
 	);
 }
 

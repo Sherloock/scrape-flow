@@ -15,6 +15,7 @@ export interface ParamProps {
 	value: string;
 	updateNodeParamValue: (newValue: string) => void;
 	disabled?: boolean;
+	noLabel?: boolean;
 }
 
 export type AppNodeMissingInputs = {
