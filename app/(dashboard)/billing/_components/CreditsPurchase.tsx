@@ -11,14 +11,33 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CreditsPackages, PackageId } from "@/types/billing";
-import { CoinsIcon, CreditCard } from "lucide-react";
+import { CoinsIcon, CreditCard, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { purchaseCredits } from "@/actions/billing/purchaseCredits";
 
 function CreditsPurchase() {
 	const [selectedPackage, setSelectedPackage] = useState<PackageId>(
 		PackageId.MEDIUM
 	);
+
+	const mutation = useMutation({
+		mutationFn: purchaseCredits,
+		onSuccess: () => {
+			toast.success("Credits purchased successfully", {
+				id: "purchase-credits",
+				description: "You can now use the credits to scrape websites.",
+			});
+		},
+		onError: () => {
+			toast.error("Failed to purchase credits", {
+				id: "purchase-credits",
+				description: "Please try again.",
+			});
+		},
+	});
 
 	return (
 		<Card>
@@ -81,9 +100,17 @@ function CreditsPurchase() {
 			</CardContent>
 
 			<CardFooter>
-				<Button className="w-full">
-					<CreditCard size={20} className="mr-2" />
-					Purchase Credits
+				<Button
+					className="w-full"
+					disabled={mutation.isPending}
+					onClick={() => mutation.mutate(selectedPackage)}
+				>
+					{mutation.isPending ? (
+						<Loader2 className="mr-2 animate-spin" size={20} />
+					) : (
+						<CreditCard size={20} className="mr-2" />
+					)}
+					{mutation.isPending ? "Purchasing..." : "Purchase Credits"}
 				</Button>
 			</CardFooter>
 		</Card>
