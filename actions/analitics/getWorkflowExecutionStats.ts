@@ -19,7 +19,6 @@ export async function getWorkflowExecutionStats(month: Month): Promise<any> {
 		where: {
 			userId,
 			startedAt: { gte: dateRange.startDate, lte: dateRange.endDate },
-			// status: { in: [COMPLETED, FAILED] },
 		},
 	});
 
@@ -30,7 +29,6 @@ export async function getWorkflowExecutionStats(month: Month): Promise<any> {
 		}).map((date) => [format(date, DateFormat.DATE), { success: 0, error: 0 }])
 	);
 
-	// todo: thisformat date: {success:0, error:0}
 	for (const execution of executions) {
 		const date = format(execution.startedAt!, DateFormat.DATE);
 

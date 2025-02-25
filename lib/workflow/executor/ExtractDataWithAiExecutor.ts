@@ -90,8 +90,6 @@ this is the content to extract data from:
 ${content}
 `;
 
-	// TODO: log the request prompt
-
 	const contentResult = await model.generateContent(requestPrompt);
 	const response = contentResult.response;
 

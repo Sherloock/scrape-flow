@@ -13,6 +13,7 @@ import { Browser, Page } from "puppeteer";
 import { Edge } from "@xyflow/react";
 import { LogColletor } from "@/types/log";
 import { createLogCollector } from "@/lib/log";
+import { waitFor } from "@/lib/helper/waitFor";
 
 export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -206,8 +207,9 @@ async function executePhase(
 	env: Env,
 	logCollector: LogColletor
 ): Promise<boolean> {
-	// TODO: REMOVE THIS SLOW DOWN THE EXECUTION FOR TESTING PURPOSES
-	// await waitFor(3000);
+	if (Number(process.env.DEV_TEST_EXECUTION_SLOWDOWN) > 0) {
+		await waitFor(Number(process.env.DEV_TEST_EXECUTION_SLOWDOWN));
+	}
 
 	const runFn = ExecutorRegistry[node.data.type];
 	if (!runFn) {

@@ -30,7 +30,6 @@ export async function getCreditsUsageStats(month: Month): Promise<any> {
 		}).map((date) => [format(date, DateFormat.DATE), { success: 0, error: 0 }])
 	);
 
-	// todo: thisformat date: {success:0, error:0}
 	for (const phase of executionPhases) {
 		const date = format(phase.startedAt!, DateFormat.DATE);
 
