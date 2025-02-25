@@ -22,6 +22,7 @@ function CreditsPurchase() {
 	const [selectedPackage, setSelectedPackage] = useState<PackageId>(
 		PackageId.MEDIUM
 	);
+	const [animatingCard, setAnimatingCard] = useState<PackageId | null>(null);
 
 	const mutation = useMutation({
 		mutationFn: purchaseCredits,
@@ -38,6 +39,13 @@ function CreditsPurchase() {
 			});
 		},
 	});
+
+	const handleCardClick = (packId: PackageId) => {
+		setSelectedPackage(packId);
+		setAnimatingCard(packId);
+		// Reset animation state after animation completes
+		setTimeout(() => setAnimatingCard(null), 300);
+	};
 
 	return (
 		<Card>
@@ -62,8 +70,8 @@ function CreditsPurchase() {
 								selectedPackage === pack.id
 									? "border border-primary/20 bg-gradient-to-r from-primary/10 to-secondary/80"
 									: "bg-secondary/50 hover:bg-secondary"
-							}`}
-							onClick={() => setSelectedPackage(pack.id)}
+							} ${animatingCard === pack.id ? "scale-[1.02] shadow-md" : ""}`}
+							onClick={() => handleCardClick(pack.id)}
 						>
 							{pack.savings && (
 								<div className="absolute -right-2 -top-2 rounded-full bg-green-600 px-2 py-1 text-xs font-bold capitalize text-white">
