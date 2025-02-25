@@ -119,8 +119,8 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 					"--disable-notifications",
 					"--disable-popup-blocking",
 					"--ignore-certificate-errors",
-					`--proxy-server=${BD_PROXY_URL}`,
 				],
+				// `--proxy-server=${BD_PROXY_URL}`,
 				ignoreDefaultArgs: ["--enable-automation"],
 			});
 
