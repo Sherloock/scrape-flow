@@ -24,7 +24,7 @@ export default function layout({ children }: { children: React.ReactNode }) {
 				<Separator />
 
 				<div className="flex flex-1 justify-center overflow-auto">
-					<div className="container flex flex-1 items-center justify-center px-6 py-4 text-accent-foreground">
+					<div className="container flex flex-1 px-6 py-4 text-accent-foreground">
 						{children}
 					</div>
 				</div>
