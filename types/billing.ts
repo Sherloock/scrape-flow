@@ -4,6 +4,11 @@ export enum PackageId {
 	P5000 = "P5000",
 	P10000 = "P10000",
 }
+// TODO: Gamify Bulk Purchases:
+
+// Add a gamification element, such as bonus credits for reaching certain milestones (e.g., "Buy 10,000 credits and get 1,000 bonus credits free"). This would further incentivize bulk purchases.
+
+// Consider offering a small number of free credits (e.g., 100 credits) or a very low-cost entry-level option (e.g., $1.99 for 200 credits). This would allow new users to test the service with minimal commitment, potentially increasing conversion rates.
 
 export type CreditsPackage = {
 	id: PackageId;
@@ -13,7 +18,9 @@ export type CreditsPackage = {
 	priceCents: number;
 	// pricePerCredit: number;
 	savings?: string;
-	comment?: string;
+	comment: string;
+	stripeName: string;
+	priceId: string;
 };
 
 export const CreditsPackages: CreditsPackage[] = [
@@ -24,6 +31,8 @@ export const CreditsPackages: CreditsPackage[] = [
 		credits: 1000,
 		priceCents: 999,
 		comment: "Perfect for light users or one-time projects.",
+		stripeName: "EaseScrape - Data Explorer - 1,000 credits",
+		priceId: process.env.STRIPE_PRICE_ID_1000!,
 	},
 	{
 		id: PackageId.P2500,
@@ -34,6 +43,8 @@ export const CreditsPackages: CreditsPackage[] = [
 		savings: "SAVE 10%",
 		comment:
 			"Perfect for users who need more than 1,000 credits without committing to the Pro tier.",
+		stripeName: "EaseScrape - Advanced Scraper - 3,000 credits",
+		priceId: process.env.STRIPE_PRICE_ID_2500!,
 	},
 	{
 		id: PackageId.P5000,
@@ -43,6 +54,8 @@ export const CreditsPackages: CreditsPackage[] = [
 		priceCents: 3999,
 		savings: "SAVE 20%",
 		comment: "Ideal for regular users with moderate needs.",
+		stripeName: "EaseScrape - Pro Harvester - 5,000 credits",
+		priceId: process.env.STRIPE_PRICE_ID_5000!,
 	},
 	{
 		id: PackageId.P10000,
@@ -52,6 +65,8 @@ export const CreditsPackages: CreditsPackage[] = [
 		priceCents: 6999,
 		savings: "SAVE 30%",
 		comment: "Best for power users or teams with heavy usage.",
+		stripeName: "EaseScrape - Master Miner - 10,000 credits",
+		priceId: process.env.STRIPE_PRICE_ID_10000!,
 	},
 ];
 
