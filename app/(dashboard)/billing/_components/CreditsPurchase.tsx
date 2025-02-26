@@ -27,9 +27,9 @@ function CreditsPurchase() {
 	const mutation = useMutation({
 		mutationFn: purchaseCredits,
 		onSuccess: () => {
-			toast.success("Credits purchased successfully", {
+			toast.success("Credits purchased in progress", {
 				id: "purchase-credits",
-				description: "You can now use the credits to scrape websites.",
+				description: "You will be redirected to the billing page.",
 			});
 		},
 		onError: () => {

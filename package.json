@@ -14,7 +14,8 @@
 		"remove-unused": "npx eslint . --fix --quiet --rule \"unused-imports/no-unused-imports:error\"",
 		"prisma:migrate": "npx prisma migrate dev",
 		"prisma:studio": "npx prisma studio",
-		"cleanup": "node tools/cleanup.js"
+		"cleanup": "node tools/cleanup.js",
+		"listen-stripe": "stripe listen --forward-to http://localhost:3000/api/webhooks/stripe"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^5.3.2",
