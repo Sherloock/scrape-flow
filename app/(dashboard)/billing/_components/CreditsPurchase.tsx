@@ -11,7 +11,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { CreditsPackages, PackageId } from "@/types/billing";
-import { CoinsIcon, CreditCard, Loader2, InfoIcon } from "lucide-react";
+import { CoinsIcon, CreditCard, Loader2 } from "lucide-react";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
@@ -74,8 +74,13 @@ function CreditsPurchase() {
 							onClick={() => handleCardClick(pack.id)}
 						>
 							{pack.savings && (
-								<div className="absolute -right-2 -top-2 rounded-full bg-green-600 px-2 py-1 text-xs font-bold capitalize text-white">
+								<div className="absolute -right-2 -top-2 rounded-full bg-green-600 px-2 py-1 text-xs font-bold uppercase text-white">
 									{pack.savings}
+								</div>
+							)}
+							{pack.mostPopular && (
+								<div className="absolute -left-2 -top-4 rounded-full bg-primary px-3 py-1.5 text-sm font-bold uppercase text-white shadow-sm">
+									Most Popular
 								</div>
 							)}
 							<div className="flex items-center gap-2 space-x-3">

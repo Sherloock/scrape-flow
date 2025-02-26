@@ -31,7 +31,6 @@ export default function CredentialParam({
 			</Label>
 
 			<CredentialSelect
-				param={param}
 				value={value}
 				updateNodeParamValue={updateNodeParamValue}
 				disabled={disabled}
@@ -41,11 +40,14 @@ export default function CredentialParam({
 }
 
 export function CredentialSelect({
-	param,
 	value,
 	updateNodeParamValue,
 	disabled,
-}: ParamProps) {
+}: {
+	value: string;
+	updateNodeParamValue: (value: string) => void;
+	disabled?: boolean;
+}) {
 	const query = useQuery({
 		queryKey: ["credentials"],
 		queryFn: () => getCredentials(),

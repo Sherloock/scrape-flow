@@ -45,9 +45,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { TaskParamType } from "@/types/task";
-import CredentialParam, {
-	CredentialSelect,
-} from "@/app/workflow/_components/nodes/param/CredentialParam";
+import { CredentialSelect } from "@/app/workflow/_components/nodes/param/CredentialParam";
 import {
 	Tooltip,
 	TooltipContent,
@@ -345,10 +343,6 @@ function ParametersViewer({
 								</p>
 								{key === "Credential" ? (
 									<CredentialSelect
-										param={{
-											name: key,
-											type: TaskParamType.CREDENTIAL,
-										}}
 										value={value as string}
 										updateNodeParamValue={() => {}}
 										disabled={true}

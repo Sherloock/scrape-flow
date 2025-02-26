@@ -1,12 +1,6 @@
 import { getAvailableCredits } from "@/actions/billing/getAvailableCredits";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Suspense } from "react";
 import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 import { CoinsIcon } from "lucide-react";

@@ -17,10 +17,11 @@ export type CreditsPackage = {
 	credits: number;
 	priceCents: number;
 	// pricePerCredit: number;
-	savings?: string;
 	comment: string;
 	stripeName: string;
 	priceId: string;
+	savings?: string;
+	mostPopular?: boolean;
 };
 
 export const CreditsPackages: CreditsPackage[] = [
@@ -31,7 +32,7 @@ export const CreditsPackages: CreditsPackage[] = [
 		credits: 1000,
 		priceCents: 999,
 		comment: "Perfect for light users or one-time projects.",
-		stripeName: "EaseScrape - Data Explorer - 1,000 credits",
+		stripeName: "ScrapeEase - Data Explorer - 1,000 credits",
 		priceId: process.env.STRIPE_PRICE_ID_1000!,
 	},
 	{
@@ -43,7 +44,7 @@ export const CreditsPackages: CreditsPackage[] = [
 		savings: "SAVE 10%",
 		comment:
 			"Perfect for users who need more than 1,000 credits without committing to the Pro tier.",
-		stripeName: "EaseScrape - Advanced Scraper - 3,000 credits",
+		stripeName: "ScrapeEase - Advanced Scraper - 3,000 credits",
 		priceId: process.env.STRIPE_PRICE_ID_2500!,
 	},
 	{
@@ -54,8 +55,9 @@ export const CreditsPackages: CreditsPackage[] = [
 		priceCents: 3999,
 		savings: "SAVE 20%",
 		comment: "Ideal for regular users with moderate needs.",
-		stripeName: "EaseScrape - Pro Harvester - 5,000 credits",
+		stripeName: "ScrapeEase - Pro Harvester - 5,000 credits",
 		priceId: process.env.STRIPE_PRICE_ID_5000!,
+		mostPopular: true,
 	},
 	{
 		id: PackageId.P10000,
@@ -65,7 +67,7 @@ export const CreditsPackages: CreditsPackage[] = [
 		priceCents: 6999,
 		savings: "SAVE 30%",
 		comment: "Best for power users or teams with heavy usage.",
-		stripeName: "EaseScrape - Master Miner - 10,000 credits",
+		stripeName: "ScrapeEase - Master Miner - 10,000 credits",
 		priceId: process.env.STRIPE_PRICE_ID_10000!,
 	},
 ];

@@ -2,10 +2,9 @@ import { ExecutionEnv } from "@/types/executor";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import { createExecutor, IExecutor } from "./IExecutor";
 import puppeteer from "puppeteer-extra";
-import type { Page, Browser } from "puppeteer";
+import type { Page } from "puppeteer";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-const BD_PROXY_URL =
-	"***REMOVED***";
+// const BD_PROXY_URL =	"***REMOVED***";
 
 const USER_AGENT =
 	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";

@@ -15,16 +15,8 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";
-import { ChartColumnStackedIcon, Layers2 } from "lucide-react";
-import {
-	Area,
-	AreaChart,
-	Bar,
-	BarChart,
-	CartesianGrid,
-	XAxis,
-	YAxis,
-} from "recharts";
+import { ChartColumnStackedIcon } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { getCreditsUsageStats } from "@/actions/analitics/getCreditsUsageStats";
 
 type ChartData = Awaited<ReturnType<typeof getCreditsUsageStats>>;
