@@ -47,5 +47,16 @@ export async function handleCheckoutSessionCompleted(
 		},
 	});
 
+		await prisma.userPurchase.create({
+		data: {
+			userId,
+			stripeId: event.id,
+			description: `${pack.name} - ${pack.credits} credits`,
+			credits: pack.credits,
+			price: event.amount_total!,
+			currency: event.currency!,
+		},
+	});
+
 	revalidatePath(`/billing`);
 }

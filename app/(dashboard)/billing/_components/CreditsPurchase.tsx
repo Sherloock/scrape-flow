@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { purchaseCredits } from "@/actions/billing/purchaseCredits";
-
+// TODO: Add a dialog to show the user the credits they have purchased
 function CreditsPurchase() {
 	const [selectedPackage, setSelectedPackage] = useState<PackageId>(
 		PackageId.P5000

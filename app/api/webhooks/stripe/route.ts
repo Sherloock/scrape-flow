@@ -20,6 +20,10 @@ export async function POST(req: Request) {
 			case "checkout.session.completed":
 				handleCheckoutSessionCompleted(event.data.object);
 				break;
+			case "payment_intent.payment_failed":
+				// TODO: Handle payment failed
+				break;
+
 			default:
 				// console.log("Unhandled event type", event.type);
 				break;
