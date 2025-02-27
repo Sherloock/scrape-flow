@@ -44,7 +44,6 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { TaskParamType } from "@/types/task";
 import { CredentialSelect } from "@/app/workflow/_components/nodes/param/CredentialParam";
 import {
 	Tooltip,

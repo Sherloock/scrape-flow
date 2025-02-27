@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 // import Image from "next/image";
 import React from "react";
-import { Network, NetworkIcon, SquareDashedMousePointer } from "lucide-react";
+import { NetworkIcon } from "lucide-react";
 
 function Logo({
 	fontSize = "text-2xl",
