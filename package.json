@@ -21,7 +21,7 @@
 		"@clerk/nextjs": "^5.3.2",
 		"@google/generative-ai": "^0.21.0",
 		"@hookform/resolvers": "^3.10.0",
-		"@prisma/client": "^6.3.0",
+		"@prisma/client": "^6.4.1",
 		"@radix-ui/react-accordion": "^1.2.2",
 		"@radix-ui/react-alert-dialog": "^1.1.4",
 		"@radix-ui/react-aspect-ratio": "^1.1.1",
@@ -100,7 +100,7 @@
 		"prettier": "^3.4.2",
 		"prettier-plugin-prisma": "^5.0.0",
 		"prettier-plugin-tailwindcss": "^0.6.9",
-		"prisma": "^6.3.0",
+		"prisma": "^6.4.1",
 		"tailwindcss": "^3.4.1",
 		"typescript": "^5"
 	},
