@@ -17,7 +17,7 @@ export async function GET(_request: Request) {
 		},
 	});
 
-	console.log({ "workflows to run": workflows });
+	// console.log({ "workflows to run": workflows });
 
 	for (const workflow of workflows) {
 		triggerWorkflow(workflow.id);
@@ -34,7 +34,7 @@ async function triggerWorkflow(workflowId: string) {
 		`api/workflows/execute?workflowId=${workflowId}`
 	);
 
-	console.log({ triggerApiUrl });
+	// console.log({ triggerApiUrl });
 
 	const response = await fetch(triggerApiUrl, {
 		headers: {
@@ -46,5 +46,5 @@ async function triggerWorkflow(workflowId: string) {
 		console.error(`Error triggering workflow with id ${workflowId}:`, error);
 	});
 
-	console.log({ response });
+	// console.log({ response });
 }
