@@ -71,6 +71,7 @@ function TaskMenu() {
 						<AccordionContent className="task-menu-accordion-content">
 							<TaskMenuBtn taskType={TaskType.PAGE_TO_HTML} />
 							<TaskMenuBtn taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
+							<TaskMenuBtn taskType={TaskType.CLEAR_HTML} />
 							<TaskMenuBtn taskType={TaskType.EXTRACT_DATA_WITH_AI} />
 						</AccordionContent>
 					</AccordionItem>

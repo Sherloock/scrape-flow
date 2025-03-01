@@ -1,5 +1,6 @@
 "use client";
 
+import BooleanParam from "@/app/workflow/_components/nodes/param/BooleanParam";
 import BrowserInstanceParam from "@/app/workflow/_components/nodes/param/BrowserInstanceParam";
 import CredentialParam from "@/app/workflow/_components/nodes/param/CredentialParam";
 import SelectParam from "@/app/workflow/_components/nodes/param/SelectParam";
@@ -67,6 +68,16 @@ function NodeParamField({
 		case TaskParamType.CREDENTIAL:
 			return (
 				<CredentialParam
+					param={param}
+					value={value}
+					updateNodeParamValue={updateNodeParamValue}
+					disabled={disabled}
+				/>
+			);
+
+		case TaskParamType.BOOLEAN:
+			return (
+				<BooleanParam
 					param={param}
 					value={value}
 					updateNodeParamValue={updateNodeParamValue}

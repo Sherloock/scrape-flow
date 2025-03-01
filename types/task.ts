@@ -12,6 +12,7 @@ export enum TaskType {
 	ADD_PROPERTY_TO_JSON = "ADD_PROPERTY_TO_JSON",
 	NAVIGATE_TO_URL = "NAVIGATE_TO_URL",
 	SCROLL_TO_ELEMENT = "SCROLL_TO_ELEMENT",
+	CLEAR_HTML = "CLEAR_HTML",
 }
 
 export enum TaskParamType {
@@ -19,6 +20,7 @@ export enum TaskParamType {
 	BROWSER_INSTANCE = "BROWSER_INSTANCE",
 	SELECT = "SELECT",
 	CREDENTIAL = "CREDENTIAL",
+	BOOLEAN = "BOOLEAN",
 }
 
 export interface TaskParam {
@@ -28,5 +30,6 @@ export interface TaskParam {
 	helperText?: string;
 	required?: boolean;
 	hideHandle?: boolean;
+	defaultValue?: string;
 	[key: string]: any;
 }

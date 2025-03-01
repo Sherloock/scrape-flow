@@ -11,6 +11,7 @@ import { AppNode } from "@/types/appNode";
 import { ExecuteWorkflow } from "@/lib/workflow/ExecuteWorkflow";
 import cronExpressionParser from "cron-parser";
 import { DateFormat } from "@/lib/helper/dates";
+import { InputJsonValue } from "@prisma/client/runtime/library";
 
 function isValidSecretKey(requestKey: string): boolean {
 	const apiSecretKey = process.env.API_SECRET_KEY;
@@ -82,7 +83,7 @@ export async function GET(request: Request) {
 			data: {
 				workflowId: workflowId,
 				userId: workflow.userId,
-				definition: workflow.definition,
+				definition: workflow.definition as InputJsonValue,
 				status: WorkflowExecutionStatus.PENDING,
 				trigger: WorkflowExecutionTrigger.CRON,
 				phases: {

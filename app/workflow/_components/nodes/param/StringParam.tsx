@@ -12,11 +12,13 @@ function StringParam({
 	updateNodeParamValue,
 	disabled,
 }: ParamProps) {
-	const [internalValue, setInternalValue] = useState(value || "");
+	const [internalValue, setInternalValue] = useState(
+		value ?? param.defaultValue ?? ""
+	);
 	const id = useId();
 
 	useEffect(() => {
-		setInternalValue(value);
+		setInternalValue(value ?? param.defaultValue ?? "");
 	}, [value]);
 
 	const Component = param.variant === "textarea" ? Textarea : Input;
@@ -33,7 +35,7 @@ function StringParam({
 					disabled={disabled}
 					className="text-xs"
 					placeholder="Enter value"
-					value={internalValue}
+					value={internalValue ?? param.defaultValue ?? ""}
 					onChange={(e: any) => setInternalValue(e.target.value)}
 					onBlur={(e: any) => updateNodeParamValue(e.target.value)}
 				/>

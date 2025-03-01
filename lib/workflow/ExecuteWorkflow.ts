@@ -27,7 +27,7 @@ export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
 	if (!execution) {
 		throw new Error("Execution not found");
 	}
-	const edges = JSON.parse(execution.definition).edges as Edge[];
+	const edges = JSON.parse(execution.definition as string).edges as Edge[];
 	const env: Env = { phases: {} };
 
 	await initWorkflowExecution(executionId, execution.workflowId, nextRunAt);
@@ -133,7 +133,7 @@ async function executeWorkflowPhase(
 ) {
 	const logCollector: LogColletor = createLogCollector();
 	const startedAt = new Date();
-	const node = JSON.parse(phase.node) as AppNode;
+	const node = JSON.parse(phase.node as string) as AppNode;
 	setupEnvForPhase(node, env, edges);
 
 	// update phase status

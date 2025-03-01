@@ -25,6 +25,11 @@ export default function SelectParam({
 }: ParamProps) {
 	const id = useId();
 
+	if (!value) {
+		value = param.defaultValue || "";
+		updateNodeParamValue(value);
+	}
+
 	return (
 		<div className="flex w-full flex-col gap-1">
 			<Label className="flex text-xs" htmlFor={id}>

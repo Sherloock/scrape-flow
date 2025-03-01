@@ -7,6 +7,7 @@ import {
 	DuplicateWorkflowSchemaType,
 } from "@/schema/workflows";
 import { WorkflowStatus } from "@/types/workflow";
+import { InputJsonValue } from "@prisma/client/runtime/library";
 import { revalidatePath } from "next/cache";
 
 export async function duplicateWorkflow(form: DuplicateWorkflowSchemaType) {
@@ -31,7 +32,7 @@ export async function duplicateWorkflow(form: DuplicateWorkflowSchemaType) {
 			name: data.name,
 			description: data.description,
 			status: WorkflowStatus.DRAFT,
-			definition: sourceWorkflow.definition,
+			definition: sourceWorkflow.definition as InputJsonValue,
 			// executionPlan: sourceWorkflow.executionPlan,
 			// creditsCost: sourceWorkflow.creditsCost,
 			// createdAt: new Date(),

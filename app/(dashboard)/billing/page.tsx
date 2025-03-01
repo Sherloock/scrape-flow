@@ -10,13 +10,15 @@ import {
 } from "@/components/ui/card";
 import { Suspense } from "react";
 import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
-import { ArrowLeftRightIcon, CoinsIcon } from "lucide-react";
+import { ArrowLeftRightIcon, CoinsIcon, BarChart3Icon } from "lucide-react";
 import CreditsPurchase from "@/app/(dashboard)/billing/_components/CreditsPurchase";
 import { getCreditsUsageStats } from "@/actions/analitics/getCreditsUsageStats";
 import { getCurrentMonth, Month } from "@/types/analitics";
 import CreditUsageChart from "@/app/(dashboard)/billing/_components/CreditUsageChart";
 import { getUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
 import InvoiceBtn from "@/app/(dashboard)/billing/_components/InvoiceBtn";
+import { getAIUsageStats } from "@/actions/analitics/getAIUsageStats";
+
 export default function BillingPage() {
 	return (
 		<div className="w-full items-start space-y-8 p-4 pt-0">
@@ -27,6 +29,10 @@ export default function BillingPage() {
 			</Suspense>
 
 			<CreditsPurchase />
+
+			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+				<AIUsageCard />
+			</Suspense>
 
 			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
 				<CreditsUsageCard />
@@ -61,6 +67,82 @@ async function BalanceCard() {
 			</CardContent>
 			<CardFooter className="text-sm text-muted-foreground">
 				When your credits reach zero, your workflows will stop working.
+			</CardFooter>
+		</Card>
+	);
+}
+
+async function AIUsageCard() {
+	const month: Month = getCurrentMonth();
+	const aiUsage = await getAIUsageStats(month);
+
+	const inputTokens = aiUsage.inputTokens || 0;
+	const outputTokens = aiUsage.outputTokens || 0;
+
+	const inputCost = Math.ceil((inputTokens / 1000000) * 30);
+	const outputCost = Math.ceil((outputTokens / 1000000) * 120);
+	const totalCost = inputCost + outputCost;
+
+	return (
+		<Card>
+			<CardHeader>
+				<CardTitle className="flex items-center gap-2 text-2xl font-bold">
+					<BarChart3Icon size={20} className="text-primary" />
+					AI Credit Usage
+				</CardTitle>
+				<CardDescription>
+					Breakdown of your AI token usage and associated credit costs
+				</CardDescription>
+			</CardHeader>
+			<CardContent>
+				<div className="space-y-6">
+					<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+						<div className="rounded-lg border bg-card p-4">
+							<div className="flex items-center justify-between">
+								<p className="text-sm font-medium">Input Tokens</p>
+								<p className="text-sm text-muted-foreground">
+									30 credits/1M tokens
+								</p>
+							</div>
+							<div className="mt-2 flex items-baseline justify-between">
+								<p className="text-2xl font-bold">
+									<ReactCountUpWrapper value={inputTokens} />
+								</p>
+								<p className="text-sm font-medium text-primary">
+									{inputCost} credits
+								</p>
+							</div>
+						</div>
+
+						<div className="rounded-lg border bg-card p-4">
+							<div className="flex items-center justify-between">
+								<p className="text-sm font-medium">Output Tokens</p>
+								<p className="text-sm text-muted-foreground">
+									120 credits/1M tokens
+								</p>
+							</div>
+							<div className="mt-2 flex items-baseline justify-between">
+								<p className="text-2xl font-bold">
+									<ReactCountUpWrapper value={outputTokens} />
+								</p>
+								<p className="text-sm font-medium text-primary">
+									{outputCost} credits
+								</p>
+							</div>
+						</div>
+					</div>
+
+					<div className="rounded-lg border bg-primary/5 p-4">
+						<div className="flex items-center justify-between">
+							<p className="font-medium">Total AI Credit Usage</p>
+							<p className="font-bold text-primary">{totalCost} credits</p>
+						</div>
+					</div>
+				</div>
+			</CardContent>
+			<CardFooter className="text-sm text-muted-foreground">
+				AI usage is billed at 30 credits per 1M input tokens and 120 credits per
+				1M output tokens.
 			</CardFooter>
 		</Card>
 	);

@@ -6,32 +6,34 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
 }
 
 model Workflow {
   id          String  @id @default(cuid())
   userId      String
-  name        String
-  description String?
+  name        String  @db.VarChar(100)
+  description String? @db.Text
 
-  definition    String
-  executionPlan String?
+  definition    Json    @db.Json
+  executionPlan String? @db.Text
   creditsCost   Int     @default(0)
 
-  cron String? // cron expression, for example "0 0 * * *"
+  cron String? @db.VarChar(50) // cron expression, for example "0 0 * * *"
 
-  status String // DRAFT | PUBLISHED
+  status String @db.VarChar(20) // DRAFT | PUBLISHED
 
   lastRunAt     DateTime?
-  lastRunId     String?
-  lastRunStatus String?
+  lastRunId     String?   @db.VarChar(100)
+  lastRunStatus String?   @db.VarChar(50)
   nextRunAt     DateTime?
 
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
   executions WorkflowExecution[]
+  aiUsages   AIUsage[]
 
   // User cannot have two workflows with the same name
   @@unique([userId, name])
@@ -41,43 +43,45 @@ model WorkflowExecution {
   id          String    @id @default(cuid())
   workflowId  String
   userId      String
-  trigger     String // MANUAL | SCHEDULED
-  status      String
+  trigger     String    @db.VarChar(20) // MANUAL | SCHEDULED
+  status      String    @db.VarChar(20)
   createdAt   DateTime  @default(now())
   startedAt   DateTime?
   completedAt DateTime?
-  definition  String    @default("{}")
+  definition  Json      @db.Json
 
   creditsConsumed Int?
 
   phases   ExecutionPhase[]
+  aiUsages AIUsage[]
   workflow Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
 
 model ExecutionPhase {
   id          String    @id @default(cuid())
   userId      String
-  status      String
+  status      String    @db.VarChar(20)
   number      Int
-  node        String
-  name        String
+  node        Json      @db.Json
+  name        String    @db.VarChar(100)
   startedAt   DateTime?
   completedAt DateTime?
-  inputs      String?
-  outputs     String?
+  inputs      Json      @db.Json
+  outputs     Json      @db.Json
 
   creditsConsumed Int?
 
   workflowExecutionId String
   workflowExecution   WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
 
-  logs ExecutionLog[]
+  logs     ExecutionLog[]
+  aiUsages AIUsage[]
 }
 
 model ExecutionLog {
   id        String    @id @default(cuid())
-  logLevel  String
-  message   String
+  logLevel  String    @db.VarChar(20)
+  message   String    @db.Text
   createdAt DateTime  @default(now())
   timestamp DateTime?
 
@@ -86,15 +90,17 @@ model ExecutionLog {
 }
 
 model UserBalance {
-  userId  String @id @default(cuid())
-  credits Int    @default(0)
+  userId  String  @id @default(cuid())
+  credits Decimal @default(0) @db.Decimal(10, 6) // General credits with 6 decimal places
+
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Credential {
   id        String   @id @default(cuid())
   userId    String
-  name      String
-  value     String
+  name      String   @db.VarChar(100)
+  value     Json     @db.Json
   createdAt DateTime @default(now())
 
   @@unique([userId, name])
@@ -103,10 +109,32 @@ model Credential {
 model UserPurchase {
   id          String   @id @default(cuid())
   userId      String
-  stripeId    String
-  description String
+  stripeId    String   @db.VarChar(100)
+  description String   @db.VarChar(255)
   credits     Int
   price       Int
-  currency    String
+  currency    String   @db.VarChar(3)
   date        DateTime @default(now())
+}
+
+model AIUsage {
+  id                  String   @id @default(cuid())
+  userId              String
+  inputTokens         Int
+  outputTokens        Int
+  creditsConsumed     Decimal  @default(0) @db.Decimal(10, 6) // Exact credits consumed
+  workflowId          String?
+  executionPhaseId    String?
+  workflowExecutionId String?
+  createdAt           DateTime @default(now())
+
+  workflow          Workflow?          @relation(fields: [workflowId], references: [id], onDelete: SetNull)
+  executionPhase    ExecutionPhase?    @relation(fields: [executionPhaseId], references: [id], onDelete: SetNull)
+  workflowExecution WorkflowExecution? @relation(fields: [workflowExecutionId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([workflowId])
+  @@index([executionPhaseId])
+  @@index([workflowExecutionId])
+  @@index([createdAt])
 }

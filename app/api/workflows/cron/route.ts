@@ -36,7 +36,7 @@ async function triggerWorkflow(workflowId: string) {
 
 	// console.log({ triggerApiUrl });
 
-	const response = await fetch(triggerApiUrl, {
+	const _response = await fetch(triggerApiUrl, {
 		headers: {
 			Authorization: `Bearer ${process.env.API_SECRET_KEY}`,
 		},

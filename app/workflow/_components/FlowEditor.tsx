@@ -49,7 +49,7 @@ function FlowEditor({ workflow }: { workflow: Workflow }) {
 
 	useEffect(() => {
 		try {
-			const workflowDefinition = JSON.parse(workflow.definition);
+			const workflowDefinition = JSON.parse(workflow.definition as string);
 			setNodes(workflowDefinition.nodes || []);
 			setEdges(workflowDefinition.edges || []);
 

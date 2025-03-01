@@ -13,6 +13,7 @@ import { AddPropertyToJsonTask } from "@/lib/workflow/task/AddPropertyToJson";
 import { NavigateToUrlTask } from "@/lib/workflow/task/NavigateToUrl";
 import { ScrollToElementTask } from "@/lib/workflow/task/ScrollToElement";
 import { FillCredentialTask } from "@/lib/workflow/task/FillCredential";
+import { ClearHtmlTask } from "@/lib/workflow/task/ClearHtml";
 
 type Registry = {
 	[K in TaskType]: WorkflowTask & { type: K };
@@ -31,4 +32,5 @@ export const TaskRegistry: Registry = {
 	ADD_PROPERTY_TO_JSON: AddPropertyToJsonTask,
 	NAVIGATE_TO_URL: NavigateToUrlTask,
 	SCROLL_TO_ELEMENT: ScrollToElementTask,
+	CLEAR_HTML: ClearHtmlTask,
 };

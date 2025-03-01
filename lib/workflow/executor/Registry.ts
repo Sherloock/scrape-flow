@@ -16,6 +16,7 @@ import { AddPropertyToJsonExecutor } from "@/lib/workflow/executor/AddPropertyTo
 import { NavigateToUrlExecutor } from "@/lib/workflow/executor/NavigateToUrlExecutor";
 import { ScrollToElementExecutor } from "@/lib/workflow/executor/ScrollToElementExecutor";
 import { FillCredentialExecutor } from "@/lib/workflow/executor/FillCredentialExecutor";
+import { ClearHtmlExecutor } from "@/lib/workflow/executor/ClearHtmlExecutor";
 
 type ExecutorFn<T extends WorkflowTask> = (
 	env: ExecutionEnv<T>
@@ -39,4 +40,5 @@ export const ExecutorRegistry: RegistryType = {
 	[TaskType.ADD_PROPERTY_TO_JSON]: AddPropertyToJsonExecutor,
 	[TaskType.NAVIGATE_TO_URL]: NavigateToUrlExecutor,
 	[TaskType.SCROLL_TO_ELEMENT]: ScrollToElementExecutor,
+	[TaskType.CLEAR_HTML]: ClearHtmlExecutor,
 };

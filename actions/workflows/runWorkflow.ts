@@ -16,6 +16,7 @@ import {
 
 import { redirect } from "next/navigation";
 import { AppNode } from "@/types/appNode";
+import { InputJsonValue } from "@prisma/client/runtime/library";
 
 export async function runWorkflow(form: {
 	workflowId: string;
@@ -51,7 +52,7 @@ export async function runWorkflow(form: {
 		}
 
 		executionPlan = JSON.parse(workflow.executionPlan);
-		workflowDefinition = workflow.definition;
+		workflowDefinition = workflow.definition as string;
 	} else {
 		// if the workflow is not published, create a new execution plan
 		if (!flowDefinition) {
@@ -79,7 +80,7 @@ export async function runWorkflow(form: {
 			status: WorkflowExecutionStatus.PENDING,
 			startedAt: new Date(),
 			trigger: WorkflowExecutionTrigger.MANUAL,
-			definition: workflowDefinition,
+			definition: workflowDefinition || "",
 			phases: {
 				create: executionPlan.flatMap((phase: WorkflowExecutionPlanPhase) => {
 					return phase.nodes.map((node: AppNode) => {
@@ -89,6 +90,8 @@ export async function runWorkflow(form: {
 							number: phase.phase,
 							node: JSON.stringify(node),
 							name: TaskRegistry[node.data.type].label,
+							inputs: {},
+							outputs: {},
 						};
 					});
 				}),
