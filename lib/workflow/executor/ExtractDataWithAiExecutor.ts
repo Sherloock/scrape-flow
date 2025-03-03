@@ -5,6 +5,7 @@ import { getDecryptedCredential } from "@/actions/credentials/getDecryptedCreden
 import { OpenAI } from "openai";
 // import { GoogleGenerativeAI } from "@google/generative-ai";
 import { AiApi, AiModels } from "@/types/ai";
+import { getAiUsageCredits } from "@/lib/helper/ai";
 const SYSTEM_PROMPT =
 	"You are a highly precise web scraping assistant tasked with extracting structured data from provided HTML or text content. You will receive the following user inputs: (1) `___CONTENT___:`—the raw HTML or text to process, (2) `___PROMPT___`—a detailed description of the data to extract, and (3) `___FORMAT___`—the expected output structure. Your response must strictly adhere to these rules: 1. Return **only** the extracted data in the exact format specified by `___FORMAT___`—no additional text, explanations, or comments. 2. If the format is JSON and no relevant data is found, return an **empty JSON array** (`[]`). For other formats, return an appropriate empty value. 3. The output must always follow the exact format specified in `___FORMAT___` (JSON, CSV, comma-separated values, etc.). 4. Extract data with **precision and completeness**, strictly following the `___PROMPT___` without inference or inclusion of unrelated details. 5. Maintain **consistent data structures** for all extracted entries when applicable. 6. When handling lists, tables, or repeating elements in JSON format, return an **array of objects**, with each object representing a distinct item or row. 7. If hierarchical data is required and JSON is specified, structure it using **nested JSON objects** accordingly. 8. **Do not include null or empty values** unless explicitly stated in the `___PROMPT___`. Your extraction must be strictly based on the given `___CONTENT___`, without making assumptions or introducing any additional information beyond the specified `___PROMPT___` and `___FORMAT___`.";
 const MAX_OUTPUT_TOKENS = 8096;
@@ -109,20 +110,22 @@ async function extractData(
 		`Output tokens: ${outputTokens}${isPayForUsage ? ` (${process.env.GEMINI_OUTPUT_TOKEN_PRICE} credit / 1million tokens)` : ""}`
 	);
 	// env.log.info(`Total tokens: ${totalTokens}`);
+	const creditsConsumed = isPayForUsage
+		? getAiUsageCredits(inputTokens, outputTokens)
+		: 0;
 
 	if (isPayForUsage) {
-		// 25credit/1m input token
-		// 100credit/1m output token
-		const creditsConsumed =
-			(inputTokens * Number(process.env.GEMINI_INPUT_TOKEN_PRICE!) +
-				outputTokens * Number(process.env.GEMINI_OUTPUT_TOKEN_PRICE!)) /
-			1000000;
-		const roundedCreditsConsumed = Math.round(creditsConsumed);
 		env.log.info(
-			`Extra credits consumed by AI api usage: ${creditsConsumed.toFixed(6)} -> rounded to ${roundedCreditsConsumed} credits, which will be deducted from your account`
+			`Extra credits consumed by AI usage: ${creditsConsumed.toFixed(6)}`
 		);
-		// TODO: do the actual credit usage
+	} else {
+		env.log.info("No credits consumed by AI usage");
 	}
+	env.setAiUsage({
+		inputTokens,
+		outputTokens,
+		creditsConsumed,
+	});
 	const rawResult = response.choices[0].message?.content;
 
 	if (!rawResult) {

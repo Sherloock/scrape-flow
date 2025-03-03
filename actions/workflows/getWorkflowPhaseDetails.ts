@@ -19,6 +19,7 @@ export async function getWorkflowPhaseDetails(phaseId: string) {
 					timestamp: "asc",
 				},
 			},
+			aiUsage: true,
 		},
 	});
 

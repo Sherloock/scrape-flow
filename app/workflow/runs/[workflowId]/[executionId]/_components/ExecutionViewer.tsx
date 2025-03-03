@@ -24,7 +24,10 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { DatesToDurationString } from "@/lib/helper/dates";
-import { GetPhasesTotalCredits } from "@/lib/helper/phases";
+import {
+	getTotalAICreditsConsumed,
+	getTotalCreditsConsumed,
+} from "@/lib/helper/phases";
 import { cn } from "@/lib/utils";
 import { LogLevel } from "@/types/log";
 import { WorkflowExecutionStatus } from "@/types/workflow";
@@ -41,6 +44,7 @@ import {
 	WorkflowIcon,
 	CopyIcon,
 	CheckIcon,
+	BrainIcon,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -108,7 +112,8 @@ export default function ExecutionViewer({
 		query.data?.completedAt
 	);
 
-	const creditsConsumed = GetPhasesTotalCredits(query.data?.phases || []);
+	const creditsConsumed = getTotalCreditsConsumed(query.data?.phases || []);
+	const aiCreditsConsumed = getTotalAICreditsConsumed(query.data?.phases || []);
 
 	return (
 		<div className="flex h-full w-full">
@@ -159,9 +164,17 @@ export default function ExecutionViewer({
 					/>
 
 					<ExecutionLabel
-						label="Credits consumed"
+						label="Phase credits consumed"
 						icon={CoinsIcon}
 						value={<ReactCountUpWrapper value={creditsConsumed} />}
+					/>
+
+					<ExecutionLabel
+						label="AI credits consumed"
+						icon={BrainIcon}
+						value={
+							<ReactCountUpWrapper value={aiCreditsConsumed} decimals={4} />
+						}
 					/>
 				</div>
 				<Separator />
@@ -235,6 +248,18 @@ export default function ExecutionViewer({
 									</div>
 								</Badge>
 
+								{/* AI credits consumed */}
+								{phaseDetails.data.aiUsage && (
+									<Badge variant="outline" className="space-x-4">
+										<div className="flex items-center gap-1 text-xs">
+											<BrainIcon size={16} />
+											<span>AI Credits:</span>
+											<span>
+												{phaseDetails.data.aiUsage?.creditsConsumed?.toString()}
+											</span>
+										</div>
+									</Badge>
+								)}
 								{/* Duration */}
 								<Badge variant="outline" className="space-x-4">
 									<div className="flex items-center gap-1">

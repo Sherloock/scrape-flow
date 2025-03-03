@@ -14,6 +14,7 @@ import { Edge } from "@xyflow/react";
 import { LogColletor } from "@/types/log";
 import { createLogCollector } from "@/lib/log";
 import { waitFor } from "@/lib/helper/waitFor";
+import { AIUsageData, createAiUsage } from "@/actions/aiUsage/createAiUsage";
 
 export async function ExecuteWorkflow(executionId: string, nextRunAt?: Date) {
 	const execution = await prisma.workflowExecution.findUnique({
@@ -135,6 +136,7 @@ async function executeWorkflowPhase(
 	const startedAt = new Date();
 	const node = JSON.parse(phase.node as string) as AppNode;
 	setupEnvForPhase(node, env, edges);
+	console.log({ env, node });
 
 	// update phase status
 	await prisma.executionPhase.update({
@@ -147,6 +149,7 @@ async function executeWorkflowPhase(
 	});
 
 	const creditsRequired = TaskRegistry[node.data.type].credits;
+
 	let success = await decrementUserCredits(
 		creditsRequired,
 		logCollector,
@@ -154,8 +157,18 @@ async function executeWorkflowPhase(
 	);
 
 	let creditsConsumed = success ? creditsRequired : 0;
+	let aiUsage: AIUsageData | undefined;
 	if (success) {
 		success = await executePhase(phase, node, env, logCollector);
+		aiUsage = env.phases[node.id].aiUsage;
+		if (aiUsage) {
+			success = await decrementUserCredits(
+				aiUsage.creditsConsumed,
+				logCollector,
+				userId
+			);
+			creditsConsumed += aiUsage.creditsConsumed;
+		}
 	}
 
 	const outputs = env.phases[node.id].outputs;
@@ -164,7 +177,8 @@ async function executeWorkflowPhase(
 		success,
 		outputs,
 		logCollector,
-		creditsConsumed
+		creditsConsumed,
+		aiUsage
 	);
 
 	return { success, creditsConsumed };
@@ -175,7 +189,8 @@ async function finalizePhase(
 	success: boolean,
 	outputs: any,
 	logCollector: LogColletor,
-	creditsConsumed: number
+	creditsConsumed: number,
+	aiUsage: AIUsageData | undefined
 ) {
 	const finalStatus = success
 		? WorkflowExecutionStatus.COMPLETED
@@ -199,6 +214,10 @@ async function finalizePhase(
 			},
 		},
 	});
+
+	if (aiUsage) {
+		await createAiUsage(aiUsage, phaseId);
+	}
 }
 
 async function executePhase(
@@ -274,6 +293,9 @@ function createExecutionEnv<_T extends WorkflowTask>(
 		getPage: () => env.page,
 		setPage: (page: Page) => {
 			env.page = page;
+		},
+		setAiUsage: (aiUsage: AIUsageData) => {
+			env.phases[node.id].aiUsage = aiUsage;
 		},
 		log: logCollector,
 	};

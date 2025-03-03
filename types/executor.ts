@@ -1,3 +1,4 @@
+import { AIUsageData } from "@/actions/aiUsage/createAiUsage";
 import { LogColletor } from "@/types/log";
 import { WorkflowTask } from "@/types/workflow";
 import { Browser, Page } from "puppeteer";
@@ -10,6 +11,7 @@ export type Env = {
 		{
 			inputs: Record<string, string>;
 			outputs: Record<string, string>;
+			aiUsage?: AIUsageData;
 		}
 	>;
 };
@@ -25,4 +27,5 @@ export type ExecutionEnv<T extends WorkflowTask> = {
 	setPage: (page: Page) => void;
 
 	log: LogColletor;
+	setAiUsage: (aiUsage: AIUsageData) => void;
 };

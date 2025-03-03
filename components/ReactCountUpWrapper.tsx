@@ -2,7 +2,13 @@
 
 import React from "react";
 import CountUp from "react-countup";
-function ReactCountUpWrapper({ value }: { value: number }) {
+function ReactCountUpWrapper({
+	value,
+	decimals = 0,
+}: {
+	value: number;
+	decimals?: number;
+}) {
 	// const [mounted, setMounted] = useState(false);
 
 	// useEffect(() => {
@@ -11,7 +17,7 @@ function ReactCountUpWrapper({ value }: { value: number }) {
 
 	// if (!mounted) return "-";
 
-	return <CountUp end={value} duration={0.5} decimals={0} />;
+	return <CountUp end={value} duration={0.5} decimals={decimals} />;
 }
 
 export default ReactCountUpWrapper;

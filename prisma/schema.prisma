@@ -33,7 +33,6 @@ model Workflow {
   createdAt  DateTime            @default(now())
   updatedAt  DateTime            @updatedAt
   executions WorkflowExecution[]
-  aiUsages   AIUsage[]
 
   // User cannot have two workflows with the same name
   @@unique([userId, name])
@@ -53,7 +52,6 @@ model WorkflowExecution {
   creditsConsumed Int?
 
   phases   ExecutionPhase[]
-  aiUsages AIUsage[]
   workflow Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
 }
 
@@ -74,8 +72,8 @@ model ExecutionPhase {
   workflowExecutionId String
   workflowExecution   WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
 
-  logs     ExecutionLog[]
-  aiUsages AIUsage[]
+  logs    ExecutionLog[]
+  aiUsage AIUsage?
 }
 
 model ExecutionLog {
@@ -118,23 +116,15 @@ model UserPurchase {
 }
 
 model AIUsage {
-  id                  String   @id @default(cuid())
-  userId              String
-  inputTokens         Int
-  outputTokens        Int
-  creditsConsumed     Decimal  @default(0) @db.Decimal(10, 6) // Exact credits consumed
-  workflowId          String?
-  executionPhaseId    String?
-  workflowExecutionId String?
-  createdAt           DateTime @default(now())
-
-  workflow          Workflow?          @relation(fields: [workflowId], references: [id], onDelete: SetNull)
-  executionPhase    ExecutionPhase?    @relation(fields: [executionPhaseId], references: [id], onDelete: SetNull)
-  workflowExecution WorkflowExecution? @relation(fields: [workflowExecutionId], references: [id], onDelete: SetNull)
+  id               String          @id @default(cuid())
+  userId           String
+  inputTokens      Int
+  outputTokens     Int
+  creditsConsumed  Decimal         @default(0) @db.Decimal(10, 6)
+  executionPhaseId String?         @unique
+  createdAt        DateTime        @default(now())
+  executionPhase   ExecutionPhase? @relation(fields: [executionPhaseId], references: [id], onDelete: SetNull)
 
   @@index([userId])
-  @@index([workflowId])
-  @@index([executionPhaseId])
-  @@index([workflowExecutionId])
   @@index([createdAt])
 }

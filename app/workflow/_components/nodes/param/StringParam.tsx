@@ -19,7 +19,7 @@ function StringParam({
 
 	useEffect(() => {
 		setInternalValue(value ?? param.defaultValue ?? "");
-	}, [value]);
+	}, [value, param.defaultValue]);
 
 	const Component = param.variant === "textarea" ? Textarea : Input;
 

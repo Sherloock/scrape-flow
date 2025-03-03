@@ -17,7 +17,7 @@ export async function getDecryptedCredential(id: string) {
 		throw new Error("Credential not found");
 	}
 
-	const decryptedValue = symmetricDecrypt(credential.value);
+	const decryptedValue = symmetricDecrypt(credential.value as string);
 
 	if (!decryptedValue) {
 		throw new Error("Cannot decrypt credential");

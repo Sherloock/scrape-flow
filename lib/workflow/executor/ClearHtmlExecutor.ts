@@ -217,7 +217,7 @@ const executor: IExecutor<typeof ClearHtmlTask> = {
 				cleanedHtml = cleanedHtml
 					.replace(/\s+/g, " ") // Replace multiple spaces with single space
 					.replace(/>\s+</g, "><") // Remove spaces between tags
-					.replace(/<!--.*?-->/gs, "") // Remove comments
+					.replace(/<!--[\s\S]*?-->/g, "") // Remove comments (using [\s\S] instead of . with s flag)
 					.replace(/\s+>/g, ">") // Remove spaces before closing brackets
 					.replace(/<\s+/g, "<") // Remove spaces after opening brackets
 					.trim();

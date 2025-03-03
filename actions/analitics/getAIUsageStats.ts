@@ -11,7 +11,7 @@ export async function getAIUsageStats(month: Month) {
 	const endDate = new Date(month.year, month.month, 0);
 
 	// Query the database for AI usage statistics
-	const aiUsage = await prisma.aiUsage.findMany({
+	const aiUsage = await prisma.aIUsage.findMany({
 		where: {
 			userId,
 			createdAt: {

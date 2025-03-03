@@ -12,7 +12,7 @@ export async function getWorkflowExecutionWithPhases(executionId: string) {
 			userId,
 		},
 		include: {
-			phases: { orderBy: { number: "asc" } },
+			phases: { orderBy: { number: "asc" }, include: { aiUsage: true } },
 		},
 	});
 
