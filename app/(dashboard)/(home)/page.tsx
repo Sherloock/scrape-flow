@@ -10,6 +10,7 @@ import React, { Suspense } from "react";
 import ExecutionStatusChart from "@/app/(dashboard)/(home)/_components/ExecutionStatusChart";
 import { getCreditsUsageStats as getCreditUsageStats } from "@/actions/analitics/getCreditsUsageStats";
 import CreditUsageChart from "@/app/(dashboard)/billing/_components/CreditUsageChart";
+import { AIUsageCard } from "@/app/(dashboard)/billing/page";
 
 async function HomePage({
 	searchParams,
@@ -44,6 +45,10 @@ async function HomePage({
 
 				<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
 					<CreditUsageMonth selectedMonth={yearMonth} />
+				</Suspense>
+
+				<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+					<AIUsageCard selectedMonth={yearMonth} />
 				</Suspense>
 			</div>
 		</div>

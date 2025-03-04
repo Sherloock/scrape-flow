@@ -18,6 +18,11 @@ import CreditUsageChart from "@/app/(dashboard)/billing/_components/CreditUsageC
 import { getUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
 import InvoiceBtn from "@/app/(dashboard)/billing/_components/InvoiceBtn";
 import { getAIUsageStats } from "@/actions/analitics/getAIUsageStats";
+import {
+	outputTokenPricePerMillionTokens,
+	inputTokenPricePerMillionTokens,
+} from "@/lib/helper/ai";
+import { monthToDateRange } from "@/lib/helper/dates";
 
 export default function BillingPage() {
 	return (
@@ -31,13 +36,12 @@ export default function BillingPage() {
 			<CreditsPurchase />
 
 			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
-				<AIUsageCard />
-			</Suspense>
-
-			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
 				<CreditsUsageCard />
 			</Suspense>
 
+			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+				<AIUsageCard />
+			</Suspense>
 			<Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
 				<UserPurchaseHistoryCard />
 			</Suspense>
@@ -72,17 +76,24 @@ async function BalanceCard() {
 	);
 }
 
-async function AIUsageCard() {
-	const month: Month = getCurrentMonth();
-	const aiUsage = await getAIUsageStats(month);
+export async function AIUsageCard({
+	selectedMonth,
+}: {
+	selectedMonth?: Month;
+}) {
+	const month = selectedMonth ?? getCurrentMonth();
 
-	const inputTokens = aiUsage.inputTokens || 0;
-	const outputTokens = aiUsage.outputTokens || 0;
+	const { inputTokens, outputTokens, inputTokensCost, outputTokensCost } =
+		await getAIUsageStats(month);
 
-	const inputCost = Math.ceil((inputTokens / 1000000) * 30);
-	const outputCost = Math.ceil((outputTokens / 1000000) * 120);
-	const totalCost = inputCost + outputCost;
-
+	const totalCost = inputTokensCost + outputTokensCost;
+	const monthString = monthToDateRange(month).startDate.toLocaleString(
+		"en-US",
+		{
+			month: "long",
+			year: "numeric",
+		}
+	);
 	return (
 		<Card>
 			<CardHeader>
@@ -91,7 +102,9 @@ async function AIUsageCard() {
 					AI Credit Usage
 				</CardTitle>
 				<CardDescription>
-					Breakdown of your AI token usage and associated credit costs
+					Breakdown of your AI token usage and associated credit costs for the
+					current month from the first day of the month to the last day of the
+					month.
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -100,16 +113,16 @@ async function AIUsageCard() {
 						<div className="rounded-lg border bg-card p-4">
 							<div className="flex items-center justify-between">
 								<p className="text-sm font-medium">Input Tokens</p>
-								<p className="text-sm text-muted-foreground">
-									30 credits/1M tokens
-								</p>
+								{/* <p className="text-sm text-muted-foreground">
+									{inputTokenPricePerMillionTokens}credit / 1M input tokens
+								</p> */}
 							</div>
 							<div className="mt-2 flex items-baseline justify-between">
 								<p className="text-2xl font-bold">
 									<ReactCountUpWrapper value={inputTokens} />
 								</p>
 								<p className="text-sm font-medium text-primary">
-									{inputCost} credits
+									{inputTokensCost} credits
 								</p>
 							</div>
 						</div>
@@ -117,16 +130,16 @@ async function AIUsageCard() {
 						<div className="rounded-lg border bg-card p-4">
 							<div className="flex items-center justify-between">
 								<p className="text-sm font-medium">Output Tokens</p>
-								<p className="text-sm text-muted-foreground">
-									120 credits/1M tokens
-								</p>
+								{/* <p className="text-sm text-muted-foreground">
+									{outputTokenPricePerMillionTokens} credits / 1M output tokens
+								</p> */}
 							</div>
 							<div className="mt-2 flex items-baseline justify-between">
 								<p className="text-2xl font-bold">
 									<ReactCountUpWrapper value={outputTokens} />
 								</p>
 								<p className="text-sm font-medium text-primary">
-									{outputCost} credits
+									{outputTokensCost} credits
 								</p>
 							</div>
 						</div>
@@ -134,15 +147,18 @@ async function AIUsageCard() {
 
 					<div className="rounded-lg border bg-primary/5 p-4">
 						<div className="flex items-center justify-between">
-							<p className="font-medium">Total AI Credit Usage</p>
+							<p className="font-medium">
+								Total AI Credit Usage for {monthString}
+							</p>
 							<p className="font-bold text-primary">{totalCost} credits</p>
 						</div>
 					</div>
 				</div>
 			</CardContent>
 			<CardFooter className="text-sm text-muted-foreground">
-				AI usage is billed at 30 credits per 1M input tokens and 120 credits per
-				1M output tokens.
+				AI usage is billed at {inputTokenPricePerMillionTokens} credits per
+				million input tokens and {outputTokenPricePerMillionTokens} credits per
+				million output tokens.
 			</CardFooter>
 		</Card>
 	);
@@ -154,8 +170,8 @@ async function CreditsUsageCard() {
 	return (
 		<CreditUsageChart
 			data={creditsUsage}
-			title="Credits Usage"
-			description="Credits usage for the current month"
+			title="Total Credits Usage"
+			description="Credits usage for the current month (contains AI usage)"
 		/>
 	);
 }

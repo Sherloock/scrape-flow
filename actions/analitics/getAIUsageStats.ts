@@ -1,27 +1,30 @@
 import { checkAuth } from "@/actions/auth/checkAuth";
+import { getInputTokensCost, getOutputTokensCost } from "@/lib/helper/ai";
+import { monthToDateRange } from "@/lib/helper/dates";
 
 import { prisma } from "@/lib/prisma";
 import { Month } from "@/types/analitics";
 
-export async function getAIUsageStats(month: Month) {
+type AIUsageStats = {
+	inputTokens: number;
+	outputTokens: number;
+	inputTokensCost: number;
+	outputTokensCost: number;
+};
+
+export async function getAIUsageStats(month: Month): Promise<AIUsageStats> {
 	const userId = checkAuth();
 
-	// Get the start and end dates for the specified month
-	const startDate = new Date(month.year, month.month - 1, 1);
-	const endDate = new Date(month.year, month.month, 0);
+	const dateRange = monthToDateRange(month);
 
 	// Query the database for AI usage statistics
 	const aiUsage = await prisma.aIUsage.findMany({
 		where: {
 			userId,
 			createdAt: {
-				gte: startDate,
-				lte: endDate,
+				gte: dateRange.startDate,
+				lte: dateRange.endDate,
 			},
-		},
-		select: {
-			inputTokens: true,
-			outputTokens: true,
 		},
 	});
 
@@ -38,5 +41,7 @@ export async function getAIUsageStats(month: Month) {
 	return {
 		inputTokens: totalInputTokens,
 		outputTokens: totalOutputTokens,
+		inputTokensCost: getInputTokensCost(totalInputTokens),
+		outputTokensCost: getOutputTokensCost(totalOutputTokens),
 	};
 }
