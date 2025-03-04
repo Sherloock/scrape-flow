@@ -1,6 +1,7 @@
 import { LaunchBrowserExecutor as LaunchBrowserExecutorStealth } from "./LaunchBrowserExecutorExtraStealth"; // is the executor for puppeteer browser instance using extra stealth
-import { LaunchBrowserExecutor as LaunchBrowserExecutorDefault } from "./LaunchBrowserExecutor"; // is the default executor for puppeteer browser instance
+import { LaunchBrowserExecutor as LaunchBrowserExecutorDefault } from "./LaunchBrowserExecutorScraperAPI"; // is the default executor for puppeteer browser instance
 import { LaunchBrowserExecutor as LaunchBrowserExecutorBrightData } from "./LaunchBrowserExecutorBrightData"; // is the executor for puppeteer browser instance using bright data
+import { LaunchBrowserExecutor as LaunchBrowserExecutorScraperAPI } from "./LaunchBrowserExecutorScraperAPI"; // is the executor for puppeteer browser instance using scraper api
 import { PageToHtmlExecutor } from "./PageToHtmlExecutor";
 import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor";
 import { TaskType } from "@/types/task";
@@ -33,6 +34,8 @@ const getBrowserExecutor = () => {
 	switch (browserType.toLowerCase()) {
 		case "default":
 			return LaunchBrowserExecutorDefault;
+		case "scraperapi":
+			return LaunchBrowserExecutorScraperAPI;
 		case "brightdata":
 			return LaunchBrowserExecutorBrightData;
 		case "stealth":

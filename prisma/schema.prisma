@@ -89,7 +89,7 @@ model ExecutionLog {
 
 model UserBalance {
   userId  String  @id @default(cuid())
-  credits Decimal @default(0) @db.Decimal(10, 6) // General credits with 6 decimal places
+  credits Decimal @default(0) @db.Decimal(20, 6) // General credits with 6 decimal places
 
   updatedAt DateTime @default(now()) @updatedAt
 }
