@@ -42,12 +42,12 @@ CREATE TABLE `ExecutionPhase` (
     `userId` VARCHAR(191) NOT NULL,
     `status` VARCHAR(20) NOT NULL,
     `number` INTEGER NOT NULL,
-    `node` VARCHAR(100) NOT NULL,
+    `node` JSON NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `startedAt` DATETIME(3) NULL,
     `completedAt` DATETIME(3) NULL,
-    `inputs` TEXT NULL,
-    `outputs` TEXT NULL,
+    `inputs` JSON NOT NULL,
+    `outputs` JSON NOT NULL,
     `creditsConsumed` INTEGER NULL,
     `workflowExecutionId` VARCHAR(191) NOT NULL,
 
@@ -69,7 +69,8 @@ CREATE TABLE `ExecutionLog` (
 -- CreateTable
 CREATE TABLE `UserBalance` (
     `userId` VARCHAR(191) NOT NULL,
-    `credits` INTEGER NOT NULL DEFAULT 0,
+    `credits` DECIMAL(10, 6) NOT NULL DEFAULT 0,
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     PRIMARY KEY (`userId`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -79,7 +80,7 @@ CREATE TABLE `Credential` (
     `id` VARCHAR(191) NOT NULL,
     `userId` VARCHAR(191) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
-    `value` TEXT NOT NULL,
+    `value` JSON NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     UNIQUE INDEX `Credential_userId_name_key`(`userId`, `name`),
@@ -100,6 +101,22 @@ CREATE TABLE `UserPurchase` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `AIUsage` (
+    `id` VARCHAR(191) NOT NULL,
+    `userId` VARCHAR(191) NOT NULL,
+    `inputTokens` INTEGER NOT NULL,
+    `outputTokens` INTEGER NOT NULL,
+    `creditsConsumed` DECIMAL(10, 6) NOT NULL DEFAULT 0,
+    `executionPhaseId` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    UNIQUE INDEX `AIUsage_executionPhaseId_key`(`executionPhaseId`),
+    INDEX `AIUsage_userId_idx`(`userId`),
+    INDEX `AIUsage_createdAt_idx`(`createdAt`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `WorkflowExecution` ADD CONSTRAINT `WorkflowExecution_workflowId_fkey` FOREIGN KEY (`workflowId`) REFERENCES `Workflow`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -108,3 +125,6 @@ ALTER TABLE `ExecutionPhase` ADD CONSTRAINT `ExecutionPhase_workflowExecutionId_
 
 -- AddForeignKey
 ALTER TABLE `ExecutionLog` ADD CONSTRAINT `ExecutionLog_executionPhaseId_fkey` FOREIGN KEY (`executionPhaseId`) REFERENCES `ExecutionPhase`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `AIUsage` ADD CONSTRAINT `AIUsage_executionPhaseId_fkey` FOREIGN KEY (`executionPhaseId`) REFERENCES `ExecutionPhase`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
