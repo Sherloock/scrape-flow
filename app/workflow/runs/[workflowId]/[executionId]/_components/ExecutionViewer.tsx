@@ -340,7 +340,11 @@ function ParametersViewer({
 	subTitle?: string;
 	paramsJson: string | null;
 }) {
-	const params = paramsJson ? JSON.parse(paramsJson) : undefined;
+	const params = paramsJson
+		? typeof paramsJson === "string"
+			? JSON.parse(paramsJson)
+			: paramsJson
+		: undefined;
 
 	return (
 		<Card className="rounded-none border-b">

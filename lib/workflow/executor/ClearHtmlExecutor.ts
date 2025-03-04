@@ -33,16 +33,6 @@ const executor: IExecutor<typeof ClearHtmlTask> = {
 			const removeEmptyElements = env.getInput("remove empty elements");
 			const keepMainContent = env.getInput("keep only main content");
 
-			console.log({
-				clearHead,
-				clearScript,
-				clearStyle,
-				clearLink,
-				clearMeta,
-				clearClassAttr,
-				clearStyleAttr,
-			});
-
 			// Create a DOM using JSDOM instead of DOMParser
 			const dom = new JSDOM(html);
 			const doc = dom.window.document;

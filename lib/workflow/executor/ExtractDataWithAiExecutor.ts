@@ -96,7 +96,7 @@ async function extractData(
 		max_tokens: MAX_OUTPUT_TOKENS,
 	});
 
-	console.log({ OPENAI_response: response });
+	// console.log({ OPENAI_response: response });
 
 	const inputTokens = response.usage?.prompt_tokens ?? 0;
 	const outputTokens = response.usage?.completion_tokens ?? 0;

@@ -23,7 +23,7 @@ export async function getDecryptedCredential(id: string) {
 		throw new Error("Cannot decrypt credential");
 	}
 
-	console.log(decryptedValue);
+	// console.log(decryptedValue);
 
 	return decryptedValue;
 }
