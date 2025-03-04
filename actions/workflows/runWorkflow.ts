@@ -16,7 +16,6 @@ import {
 
 import { redirect } from "next/navigation";
 import { AppNode } from "@/types/appNode";
-import { InputJsonValue } from "@prisma/client/runtime/library";
 
 export async function runWorkflow(form: {
 	workflowId: string;

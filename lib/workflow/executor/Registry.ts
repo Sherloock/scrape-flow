@@ -1,6 +1,6 @@
-// import { LaunchBrowserExecutor } from "./LaunchBrowserExecutor"; // s the default executor for puppeteer browser instance
-// import { LaunchBrowserExecutor } from "./LaunchBrowserExecutorBrightData"; // is the executor for puppeteer browser instance using bright data
-import { LaunchBrowserExecutor } from "./LaunchBrowserExecutorExtraStealth"; // is the executor for puppeteer browser instance using extra stealth
+import { LaunchBrowserExecutor as LaunchBrowserExecutorStealth } from "./LaunchBrowserExecutorExtraStealth"; // is the executor for puppeteer browser instance using extra stealth
+import { LaunchBrowserExecutor as LaunchBrowserExecutorDefault } from "./LaunchBrowserExecutor"; // is the default executor for puppeteer browser instance
+import { LaunchBrowserExecutor as LaunchBrowserExecutorBrightData } from "./LaunchBrowserExecutorBrightData"; // is the executor for puppeteer browser instance using bright data
 import { PageToHtmlExecutor } from "./PageToHtmlExecutor";
 import { ExtractTextFromElementExecutor } from "./ExtractTextFromElementExecutor";
 import { TaskType } from "@/types/task";
@@ -25,6 +25,23 @@ type ExecutorFn<T extends WorkflowTask> = (
 type RegistryType = {
 	[K in TaskType]: ExecutorFn<WorkflowTask & { type: K }>;
 };
+
+// Select browser executor based on environment variable
+const getBrowserExecutor = () => {
+	const browserType = process.env.BROWSER_EXECUTOR_TYPE || "stealth";
+
+	switch (browserType.toLowerCase()) {
+		case "default":
+			return LaunchBrowserExecutorDefault;
+		case "brightdata":
+			return LaunchBrowserExecutorBrightData;
+		case "stealth":
+		default:
+			return LaunchBrowserExecutorStealth;
+	}
+};
+
+const LaunchBrowserExecutor = getBrowserExecutor();
 
 export const ExecutorRegistry: RegistryType = {
 	[TaskType.LAUNCH_BROWSER]: LaunchBrowserExecutor,
