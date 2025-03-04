@@ -26,6 +26,12 @@ export async function getAIUsageStats(month: Month): Promise<AIUsageStats> {
 				lte: dateRange.endDate,
 			},
 		},
+		// Convert Decimal to number to avoid serialization issues
+		select: {
+			inputTokens: true,
+			outputTokens: true,
+			creditsConsumed: true,
+		},
 	});
 
 	// Calculate total input and output tokens
