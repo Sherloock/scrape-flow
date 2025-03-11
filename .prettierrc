@@ -1,0 +1,32 @@
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "singleQuote": false,
+  "jsxSingleQuote": false,
+  "jsxBracketSameLine": false,
+  "semi": true,
+  "trailingComma": "es5",
+  "useTabs": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-prisma"],
+  "prettier/prettier": [
+    "error",
+    {
+      "singleQuote": false,
+      "parser": "flow"
+    }
+  ],
+  "rules": {
+    "prettier/prettier": "off"
+  },
+   "overrides": [
+    {
+      "files": "*.prisma",
+      "options": {
+        "printWidth": 40
+      }
+    }
+  ]
+}

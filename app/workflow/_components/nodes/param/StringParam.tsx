@@ -13,7 +13,7 @@ function StringParam({
 	disabled,
 }: ParamProps) {
 	const [internalValue, setInternalValue] = useState(
-		value ?? param.defaultValue ?? ""
+		value ?? param.defaultValue ?? "",
 	);
 	const id = useId();
 
