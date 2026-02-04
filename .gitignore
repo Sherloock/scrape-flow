@@ -20,6 +20,9 @@
 .DS_Store
 *.pem
 
+# proprietary / scraped content (do not commit)
+/temp/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
