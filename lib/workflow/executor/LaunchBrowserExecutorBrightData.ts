@@ -2,8 +2,7 @@ import { ExecutionEnv } from "@/types/executor";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import puppeteer from "puppeteer";
 import { createExecutor, IExecutor } from "./IExecutor";
-const BROWSER_WS =
-	"***REMOVED***";
+
 const executor: IExecutor<typeof LaunchBrowserTask> = {
 	...createExecutor(LaunchBrowserTask),
 	execute: async (
@@ -14,11 +13,17 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 				return false;
 			}
 
+			const browserWsEndpoint = process.env.BRIGHT_DATA_BROWSER_WS;
+			if (!browserWsEndpoint) {
+				env.log.error("BRIGHT_DATA_BROWSER_WS environment variable is required");
+				return false;
+			}
+
 			env.log.info("Launching browser with bright data");
 
 			const websiteUrl = env.getInput("Website URL");
 			const browser = await puppeteer.connect({
-				browserWSEndpoint: BROWSER_WS,
+				browserWSEndpoint: browserWsEndpoint,
 			});
 
 			// env.log.info(`Launching browser for ${websiteUrl}`);

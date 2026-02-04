@@ -5,15 +5,6 @@ import puppeteer from "puppeteer-extra";
 import type { Page, Browser } from "puppeteer";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
-// const BD_PROXY_URL =	"***REMOVED***";
-
-// ScraperAPI proxy configuration
-const SCRAPER_API_PROXY = {
-	host: "proxy-server.scraperapi.com",
-	port: 8001,
-	username: "scraperapi.output_format=json.autoparse=true",
-	password: "***REMOVED***",
-};
 
 const USER_AGENT =
 	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";

@@ -26,7 +26,11 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env*.local
+
+# one-time history rewrite; do not commit
+replacements.txt
 
 # vercel
 .vercel
