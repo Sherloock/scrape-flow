@@ -1,12 +1,12 @@
-import { ExecutionEnv } from "@/types/executor";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
+import { ExecutionEnv } from "@/types/executor";
 import puppeteer from "puppeteer";
 import { createExecutor, IExecutor } from "./IExecutor";
 
 const executor: IExecutor<typeof LaunchBrowserTask> = {
 	...createExecutor(LaunchBrowserTask),
 	execute: async (
-		env: ExecutionEnv<typeof LaunchBrowserTask>
+		env: ExecutionEnv<typeof LaunchBrowserTask>,
 	): Promise<boolean> => {
 		try {
 			if (!executor.validateRequiredInputs(env)) {
@@ -15,7 +15,9 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 
 			const browserWsEndpoint = process.env.BRIGHT_DATA_BROWSER_WS;
 			if (!browserWsEndpoint) {
-				env.log.error("BRIGHT_DATA_BROWSER_WS environment variable is required");
+				env.log.error(
+					"BRIGHT_DATA_BROWSER_WS environment variable is required",
+				);
 				return false;
 			}
 

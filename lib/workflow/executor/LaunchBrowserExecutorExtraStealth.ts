@@ -1,10 +1,10 @@
-import { ExecutionEnv } from "@/types/executor";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
-import { createExecutor, IExecutor } from "./IExecutor";
+import { ExecutionEnv } from "@/types/executor";
+import type { Page } from "puppeteer";
 import puppeteer from "puppeteer-extra";
-import type { Page, Browser } from "puppeteer";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
 import AdblockerPlugin from "puppeteer-extra-plugin-adblocker";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+import { createExecutor, IExecutor } from "./IExecutor";
 
 const USER_AGENT =
 	"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36";
@@ -75,7 +75,7 @@ async function injectAntiDetection(page: Page) {
 		const originalQuery = window.navigator.permissions.query;
 		// @ts-ignore - Intentionally overriding permissions API
 		window.navigator.permissions.query = function (
-			parameters: PermissionDescriptor
+			parameters: PermissionDescriptor,
 		): Promise<PermissionStatus> {
 			if (parameters.name === "notifications") {
 				return Promise.resolve({
@@ -164,7 +164,7 @@ async function injectAntiDetection(page: Page) {
 		// @ts-ignore - Intentionally overriding canvas context
 		HTMLCanvasElement.prototype.getContext = function (
 			contextType: string,
-			options?: any
+			options?: any,
 		) {
 			const context = originalGetContext.call(this, contextType, options);
 
@@ -175,12 +175,12 @@ async function injectAntiDetection(page: Page) {
 					text: string,
 					x: number,
 					y: number,
-					maxWidth?: number
+					maxWidth?: number,
 				) {
 					const modifiedText = text.replace(/[a-zA-Z]/g, (c: string) => {
 						return String.fromCharCode(
 							c.charCodeAt(0) +
-								(Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5)
+								(Math.random() > 0.5 ? 1 : -1) * (Math.random() * 0.5),
 						);
 					});
 					return originalFillText.call(this, modifiedText, x, y, maxWidth);
@@ -269,7 +269,7 @@ async function simulateHumanBehavior(page: Page) {
 
 			await page.mouse.move(
 				Math.round(currX + jitterX),
-				Math.round(currY + jitterY)
+				Math.round(currY + jitterY),
 			);
 
 			// Variable delay between movements
@@ -313,7 +313,7 @@ async function simulateHumanBehavior(page: Page) {
 const executor: IExecutor<typeof LaunchBrowserTask> = {
 	...createExecutor(LaunchBrowserTask),
 	execute: async (
-		env: ExecutionEnv<typeof LaunchBrowserTask>
+		env: ExecutionEnv<typeof LaunchBrowserTask>,
 	): Promise<boolean> => {
 		try {
 			if (!executor.validateRequiredInputs(env)) return false;
@@ -458,7 +458,7 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 
 					if (!response.ok() && response.status() !== 304) {
 						env.log.warn(
-							`Navigation attempt ${attempts} failed: HTTP ${response.status()}`
+							`Navigation attempt ${attempts} failed: HTTP ${response.status()}`,
 						);
 						continue;
 					}
@@ -477,7 +477,7 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 						docStatus.bodyContent < 100
 					) {
 						env.log.warn(
-							`Navigation attempt ${attempts} failed: Incomplete page load`
+							`Navigation attempt ${attempts} failed: Incomplete page load`,
 						);
 						continue;
 					}
@@ -485,14 +485,14 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 					// Success!
 					success = true;
 					env.log.info(
-						`Successfully loaded ${websiteUrl} on attempt ${attempts}`
+						`Successfully loaded ${websiteUrl} on attempt ${attempts}`,
 					);
 
 					// Add post-navigation human behavior
 					await simulateHumanBehavior(page);
 				} catch (error) {
 					env.log.warn(
-						`Navigation attempt ${attempts} error: ${error instanceof Error ? error.message : "Unknown error"}`
+						`Navigation attempt ${attempts} error: ${error instanceof Error ? error.message : "Unknown error"}`,
 					);
 
 					// Wait before retry
@@ -507,7 +507,7 @@ const executor: IExecutor<typeof LaunchBrowserTask> = {
 
 			if (!success) {
 				throw new Error(
-					`Failed to load ${websiteUrl} after ${maxAttempts} attempts`
+					`Failed to load ${websiteUrl} after ${maxAttempts} attempts`,
 				);
 			}
 
